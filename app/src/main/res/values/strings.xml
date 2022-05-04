@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">GestaoGados</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="name_input">Name</string>
+    <string name="email_input">Email</string>
+    <string name="password_input">Password</string>
+    <string name="login_button">Login</string>
+    <string name="register_button">Register</string>
+
+    <!--Register activity-->
+    <string name="password_retype">Reenter your password:</string>
+    <string name="register_activity_header">Register your new account!</string>
+
+    <!--navigation menu-->
+    <string name="menu_home">Home</string>
+    <string name="menu_consult_bovine">Consult Bovine</string>
+    <string name="menu_register_bovine">Register Bovine</string>
+
+    <!--Animal registration fragment-->
+    <string name="sex_input">Sex</string>
+    <string name="race_input">Race</string>
+    <string name="type_input">Type</string>
+    <string name="status_input">Status</string>
+    <string name="age_input">Age</string>
+    <string name="birthday_input">Birthday</string>
+    <string name="life_phase_input">Life Phase</string>
+    <string name="Image_input">Image</string>
+    <string name="title_activity_consult_bovine_register">ConsultBovineRegisterActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+</resources>
