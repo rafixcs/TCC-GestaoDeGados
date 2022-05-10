@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.udemy.cursoandroid.gestaogados.R;
-import com.udemy.cursoandroid.gestaogados.databinding.FragmentHomeBinding;
 
 
 public class HomeFragment extends Fragment {
@@ -19,7 +18,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.fragment_consult_bovine, container, false);
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override

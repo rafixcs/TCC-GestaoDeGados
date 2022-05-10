@@ -57,11 +57,10 @@ public class LoginActivity extends AppCompatActivity implements ILoginView
             @Override
             public void onClick(View view) {
                 //TODO: add a try/catch on validating login; check for refactoring login method
-                /*loginAccountController.validateLogin(
+                loginAccountController.validateLogin(
                         mEmail.getText().toString(),
                         mPassword.getText().toString()
-                );*/
-                onStartMainActivity();
+                );
             }
         });
 

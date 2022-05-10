@@ -14,6 +14,7 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -25,11 +26,6 @@ public class NfcHelper {
 
     Context context;
     NfcAdapter nfcAdapter;
-
-    public void setPendingIntent(PendingIntent pendingIntent) {
-        this.pendingIntent = pendingIntent;
-    }
-
     PendingIntent pendingIntent;
     IntentFilter[] intentFilter;
     Tag myTag;
@@ -43,13 +39,10 @@ public class NfcHelper {
     {
         nfcAdapter = NfcAdapter.getDefaultAdapter(context);
         intentFilter = new IntentFilter[2];
-        IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
-        tagDetected.addCategory(Intent.CATEGORY_DEFAULT);
-        intentFilter[0] = tagDetected;
-        tagDetected = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
-        tagDetected.addCategory(Intent.CATEGORY_DEFAULT);
-        intentFilter[1] = tagDetected;
-
+        intentFilter[0] = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
+        intentFilter[0].addCategory(Intent.CATEGORY_DEFAULT);
+        intentFilter[1] = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        intentFilter[1].addCategory(Intent.CATEGORY_DEFAULT);
     }
 
     public boolean SaveTagContent(String content) {
@@ -108,12 +101,15 @@ public class NfcHelper {
         String action = intent.getAction();
         if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action) ||
                 NfcAdapter.ACTION_TECH_DISCOVERED.equals(action) ||
-                NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
+                NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action))
+        {
             Parcelable[] rawMsg = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
             NdefMessage[] msgs = null;
-            if (rawMsg != null) {
+            if (rawMsg != null)
+            {
                 msgs = new NdefMessage[rawMsg.length];
-                for (int i=0; i < rawMsg.length; i++) {
+                for (int i=0; i < rawMsg.length; i++)
+                {
                     msgs[i] = (NdefMessage) rawMsg[i];
                 }
             }
@@ -122,7 +118,8 @@ public class NfcHelper {
         return "";
     }
 
-    private String BuildTagViews(NdefMessage[] msgs) {
+    private String BuildTagViews(NdefMessage[] msgs)
+    {
         if (msgs == null || msgs.length == 0)
             return "";
 
@@ -131,9 +128,12 @@ public class NfcHelper {
         String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
         int languageCodeLength = payload[0] & 63;
 
-        try {
+        try
+        {
             text = new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
-        } catch (UnsupportedEncodingException e) {
+        }
+        catch (UnsupportedEncodingException e)
+        {
             e.printStackTrace();
         }
 
@@ -146,9 +146,23 @@ public class NfcHelper {
 
     public void foregroundDispatch(Activity activity, boolean status) {
         if (status) {
-            nfcAdapter.enableForegroundDispatch(activity, pendingIntent, null, null);
+            nfcAdapter.enableForegroundDispatch(activity, pendingIntent, intentFilter, null);
+            Log.i("debug", "teste1");
         } else {
             nfcAdapter.disableForegroundDispatch(activity);
+            Log.i("debug", "teste2");
         }
+    }
+
+    public void setPendingIntent(PendingIntent pendingIntent) {
+        this.pendingIntent = pendingIntent;
+    }
+
+    public NfcAdapter getNfcAdapter() {
+        return nfcAdapter;
+    }
+
+    public IntentFilter[] getIntentFilter() {
+        return intentFilter;
     }
 }

@@ -1,7 +1,8 @@
-package com.udemy.cursoandroid.gestaogados.View.main;
+package com.udemy.cursoandroid.gestaogados.View.main.register;
 
 import static com.udemy.cursoandroid.gestaogados.Helper.ToastMessageHelper.SetToastMessageAndShow;
 
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
@@ -15,22 +16,23 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
+import com.udemy.cursoandroid.gestaogados.Controller.animals.register.IRegisterAnimalController;
+import com.udemy.cursoandroid.gestaogados.Controller.animals.register.RegisterAnimalController;
 import com.udemy.cursoandroid.gestaogados.Helper.NfcHelper;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
-import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalsRecords;
 import com.udemy.cursoandroid.gestaogados.R;
-import com.udemy.cursoandroid.gestaogados.databinding.FragmentRegisterBovineBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.udemy.cursoandroid.gestaogados.databinding.FragmentRegisterBovineBinding;
+
 
 //TODO: implement activity to register animal attributes and save to the database
 
-public class RegisterBovineFragment extends Fragment {
+public class RegisterBovineFragment extends Fragment  implements  IRegisterBovineView{
 
     private FragmentRegisterBovineBinding binding;
 
@@ -77,7 +79,7 @@ public class RegisterBovineFragment extends Fragment {
         mAge = root.findViewById(R.id.editAgeAnmimalRegister);
         mDate = root.findViewById(R.id.editDateAnmimalRegister);
         mStatus = root.findViewById(R.id.editStatusAnmimalRegister);
-        mButtonRegister = root.findViewById(R.id.btnRegisterAnmimalRegister);
+        mButtonRegister = root.findViewById(R.id.btnRegisterAnimalRegister);
 
         initializeSpinners();
     }
@@ -143,6 +145,7 @@ public class RegisterBovineFragment extends Fragment {
                     NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction()))
             {
                 String keyRegister = UUID.randomUUID().toString();
+
                 nfc.setMyTag(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG));
                 if (nfc.SaveTagContent(keyRegister))
                 {
@@ -158,17 +161,28 @@ public class RegisterBovineFragment extends Fragment {
                     AnimalRegister animal = new AnimalRegister(name, sex, type, status, race, age, birthdate);
                     animal.setKey(keyRegister);
 
-                    AnimalsRecords records = AnimalsRecords.getsInstance();
-                    records.addAnimalRecord(animal);
-
-                    SetToastMessageAndShow( "Saved successfully",getContext());
+                    IRegisterAnimalController controller = (IRegisterAnimalController) new RegisterAnimalController(this);
+                    controller.addNewRegister(animal);
                 }
                 else
                 {
-                    SetToastMessageAndShow( "Unable to save content in DB",getContext());
+                    SetToastMessageAndShow( "Failed to save into the tag",getContext());
                 }
             }
             mSaveTagEnabled = false;
+        }
+    }
+
+    @Override
+    public void onSaveRegisterResult(boolean result)
+    {
+        if (result)
+        {
+            SetToastMessageAndShow( "Saved successfully",getContext());
+        }
+        else
+        {
+            SetToastMessageAndShow( "Unable to save content",getContext());
         }
     }
 }

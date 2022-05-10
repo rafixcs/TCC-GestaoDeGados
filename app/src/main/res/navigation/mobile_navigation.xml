@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/nav_register_bovine"
-        android:name="com.udemy.cursoandroid.gestaogados.View.main.RegisterBovineFragment"
+        android:name="com.udemy.cursoandroid.gestaogados.View.main.register.RegisterBovineFragment"
         android:label="@string/menu_register_bovine"
         tools:layout="@layout/fragment_register_bovine" />
 
     <fragment
         android:id="@+id/nav_consult_bovine"
-        android:name="com.udemy.cursoandroid.gestaogados.View.main.ConsultBovineFragment"
+        android:name="com.udemy.cursoandroid.gestaogados.View.main.consult.ConsultBovineFragment"
         android:label="@string/menu_consult_bovine"
         tools:layout="@layout/fragment_consult_bovine" />
 

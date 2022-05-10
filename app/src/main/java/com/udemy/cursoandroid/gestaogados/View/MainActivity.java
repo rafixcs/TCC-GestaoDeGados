@@ -17,8 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.udemy.cursoandroid.gestaogados.Helper.NfcHelper;
 import com.udemy.cursoandroid.gestaogados.R;
-import com.udemy.cursoandroid.gestaogados.View.main.ConsultBovineFragment;
-import com.udemy.cursoandroid.gestaogados.View.main.RegisterBovineFragment;
+import com.udemy.cursoandroid.gestaogados.View.login.LoginActivity;
+import com.udemy.cursoandroid.gestaogados.View.main.consult.ConsultBovineFragment;
+import com.udemy.cursoandroid.gestaogados.View.main.register.RegisterBovineFragment;
 import com.udemy.cursoandroid.gestaogados.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
 
-    private NfcHelper nfc;
-    private PendingIntent pendingIntent;
+    private NfcHelper nfc = null;
+    private PendingIntent pendingIntent = null;
 
     private boolean mAlreadyInitialized = false;
 
@@ -52,14 +53,17 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        //Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
-        //startActivity(intentLogin);
+        nfc = new NfcHelper(getApplicationContext());
+        pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP), 0);
+        nfc.setPendingIntent(pendingIntent);
+
+        Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intentLogin);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -102,15 +106,15 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onResume();
 
-        if (nfc == null && mAlreadyInitialized)
+        if (nfc == null && !mAlreadyInitialized)
         {
-            nfc = new NfcHelper(this);
-            pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-            nfc.setPendingIntent(pendingIntent);
-            nfc.foregroundDispatch(this, true);
+            nfc = new NfcHelper(getApplicationContext());
         }
-        else if (nfc != null)
+
+        if (nfc != null)
         {
+            pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP), 0);
+            nfc.setPendingIntent(pendingIntent);
             nfc.foregroundDispatch(this, true);
         }
 
@@ -127,19 +131,11 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         if (nfc != null)
         {
+            // Disabling foreground dispatch does not work properly when the application grows
+            //nfc.getNfcAdapter().disableForegroundDispatch(this);
             //nfc.foregroundDispatch(this, false);
             mAlreadyInitialized = false;
             nfc = null;
-        }
-    }
-
-    @Override
-    public void onDestroy()
-    {
-        super.onDestroy();
-        if (nfc != null)
-        {
-            nfc.foregroundDispatch(this, false);
         }
     }
 }

@@ -56,7 +56,7 @@ public class UsersMockRecord {
     public void loginUser(String email, String password) {
 
         if (this.listUsers.isEmpty())
-            return;
+            loginController.loginResult(null);;
 
         User userLogin = null;
         for (int i=0; i<this.listUsers.size(); i++) {
