@@ -32,15 +32,20 @@
     <string name="life_phase_input">Life Phase</string>
     <string name="image_input">Image</string>
     <string name="update">Update</string>
+    <string name="farm">Farm</string>
+    <string name="loot">Loot</string>
 
     <string name="title_activity_consult_bovine_register">ConsultBovineRegisterActivity</string>
 
 
 
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+
+    <string name="popup_title">Register something</string>
+    <string name="popup_vaccine">Vaccine</string>
+    <string name="popup_task">Task</string>
+
 
 </resources>

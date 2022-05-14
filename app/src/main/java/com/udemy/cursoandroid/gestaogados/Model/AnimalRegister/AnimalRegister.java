@@ -1,23 +1,27 @@
 package com.udemy.cursoandroid.gestaogados.Model.AnimalRegister;
 
 public class AnimalRegister {
-    String name;
-    String sex;
-    String type;
-    String status;
-    String race;
-    String age;
-    String birthdate;
     String key;
+    String name;
+    String birthdate;
+    int sex;
+    int type;
+    int race;
+    int lifePhase;
+    int farm;
+    int loot;
 
-    public AnimalRegister(String name, String sex, String type, String status, String race, String age, String birthdate) {
+    public AnimalRegister(String name, String birthdate,
+                          int sex, int type, int race, int lifePhase,int farm, int loot)
+    {
         this.name = name;
+        this.birthdate = birthdate;
         this.sex = sex;
         this.type = type;
-        this.status = status;
         this.race = race;
-        this.age = age;
-        this.birthdate = birthdate;
+        this.lifePhase = lifePhase;
+        this.farm = farm;
+        this.loot = loot;
     }
 
     public String getKey() {
@@ -36,45 +40,31 @@ public class AnimalRegister {
         this.name = name;
     }
 
-    public String getSex() {
+    public int getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(int sex) {
         this.sex = sex;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 
-    public String getStatus() {
-        return status;
-    }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getRace() {
+    public int getRace() {
         return race;
     }
 
-    public void setRace(String race) {
+    public void setRace(int race) {
         this.race = race;
     }
 
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
-    }
 
     public String getBirthdate() {
         return birthdate;
@@ -82,5 +72,29 @@ public class AnimalRegister {
 
     public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
+    }
+
+    public int getLifePhase() {
+        return lifePhase;
+    }
+
+    public void setLifePhase(int lifePhase) {
+        this.lifePhase = lifePhase;
+    }
+
+    public int getFarm() {
+        return farm;
+    }
+
+    public void setFarm(int farm) {
+        this.farm = farm;
+    }
+
+    public int getLoot() {
+        return loot;
+    }
+
+    public void setLoot(int loot) {
+        this.loot = loot;
     }
 }

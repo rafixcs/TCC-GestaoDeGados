@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ import com.udemy.cursoandroid.gestaogados.Controller.animals.register.IRegisterA
 import com.udemy.cursoandroid.gestaogados.Controller.animals.register.RegisterAnimalController;
 import com.udemy.cursoandroid.gestaogados.Helper.NfcHelper;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
+import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmsMockRecord;
 import com.udemy.cursoandroid.gestaogados.R;
 
 import java.util.ArrayList;
@@ -37,13 +39,13 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
     private FragmentRegisterBovineBinding binding;
 
     private EditText mName;
+    private EditText mDate;
     private Spinner mSpinnerRace;
     private Spinner mSpinnerType;
     private Spinner mSpinnerSex;
     private Spinner mSpinnerLifePhase;
-    private EditText mAge;
-    private EditText mDate;
-    private EditText mStatus;
+    private Spinner mSpinnerFarm;
+    private Spinner mSpinnerLoot;
     private Button mButtonRegister;
 
     private boolean mSaveTagEnabled;
@@ -72,13 +74,13 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
     private void initializeObjectsView(View root)
     {
         mName = root.findViewById(R.id.editNameAnmimalRegister);
+        mDate = root.findViewById(R.id.editDateAnmimalRegister);
         mSpinnerRace = root.findViewById(R.id.spinnerRaceAnmimalRegister);
         mSpinnerType = root.findViewById(R.id.spinnerTypeAnmimalRegister);
         mSpinnerSex = root.findViewById(R.id.spinnerSexAnmimalRegister);
         mSpinnerLifePhase = root.findViewById(R.id.spinnerLifePhaseAnmimalRegister);
-        mAge = root.findViewById(R.id.editAgeAnmimalRegister);
-        mDate = root.findViewById(R.id.editDateAnmimalRegister);
-        mStatus = root.findViewById(R.id.editStatusAnmimalRegister);
+        mSpinnerFarm = root.findViewById(R.id.spinnerFarmAnmimalRegister);
+        mSpinnerLoot = root.findViewById(R.id.spinnerLootAnmimalRegister);
         mButtonRegister = root.findViewById(R.id.btnRegisterAnimalRegister);
 
         initializeSpinners();
@@ -106,6 +108,8 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
         listLifePhase.add("RECRIA (DESENVOLVIMENTO)");
         listLifePhase.add("ENGORDA (TERMINAÇÃO)");
 
+        FarmsMockRecord farmsMockRecord = new FarmsMockRecord();
+
         ArrayAdapter<String> adapterRaces = new ArrayAdapter<String>(
                 getContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
@@ -130,10 +134,34 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
                 listLifePhase
         );
 
+        ArrayAdapter<String> adapterFarm = new ArrayAdapter<String>(
+                getContext(),
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+                farmsMockRecord.getFarmsNames()
+        );
+
         mSpinnerRace.setAdapter(adapterRaces);
         mSpinnerSex.setAdapter(adapterSexTypes);
         mSpinnerType.setAdapter(adapterType);
         mSpinnerLifePhase.setAdapter(adapterLifePhase);
+        mSpinnerFarm.setAdapter(adapterFarm);
+
+        mSpinnerFarm.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                ArrayAdapter<String> adapterLoot = new ArrayAdapter<String>(
+                        getContext(),
+                        androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+                        farmsMockRecord.getFarmLoots(position)
+                );
+                mSpinnerLoot.setAdapter(adapterLoot);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
+            }
+        });
 
     }
 
@@ -151,14 +179,15 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
                 {
                     //TODO: save contents to the database
                     String name = mName.getText().toString();
-                    String sex = mSpinnerSex.getSelectedItem().toString();
-                    String type = mSpinnerType.getSelectedItem().toString();
-                    String race = mSpinnerRace.getSelectedItem().toString();
-                    String status = mStatus.getText().toString();
-                    String age = mAge.getText().toString();
                     String birthdate = mDate.getText().toString();
+                    int sex = (int) mSpinnerSex.getSelectedItemId();
+                    int type = (int) mSpinnerType.getSelectedItemId();
+                    int race = (int) mSpinnerRace.getSelectedItemId();
+                    int lifePhase = (int) mSpinnerLifePhase.getSelectedItemId();
+                    int farm = (int) mSpinnerFarm.getSelectedItemId();
+                    int loot = (int) mSpinnerLoot.getSelectedItemId();
 
-                    AnimalRegister animal = new AnimalRegister(name, sex, type, status, race, age, birthdate);
+                    AnimalRegister animal = new AnimalRegister(name, birthdate,sex, type, race, lifePhase, farm, loot);
                     animal.setKey(keyRegister);
 
                     IRegisterAnimalController controller = (IRegisterAnimalController) new RegisterAnimalController(this);

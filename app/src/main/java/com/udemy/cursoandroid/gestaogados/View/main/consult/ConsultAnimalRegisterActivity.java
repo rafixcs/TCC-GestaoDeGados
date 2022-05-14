@@ -1,18 +1,22 @@
 package com.udemy.cursoandroid.gestaogados.View.main.consult;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.udemy.cursoandroid.gestaogados.Controller.animals.consult.ConsultAnimalController;
 import com.udemy.cursoandroid.gestaogados.Controller.animals.consult.IConsultAnimalController;
 import com.udemy.cursoandroid.gestaogados.Helper.ToastMessageHelper;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
+import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmsMockRecord;
 import com.udemy.cursoandroid.gestaogados.R;
 
 import java.util.ArrayList;
@@ -21,19 +25,25 @@ import java.util.List;
 public class ConsultAnimalRegisterActivity extends AppCompatActivity implements IConsultAnimalRegisterView {
 
     private EditText mName;
+    private EditText mDate;
     private Spinner mSpinnerRace;
     private Spinner mSpinnerType;
     private Spinner mSpinnerSex;
     private Spinner mSpinnerLifePhase;
-    private EditText mAge;
-    private EditText mDate;
-    private EditText mStatus;
+    private Spinner mSpinnerFarm;
+    private Spinner mSpinnerLoot;
     private Button mButtonUpdate;
 
     private String tagKey;
     private AnimalRegister animalRegister;
 
     private IConsultAnimalController consultAnimalController;
+
+    private FloatingActionButton fabOpenRegisterTaskPopup;
+    private AlertDialog.Builder registerTaskPopupBuilder;
+    private AlertDialog registerTaskPopup;
+    private Button popupBtnRegisterTask;
+    private Button popupBtnRegisterVaccine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -56,35 +66,44 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         consultAnimalController.ConsultAnimal(tagKey);
     }
 
+    private void initializeObjectsView()
+    {
+        mName = findViewById(R.id.editNameAnimalConsult);
+        mDate = findViewById(R.id.editDateAnimalConsult);
+        mSpinnerRace = findViewById(R.id.spinnerRaceAnimalConsult);
+        mSpinnerType = findViewById(R.id.spinnerTypeAnimalConsult);
+        mSpinnerSex = findViewById(R.id.spinnerSexAnimalConsult);
+        mSpinnerLifePhase = findViewById(R.id.spinnerLifePhaseAnimalConsult);
+        mSpinnerFarm = findViewById(R.id.spinnerFarmAnimalConsult);
+        mSpinnerLoot = findViewById(R.id.spinnerLootAnimalConsult);
+        mButtonUpdate = findViewById(R.id.btnRegisterAnimalConsult);
+        fabOpenRegisterTaskPopup = findViewById(R.id.openPopupActionButton);
+
+        fabOpenRegisterTaskPopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showRegisterTaskPopup();
+            }
+        });
+
+
+        initializeSpinners();
+    }
+
     private void updateRegister()
     {
         String name = mName.getText().toString();
-        String sex = mSpinnerSex.getSelectedItem().toString();
-        String type = mSpinnerType.getSelectedItem().toString();
-        String race = mSpinnerRace.getSelectedItem().toString();
-        String status = mStatus.getText().toString();
-        String age = mAge.getText().toString();
         String birthdate = mDate.getText().toString();
+        int sex = (int) mSpinnerSex.getSelectedItemId();
+        int type = (int) mSpinnerType.getSelectedItemId();
+        int race = (int) mSpinnerRace.getSelectedItemId();
+        int lifePhase = (int) mSpinnerLifePhase.getSelectedItemId();
+        int farm = (int) mSpinnerFarm.getSelectedItemId();
+        int loot = (int) mSpinnerLoot.getSelectedItemId();
 
-        AnimalRegister animal = new AnimalRegister(name, sex, type, status, race, age, birthdate);
+        AnimalRegister animal = new AnimalRegister(name, birthdate,sex, type, race, lifePhase,farm, loot);
         animal.setKey(tagKey);
         consultAnimalController.updateAnimal(animal);
-    }
-
-
-    private void initializeObjectsView()
-    {
-        mName = findViewById(R.id.editNameAnmimalConsult);
-        mSpinnerRace = findViewById(R.id.spinnerRaceAnmimalConsult);
-        mSpinnerType = findViewById(R.id.spinnerTypeAnmimalConsult);
-        mSpinnerSex = findViewById(R.id.spinnerSexAnmimalConsult);
-        mSpinnerLifePhase = findViewById(R.id.spinnerLifePhaseAnmimalConsult);
-        mAge = findViewById(R.id.editAgeAnmimalConsult);
-        mDate = findViewById(R.id.editDateAnmimalConsult);
-        mStatus = findViewById(R.id.editStatusAnmimalConsult);
-        mButtonUpdate = findViewById(R.id.btnUpdateAnimalConsult);
-
-        initializeSpinners();
     }
 
     private void initializeSpinners()
@@ -108,6 +127,9 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         listLifePhase.add("CRIA");
         listLifePhase.add("RECRIA (DESENVOLVIMENTO)");
         listLifePhase.add("ENGORDA (TERMINAÇÃO)");
+
+        FarmsMockRecord farmsMockRecord = new FarmsMockRecord();
+
 
         ArrayAdapter<String> adapterRaces = new ArrayAdapter<String>(
                 getApplicationContext(),
@@ -133,10 +155,36 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
                 listLifePhase
         );
 
+        ArrayAdapter<String> adapterFarm = new ArrayAdapter<String>(
+                getApplicationContext(),
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+                farmsMockRecord.getFarmsNames()
+        );
+
+
         mSpinnerRace.setAdapter(adapterRaces);
         mSpinnerSex.setAdapter(adapterSexTypes);
         mSpinnerType.setAdapter(adapterType);
         mSpinnerLifePhase.setAdapter(adapterLifePhase);
+        mSpinnerFarm.setAdapter(adapterFarm);
+
+        mSpinnerFarm.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                ArrayAdapter<String> adapterLoot = new ArrayAdapter<String>(
+                        getApplicationContext(),
+                        androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+                        farmsMockRecord.getFarmLoots(position)
+                );
+                mSpinnerLoot.setAdapter(adapterLoot);
+                mSpinnerLoot.setSelection(animalRegister.getLoot());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
+            }
+        });
     }
 
     @Override
@@ -155,12 +203,38 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
     private void configureObjectsViewValues()
     {
         mName.setText(animalRegister.getName());
-        mSpinnerRace.setSelection(1);
-        mSpinnerType.setSelection(1);
-        mSpinnerSex.setSelection(1);
-        mSpinnerLifePhase.setSelection(1);
-        mAge.setText(animalRegister.getAge());
         mDate.setText(animalRegister.getBirthdate());
-        mStatus.setText(animalRegister.getStatus());
+        mSpinnerRace.setSelection(animalRegister.getRace());
+        mSpinnerType.setSelection(animalRegister.getType());
+        mSpinnerSex.setSelection(animalRegister.getSex());
+        mSpinnerLifePhase.setSelection(animalRegister.getLifePhase());
+        mSpinnerFarm.setSelection(animalRegister.getFarm());
+    }
+
+    private void showRegisterTaskPopup()
+    {
+        registerTaskPopupBuilder = new AlertDialog.Builder(this);
+        final View popupView = getLayoutInflater().inflate(R.layout.popup_add_new_task, null);
+
+        popupBtnRegisterVaccine = popupView.findViewById(R.id.popupRegisterVaccine);
+        popupBtnRegisterTask = popupView.findViewById(R.id.popupRegisterTask);
+
+        popupBtnRegisterVaccine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        popupBtnRegisterTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        registerTaskPopupBuilder.setView(popupView);
+        registerTaskPopup = registerTaskPopupBuilder.create();
+        registerTaskPopup.show();
     }
 }

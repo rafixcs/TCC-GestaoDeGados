@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP), 0);
         nfc.setPendingIntent(pendingIntent);
 
-        Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(intentLogin);
+        //Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
+        //startActivity(intentLogin);
     }
 
     @Override
