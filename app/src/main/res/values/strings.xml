@@ -38,7 +38,6 @@
     <string name="title_activity_consult_bovine_register">ConsultBovineRegisterActivity</string>
 
 
-
     <!-- Strings used for fragments for navigation -->
     <string name="next">Next</string>
     <string name="previous">Previous</string>
@@ -47,5 +46,15 @@
     <string name="popup_vaccine">Vaccine</string>
     <string name="popup_task">Task</string>
 
-
+    <string name="register_generic_task_tittle">Register Generic Task</string>
+    <string name="register_vaccine_task_tittle">Register Vaccine</string>
+    <string name="vaccine_name">Vaccine Name</string>
+    <string name="description_optional">Description (Optional)</string>
+    <string name="date">Date</string>
+    <string name="save">Save</string>
+    <string name="task_name">Task Name</string>
+    <string name="task_description">Description</string>
+    <string name="location">Location</string>
+    <string name="title_register_new_farm">Register a new farm</string>
+    <string name="title_popup_new_loot">Register new loot</string>
 </resources>

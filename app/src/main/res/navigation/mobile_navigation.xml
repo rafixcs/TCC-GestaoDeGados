@@ -23,4 +23,10 @@
         android:label="@string/menu_consult_bovine"
         tools:layout="@layout/fragment_consult_bovine" />
 
+    <fragment
+        android:id="@+id/nav_register_task"
+        android:name="register"
+        android:label="task"
+        tools:layout="@layout/activity_register_task" />
+
 </navigation>

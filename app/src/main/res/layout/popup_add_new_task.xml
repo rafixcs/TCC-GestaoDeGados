@@ -7,9 +7,11 @@
 
     <Button
         android:id="@+id/popupRegisterVaccine"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="28dp"
+        android:layout_marginEnd="32dp"
         android:text="@string/popup_vaccine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -18,9 +20,11 @@
 
     <Button
         android:id="@+id/popupRegisterTask"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="20dp"
         android:text="@string/popup_task"
         app:layout_constraintBottom_toBottomOf="parent"

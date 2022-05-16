@@ -1,5 +1,6 @@
 package com.udemy.cursoandroid.gestaogados.View.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.udemy.cursoandroid.gestaogados.Controller.login.IRegisterAccountController;
 import com.udemy.cursoandroid.gestaogados.Controller.login.RegisterAccountController;
 import com.udemy.cursoandroid.gestaogados.R;
+import com.udemy.cursoandroid.gestaogados.View.farm.RegisterFarmActivity;
 
 public class RegisterAccountActivity extends AppCompatActivity implements IRegisterView {
 
@@ -97,7 +99,9 @@ public class RegisterAccountActivity extends AppCompatActivity implements IRegis
     {
         if (result)
         {
-            Toast.makeText(getApplicationContext(), "Created new user", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), RegisterFarmActivity.class);
+            startActivity(intent);
+            //Toast.makeText(getApplicationContext(), "Created new user", Toast.LENGTH_SHORT).show();
             finish();
         }
         else

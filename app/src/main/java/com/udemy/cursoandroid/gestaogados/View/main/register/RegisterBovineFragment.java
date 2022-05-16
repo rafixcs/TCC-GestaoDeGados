@@ -2,7 +2,6 @@ package com.udemy.cursoandroid.gestaogados.View.main.register;
 
 import static com.udemy.cursoandroid.gestaogados.Helper.ToastMessageHelper.SetToastMessageAndShow;
 
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
@@ -20,6 +19,8 @@ import android.widget.Spinner;
 
 import com.udemy.cursoandroid.gestaogados.Controller.animals.register.IRegisterAnimalController;
 import com.udemy.cursoandroid.gestaogados.Controller.animals.register.RegisterAnimalController;
+import com.udemy.cursoandroid.gestaogados.Controller.farm.FarmController;
+import com.udemy.cursoandroid.gestaogados.Controller.farm.IFarmController;
 import com.udemy.cursoandroid.gestaogados.Helper.NfcHelper;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmsMockRecord;
@@ -34,7 +35,8 @@ import com.udemy.cursoandroid.gestaogados.databinding.FragmentRegisterBovineBind
 
 //TODO: implement activity to register animal attributes and save to the database
 
-public class RegisterBovineFragment extends Fragment  implements  IRegisterBovineView{
+public class RegisterBovineFragment extends Fragment  implements  IRegisterBovineView
+{
 
     private FragmentRegisterBovineBinding binding;
 
@@ -48,6 +50,8 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
     private Spinner mSpinnerLoot;
     private Button mButtonRegister;
 
+    private IFarmController farmController;
+
     private boolean mSaveTagEnabled;
 
     @Override
@@ -56,6 +60,8 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
     {
         binding = FragmentRegisterBovineBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        farmController = new FarmController(this);
 
         initializeObjectsView(root);
 
@@ -108,7 +114,7 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
         listLifePhase.add("RECRIA (DESENVOLVIMENTO)");
         listLifePhase.add("ENGORDA (TERMINAÇÃO)");
 
-        FarmsMockRecord farmsMockRecord = new FarmsMockRecord();
+
 
         ArrayAdapter<String> adapterRaces = new ArrayAdapter<String>(
                 getContext(),
@@ -137,7 +143,7 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
         ArrayAdapter<String> adapterFarm = new ArrayAdapter<String>(
                 getContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                farmsMockRecord.getFarmsNames()
+                farmController.getFarmsNames()
         );
 
         mSpinnerRace.setAdapter(adapterRaces);
@@ -152,7 +158,7 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
                 ArrayAdapter<String> adapterLoot = new ArrayAdapter<String>(
                         getContext(),
                         androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                        farmsMockRecord.getFarmLoots(position)
+                        farmController.getFarmLootsNames(position)
                 );
                 mSpinnerLoot.setAdapter(adapterLoot);
             }
@@ -203,7 +209,7 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
     }
 
     @Override
-    public void onSaveRegisterResult(boolean result)
+    public void setSaveResult(boolean result)
     {
         if (result)
         {

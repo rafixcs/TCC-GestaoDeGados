@@ -16,11 +16,11 @@ public class RegisterAnimalController implements IRegisterAnimalController {
     public void Result(AnimalRegister animal) {
         if (animal != null)
         {
-            registerBovineView.onSaveRegisterResult(true);
+            registerBovineView.setSaveResult(true);
         }
         else
         {
-            registerBovineView.onSaveRegisterResult(false);
+            registerBovineView.setSaveResult(false);
         }
     }
 

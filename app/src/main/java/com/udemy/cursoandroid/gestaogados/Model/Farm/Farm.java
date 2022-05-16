@@ -6,18 +6,17 @@ import java.util.List;
 public class Farm {
     private int id;
     private String name;
-    private List<String> farmLoots;
+    private String location;
+    private List<Loot> farmLoots;
 
-    public Farm(int id, String name) {
-        this.id = id;
+    public Farm(String name, String location) {
         this.name = name;
-        farmLoots = new ArrayList<>();
+        this.location = location;
+        this.farmLoots = new ArrayList<>();
     }
 
-    public Farm(int id, String name, List<String> farmLoots) {
+    public void setId(int id) {
         this.id = id;
-        this.name = name;
-        this.farmLoots = farmLoots;
     }
 
     public int getId() {
@@ -28,11 +27,24 @@ public class Farm {
         return name;
     }
 
-    public List<String> getFarmLoots() {
-        return farmLoots;
+    public String getLocation() {
+        return location;
     }
 
-    public void setFarmLoots(List<String> farmLoots) {
-        this.farmLoots = farmLoots;
+    public boolean addLoot(Loot loot)
+    {
+        return farmLoots.add(loot);
+    }
+
+    public List<String> getFarmLootsNames() {
+
+        List<String> listNameLoots = new ArrayList<>();
+
+        for (int i = 0; i < farmLoots.size(); i++)
+        {
+            listNameLoots.add(farmLoots.get(i).getName());
+        }
+
+        return listNameLoots;
     }
 }

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.farm.RegisterFarmActivity">
+
+    <EditText
+        android:id="@+id/nameFarmRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginBottom="30dp"
+        android:ems="10"
+        android:hint="@string/name_input"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/locationFarmRegister"
+        app:layout_constraintStart_toStartOf="@+id/titleFarmRegister"
+        app:layout_constraintTop_toBottomOf="@+id/titleFarmRegister" />
+
+    <EditText
+        android:id="@+id/locationFarmRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginBottom="118dp"
+        android:ems="10"
+        android:hint="@string/location"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/textView15"
+        app:layout_constraintStart_toStartOf="@+id/nameFarmRegister"
+        app:layout_constraintTop_toBottomOf="@+id/nameFarmRegister" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lootsListFarmRegister"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="27dp"
+        app:layout_constraintBottom_toTopOf="@+id/saveFarmRegister"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+    <Button
+        android:id="@+id/saveFarmRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lootsListFarmRegister" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="@string/loot"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/lootsListFarmRegister"
+        app:layout_constraintEnd_toEndOf="@+id/lootsListFarmRegister"
+        app:layout_constraintStart_toStartOf="@+id/lootsListFarmRegister"
+        app:layout_constraintTop_toBottomOf="@+id/locationFarmRegister" />
+
+    <TextView
+        android:id="@+id/titleFarmRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="55dp"
+        android:text="@string/title_register_new_farm"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/nameFarmRegister"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addLootFarmRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:outlineAmbientShadowColor="@color/black"
+        android:tint="@color/black"
+        app:backgroundTint="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/lootsListFarmRegister"
+        app:layout_constraintEnd_toEndOf="@+id/lootsListFarmRegister"
+        app:rippleColor="#FFFFFF"
+        app:srcCompat="@drawable/va_register_bovine" />
+</androidx.constraintlayout.widget.ConstraintLayout>

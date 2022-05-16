@@ -3,6 +3,7 @@ package com.udemy.cursoandroid.gestaogados.View.main.consult;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +19,7 @@ import com.udemy.cursoandroid.gestaogados.Helper.ToastMessageHelper;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmsMockRecord;
 import com.udemy.cursoandroid.gestaogados.R;
+import com.udemy.cursoandroid.gestaogados.View.task.RegisterTaskActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,8 +130,6 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         listLifePhase.add("RECRIA (DESENVOLVIMENTO)");
         listLifePhase.add("ENGORDA (TERMINAÇÃO)");
 
-        FarmsMockRecord farmsMockRecord = new FarmsMockRecord();
-
 
         ArrayAdapter<String> adapterRaces = new ArrayAdapter<String>(
                 getApplicationContext(),
@@ -158,7 +158,8 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         ArrayAdapter<String> adapterFarm = new ArrayAdapter<String>(
                 getApplicationContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                farmsMockRecord.getFarmsNames()
+                listLifePhase
+                //farmsMockRecord.getFarmsNames()
         );
 
 
@@ -174,7 +175,8 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
                 ArrayAdapter<String> adapterLoot = new ArrayAdapter<String>(
                         getApplicationContext(),
                         androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                        farmsMockRecord.getFarmLoots(position)
+                        listLifePhase
+                        //farmsMockRecord.getFarmLootsForView(position)
                 );
                 mSpinnerLoot.setAdapter(adapterLoot);
                 mSpinnerLoot.setSelection(animalRegister.getLoot());
@@ -222,14 +224,18 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         popupBtnRegisterVaccine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(), RegisterTaskActivity.class);
+                intent.putExtra("taskType", 1);
+                startActivity(intent);
             }
         });
 
         popupBtnRegisterTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(), RegisterTaskActivity.class);
+                intent.putExtra("taskType", 0);
+                startActivity(intent);
             }
         });
 

@@ -1,6 +1,7 @@
 package com.udemy.cursoandroid.gestaogados.View.main.register;
 
-public interface IRegisterBovineView
+import com.udemy.cursoandroid.gestaogados.View.ICommonView;
+
+public interface IRegisterBovineView extends ICommonView
 {
-    public void onSaveRegisterResult(boolean result);
 }

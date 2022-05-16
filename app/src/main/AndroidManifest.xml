@@ -12,10 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GestaoGados">
         <activity
+            android:name=".RegisterFarmActivity"
+            android:exported="false" />
+        <activity
+            android:name=".View.task.RegisterTaskActivity"
+            android:exported="false" />
+        <activity
             android:name=".View.login.LoginActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".View.login.RegisterAccountActivity"
             android:exported="false" />
