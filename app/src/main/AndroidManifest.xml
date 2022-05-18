@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GestaoGados">
         <activity
-            android:name=".RegisterFarmActivity"
+            android:name=".View.farm.RegisterFarmActivity"
             android:exported="false" />
         <activity
             android:name=".View.task.RegisterTaskActivity"

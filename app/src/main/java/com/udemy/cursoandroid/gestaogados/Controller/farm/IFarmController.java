@@ -13,4 +13,8 @@ public interface IFarmController
     public void saveResult(boolean result);
     public List<String> getFarmsNames();
     public List<String> getFarmLootsNames(int id);
+    public List<Loot> getFarmsLoots(int id);
+    public int getFarmsQuantity();
+    public int getLootsTotalQuantity();
+    public Farm getFarmByName(String farmName);
 }

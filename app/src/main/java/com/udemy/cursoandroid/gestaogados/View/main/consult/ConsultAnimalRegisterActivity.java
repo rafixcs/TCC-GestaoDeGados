@@ -15,6 +15,8 @@ import android.widget.Spinner;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.udemy.cursoandroid.gestaogados.Controller.animals.consult.ConsultAnimalController;
 import com.udemy.cursoandroid.gestaogados.Controller.animals.consult.IConsultAnimalController;
+import com.udemy.cursoandroid.gestaogados.Controller.farm.FarmController;
+import com.udemy.cursoandroid.gestaogados.Controller.farm.IFarmController;
 import com.udemy.cursoandroid.gestaogados.Helper.ToastMessageHelper;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmsMockRecord;
@@ -47,6 +49,8 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
     private Button popupBtnRegisterTask;
     private Button popupBtnRegisterVaccine;
 
+    private IFarmController farmController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -54,6 +58,8 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         setContentView(R.layout.activity_consult_animal_register);
 
         tagKey = getIntent().getExtras().getString("tagKey");
+
+        farmController = new FarmController(this);
 
         initializeObjectsView();
 
@@ -158,8 +164,7 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         ArrayAdapter<String> adapterFarm = new ArrayAdapter<String>(
                 getApplicationContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                listLifePhase
-                //farmsMockRecord.getFarmsNames()
+                farmController.getFarmsNames()
         );
 
 
@@ -175,8 +180,7 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
                 ArrayAdapter<String> adapterLoot = new ArrayAdapter<String>(
                         getApplicationContext(),
                         androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                        listLifePhase
-                        //farmsMockRecord.getFarmLootsForView(position)
+                        farmController.getFarmLootsNames(position)
                 );
                 mSpinnerLoot.setAdapter(adapterLoot);
                 mSpinnerLoot.setSelection(animalRegister.getLoot());
@@ -242,5 +246,10 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         registerTaskPopupBuilder.setView(popupView);
         registerTaskPopup = registerTaskPopupBuilder.create();
         registerTaskPopup.show();
+    }
+
+    @Override
+    public void setSaveResult(boolean result) {
+        // empty
     }
 }

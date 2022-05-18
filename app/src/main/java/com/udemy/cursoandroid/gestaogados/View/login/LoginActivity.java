@@ -87,8 +87,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView
 
     private void onStartMainActivity()
     {
-        //Intent intentMain = new Intent(getApplicationContext(), MainActivity.class);
-        //startActivity(intentMain);
         finish();
     }
 

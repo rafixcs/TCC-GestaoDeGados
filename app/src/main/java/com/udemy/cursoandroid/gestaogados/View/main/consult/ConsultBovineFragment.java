@@ -61,4 +61,9 @@ public class ConsultBovineFragment extends Fragment implements IConsultAnimalReg
     public void onFailedConsultRegister() {
 
     }
+
+    @Override
+    public void setSaveResult(boolean result) {
+        
+    }
 }

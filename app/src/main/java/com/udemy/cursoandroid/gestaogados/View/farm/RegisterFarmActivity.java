@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -45,53 +46,36 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
 
     private IFarmController farmController;
 
+    private boolean isFirstAccess;
+    private boolean isConsult;
+    private String farmConsultName;
+    private Farm consultFarm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_farm);
 
+        isFirstAccess = getIntent().getExtras().getBoolean("firstAccess");
+        farmConsultName = getIntent().getExtras().getString("consultFarm");
+        if (farmConsultName != null)
+        {
+            isConsult = true;
+        }
+        else
+        {
+            isConsult = false;
+        }
+
         farmController = new FarmController(this);
 
-        lootListView = findViewById(R.id.lootsListFarmRegister);
         mName = findViewById(R.id.nameFarmRegister);
         mLocation = findViewById(R.id.locationFarmRegister);
         mSaveButton = findViewById(R.id.saveFarmRegister);
         mAddLoot = findViewById(R.id.addLootFarmRegister);
+        lootListView = findViewById(R.id.lootsListFarmRegister);
 
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String name = mName.getText().toString();
-                String location = mLocation.getText().toString();
-                Farm farm = new Farm(name, location);
-
-                farmController.saveNewFarm(farm);
-                //farmController.saveNewLootFarm(farm, );
-            }
-        });
-
-        mAddLoot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPopup();
-            }
-        });
-
-        lootList = new ArrayList<>();
-
-        loadLootListView();
-    }
-
-    private void loadLootListView()
-    {
-        lootListAdapter = new LootListAdapter(lootList);
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        lootListView.setLayoutManager(layoutManager);
-        lootListView.setHasFixedSize(true);
-        lootListView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
-        lootListView.setAdapter(lootListAdapter);
         lootListView.addOnItemTouchListener(new RecyclerItemClickListener(
                 getApplicationContext(),
                 lootListView,
@@ -112,6 +96,63 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
                     }
                 }
         ));
+
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!isConsult) {
+                    Farm farm = null;
+                    String name = mName.getText().toString();
+                    String location = mLocation.getText().toString();
+                    farm = new Farm(name, location);
+                    farmController.saveNewFarm(farm);
+                    farmController.saveNewLootFarm(farm, lootList);
+                }
+                else
+                {
+                    farmController.saveNewLootFarm(consultFarm, lootList);
+                }
+
+
+            }
+        });
+
+        mAddLoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopup();
+            }
+        });
+
+        if(!isConsult)
+        {
+            lootList = new ArrayList<>();
+        }
+        else
+        {
+            consultFarm = farmController.getFarmByName(farmConsultName);
+            lootList = consultFarm.getFarmLoots();
+            mName.setText(consultFarm.getName());
+            mLocation.setText(consultFarm.getLocation());
+            mName.setFocusable(false);
+            mLocation.setFocusable(false);
+            mAddLoot.setEnabled(false);
+        }
+
+
+        loadLootListView();
+    }
+
+    private void loadLootListView()
+    {
+        lootListAdapter = new LootListAdapter(lootList);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        lootListView.setLayoutManager(layoutManager);
+        lootListView.setHasFixedSize(true);
+        lootListView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
+        lootListView.setAdapter(lootListAdapter);
     }
 
     @Override
@@ -130,7 +171,7 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
 
     private void showPopup()
     {
-        addLootPopupBuilder = new AlertDialog.Builder(getApplicationContext());
+        addLootPopupBuilder = new AlertDialog.Builder(this);
         final View popupView = getLayoutInflater().inflate(R.layout.popup_add_new_loot, null);
 
         mLootName = popupView.findViewById(R.id.nameLootPopup);
@@ -138,8 +179,8 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
         mBtnSaveLoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                addLootPopup.dismiss();
                 saveNewLoot();
-                addLootPopup.hide();
             }
         });
 
@@ -155,6 +196,18 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
         Loot loot = new Loot(id, name);
 
         lootList.add(loot);
-        loadLootListView();
+        //loadLootListView();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isFirstAccess)
+        {
+            moveTaskToBack(true);
+        }
+        else
+        {
+            super.onBackPressed();
+        }
     }
 }

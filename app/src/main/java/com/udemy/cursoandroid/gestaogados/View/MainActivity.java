@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_register_bovine, R.id.nav_consult_bovine)
+                R.id.nav_home, R.id.nav_register_bovine, R.id.nav_consult_bovine, R.id.nav_consult_farm_loot)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP), 0);
         nfc.setPendingIntent(pendingIntent);
 
-        Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(intentLogin);
+        //Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
+        //startActivity(intentLogin);
     }
 
     @Override

@@ -55,4 +55,24 @@ public class FarmController implements IFarmController{
 
         return mockRecord.getFarmLootsForView(id);
     }
+
+    @Override
+    public List<Loot> getFarmsLoots(int id) {
+        return null;
+    }
+
+    @Override
+    public int getFarmsQuantity() {
+        return mockRecord.getFarmsNames().size();
+    }
+
+    @Override
+    public int getLootsTotalQuantity() {
+        return mockRecord.getLootsTotalQuantity();
+    }
+
+    @Override
+    public Farm getFarmByName(String farmName) {
+        return mockRecord.getFarmFromName(farmName);
+    }
 }

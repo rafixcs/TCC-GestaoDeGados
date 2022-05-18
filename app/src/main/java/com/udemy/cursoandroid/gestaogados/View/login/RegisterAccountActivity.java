@@ -100,6 +100,7 @@ public class RegisterAccountActivity extends AppCompatActivity implements IRegis
         if (result)
         {
             Intent intent = new Intent(getApplicationContext(), RegisterFarmActivity.class);
+            intent.putExtra("firstAccess",true);
             startActivity(intent);
             //Toast.makeText(getApplicationContext(), "Created new user", Toast.LENGTH_SHORT).show();
             finish();

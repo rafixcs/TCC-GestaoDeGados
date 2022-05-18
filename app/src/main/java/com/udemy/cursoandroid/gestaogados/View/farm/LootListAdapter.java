@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,8 +46,8 @@ public class LootListAdapter extends RecyclerView.Adapter<LootListAdapter.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
-        EditText id;
-        EditText name;
+        TextView id;
+        TextView name;
 
 
         public MyViewHolder(@NonNull View itemView) {

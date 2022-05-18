@@ -47,4 +47,13 @@ public class Farm {
 
         return listNameLoots;
     }
+
+    public int getLootsQuantity()
+    {
+        return farmLoots.size();
+    }
+
+    public List<Loot> getFarmLoots() {
+        return farmLoots;
+    }
 }

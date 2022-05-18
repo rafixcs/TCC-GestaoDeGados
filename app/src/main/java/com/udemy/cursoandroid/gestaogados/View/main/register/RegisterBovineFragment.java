@@ -114,8 +114,6 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
         listLifePhase.add("RECRIA (DESENVOLVIMENTO)");
         listLifePhase.add("ENGORDA (TERMINAÇÃO)");
 
-
-
         ArrayAdapter<String> adapterRaces = new ArrayAdapter<String>(
                 getContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,

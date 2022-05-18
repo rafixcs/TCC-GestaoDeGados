@@ -52,6 +52,18 @@ public class FarmsMockRecord {
         return listFarms.get(index).getFarmLootsNames();
     }
 
+    public int getLootsTotalQuantity()
+    {
+
+        int total = 0;
+        for (int i=0; i<listFarms.size(); i++)
+        {
+            total += listFarms.get(i).getLootsQuantity();
+        }
+
+        return total;
+    }
+
     public void saveNewFarmLoot(int id, Loot loot)
     {
         Farm farm = this.getFarmFromId(id);
@@ -62,7 +74,17 @@ public class FarmsMockRecord {
 
     public int generateNextId() {
 
-        int id = listFarms.get(listFarms.size()-1).getId();
+        int id;
+        int size = listFarms.size();
+
+        if (size > 0)
+        {
+            id = listFarms.get(size-1).getId();
+        }
+        else
+        {
+            return 0;
+        }
 
         return id + 1;
     }
@@ -81,5 +103,32 @@ public class FarmsMockRecord {
         }
 
         return farm;
+    }
+
+    public Farm getFarmFromName(String name)
+    {
+        Farm farm = null;
+        for (int i=0; i < listFarms.size(); i++)
+        {
+
+            if (listFarms.get(i).getName().equals(name))
+            {
+                farm = listFarms.get(i);
+                break;
+            }
+        }
+
+        return farm;
+    }
+
+    public List<Loot> getFarmsLoots(int id)
+    {
+        List<Loot> lootList = null;
+        Farm farm = this.getFarmFromId(id);
+        if (farm != null)
+        {
+            lootList = farm.getFarmLoots();
+        }
+        return lootList;
     }
 }
