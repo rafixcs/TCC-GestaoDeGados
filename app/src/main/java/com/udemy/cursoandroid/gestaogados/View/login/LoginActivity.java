@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.udemy.cursoandroid.gestaogados.Controller.MainController;
 import com.udemy.cursoandroid.gestaogados.Controller.login.ILoginAccountController;
 import com.udemy.cursoandroid.gestaogados.Controller.login.IRegisterAccountController;
 import com.udemy.cursoandroid.gestaogados.Controller.login.LoginAccountController;
@@ -31,7 +32,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView
     private ILoginAccountController loginAccountController;
     private IRegisterAccountController registerAccountController;
 
-    private User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView
         mRegisterAccountButton = findViewById(R.id.btnLoginRegister);
         mLoginButton = findViewById(R.id.btnLogin);
 
-        loginAccountController = new LoginAccountController(this);
+        loginAccountController = new LoginAccountController(this, this);
 
 
         mRegisterAccountButton.setOnClickListener(new View.OnClickListener() {
@@ -56,15 +56,12 @@ public class LoginActivity extends AppCompatActivity implements ILoginView
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: add a try/catch on validating login; check for refactoring login method
                 loginAccountController.validateLogin(
                         mEmail.getText().toString(),
                         mPassword.getText().toString()
                 );
             }
         });
-
-        Log.i("test", "a");
     }
 
     private void onRegisterNewAccount()
@@ -76,9 +73,10 @@ public class LoginActivity extends AppCompatActivity implements ILoginView
     @Override
     public void onLoginAccount()
     {
+        MainController mainController = MainController.getInstance();
+        User user = mainController.getCurrentUser();
 
-        if (mUser != null) {
-            //Toast.makeText(this, "Login success", Toast.LENGTH_SHORT).show();
+        if (user != null) {
             onStartMainActivity();
         } else {
             Toast.makeText(this, "Failed to login user", Toast.LENGTH_SHORT).show();
@@ -90,11 +88,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView
         finish();
     }
 
-    @Override
-    public void setUser(User mUser)
-    {
-        this.mUser = mUser;
-    }
 
     @Override
     public void onBackPressed() {

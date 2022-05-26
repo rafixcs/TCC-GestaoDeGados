@@ -24,7 +24,8 @@ public class ConsultAnimalController implements IConsultAnimalController
     }
 
     @Override
-    public void updateAnimal(AnimalRegister animal) {
+    public void updateAnimal(AnimalRegister animal)
+    {
         records.updateAnimal(animal);
     }
 

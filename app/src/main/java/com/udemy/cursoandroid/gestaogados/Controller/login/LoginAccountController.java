@@ -1,6 +1,12 @@
 package com.udemy.cursoandroid.gestaogados.Controller.login;
 
+import android.content.Context;
+
+import com.udemy.cursoandroid.gestaogados.Controller.MainController;
+import com.udemy.cursoandroid.gestaogados.Model.Database.DatabaseAccess;
+import com.udemy.cursoandroid.gestaogados.Model.User.IUserDAO;
 import com.udemy.cursoandroid.gestaogados.Model.User.User;
+import com.udemy.cursoandroid.gestaogados.Model.User.UserDAO;
 import com.udemy.cursoandroid.gestaogados.Model.User.UsersMockRecord;
 import com.udemy.cursoandroid.gestaogados.View.login.ILoginView;
 
@@ -9,10 +15,12 @@ import com.udemy.cursoandroid.gestaogados.View.login.ILoginView;
 public class LoginAccountController implements ILoginAccountController
 {
 
-    ILoginView loginView;
+    private ILoginView loginView;
+    private Context context;
 
-    public LoginAccountController(ILoginView loginView)
+    public LoginAccountController(Context context, ILoginView loginView)
     {
+        this.context = context;
         this.loginView = loginView;
     }
 
@@ -20,14 +28,28 @@ public class LoginAccountController implements ILoginAccountController
     public void validateLogin(String email, String password)
     {
 
-        UsersMockRecord mockRecord = UsersMockRecord.getInstance(this);
-        mockRecord.loginUser(email, password);
+        /**UsersMockRecord mockRecord = UsersMockRecord.getInstance(this);
+        mockRecord.loginUser(email, password);*/
+
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        databaseAccess.open();
+
+        IUserDAO userDAO = new UserDAO(databaseAccess.getDb(), this);
+        userDAO.getAccount(email, password);
+
+        databaseAccess.close();
+
+
     }
 
     @Override
     public void loginResult(User user)
     {
-        loginView.setUser(user);
+        if (user != null)
+        {
+            MainController mainController = MainController.getInstance();
+            mainController.setCurrentUser(user);
+        }
         loginView.onLoginAccount();
     }
 }

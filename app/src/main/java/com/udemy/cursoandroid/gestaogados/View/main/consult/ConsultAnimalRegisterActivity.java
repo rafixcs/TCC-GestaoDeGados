@@ -19,7 +19,8 @@ import com.udemy.cursoandroid.gestaogados.Controller.farm.FarmController;
 import com.udemy.cursoandroid.gestaogados.Controller.farm.IFarmController;
 import com.udemy.cursoandroid.gestaogados.Helper.ToastMessageHelper;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
-import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmsMockRecord;
+import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmCollection;
+import com.udemy.cursoandroid.gestaogados.Model.Farm.LootCollection;
 import com.udemy.cursoandroid.gestaogados.R;
 import com.udemy.cursoandroid.gestaogados.View.task.RegisterTaskActivity;
 
@@ -51,6 +52,9 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
 
     private IFarmController farmController;
 
+    private FarmCollection mFarmCollection;
+    private LootCollection mLootCollection;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -59,11 +63,15 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
 
         tagKey = getIntent().getExtras().getString("tagKey");
 
-        farmController = new FarmController(this);
+        farmController = new FarmController(this, this);
+
+        mFarmCollection = new FarmCollection(farmController.getFarms());
+        mLootCollection = farmController.getFarmsLoots(mFarmCollection.get(0).getId());
 
         initializeObjectsView();
 
-        mButtonUpdate.setOnClickListener(new View.OnClickListener() {
+        mButtonUpdate.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view) {
                 updateRegister();
@@ -87,9 +95,11 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         mButtonUpdate = findViewById(R.id.btnRegisterAnimalConsult);
         fabOpenRegisterTaskPopup = findViewById(R.id.openPopupActionButton);
 
-        fabOpenRegisterTaskPopup.setOnClickListener(new View.OnClickListener() {
+        fabOpenRegisterTaskPopup.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 showRegisterTaskPopup();
             }
         });
@@ -110,7 +120,7 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         int loot = (int) mSpinnerLoot.getSelectedItemId();
 
         AnimalRegister animal = new AnimalRegister(name, birthdate,sex, type, race, lifePhase,farm, loot);
-        animal.setKey(tagKey);
+        animal.setId(tagKey);
         consultAnimalController.updateAnimal(animal);
     }
 
@@ -164,7 +174,7 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         ArrayAdapter<String> adapterFarm = new ArrayAdapter<String>(
                 getApplicationContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                farmController.getFarmsNames()
+                mFarmCollection.getFarmsNames()
         );
 
 
@@ -180,7 +190,7 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
                 ArrayAdapter<String> adapterLoot = new ArrayAdapter<String>(
                         getApplicationContext(),
                         androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                        farmController.getFarmLootsNames(position)
+                        mLootCollection.getLootsNames()
                 );
                 mSpinnerLoot.setAdapter(adapterLoot);
                 mSpinnerLoot.setSelection(animalRegister.getLoot());

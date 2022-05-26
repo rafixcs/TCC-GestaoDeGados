@@ -15,12 +15,11 @@ import android.widget.TextView;
 
 import com.udemy.cursoandroid.gestaogados.Controller.farm.FarmController;
 import com.udemy.cursoandroid.gestaogados.Controller.farm.IFarmController;
-import com.udemy.cursoandroid.gestaogados.Model.Farm.Farm;
+import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmCollection;
+import com.udemy.cursoandroid.gestaogados.Model.Farm.LootCollection;
 import com.udemy.cursoandroid.gestaogados.R;
 import com.udemy.cursoandroid.gestaogados.View.ICommonView;
 import com.udemy.cursoandroid.gestaogados.databinding.FragmentConsultFarmLootBinding;
-
-import java.util.List;
 
 
 public class ConsultFarmLootFragment extends Fragment implements ICommonView {
@@ -37,7 +36,9 @@ public class ConsultFarmLootFragment extends Fragment implements ICommonView {
     private String mFarmQuantity;
     private String mLootQuantity;
 
-    private IFarmController farmController;
+    private IFarmController mFarmController;
+
+    private FarmCollection mFarmCollection;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,7 @@ public class ConsultFarmLootFragment extends Fragment implements ICommonView {
             }
         });
 
-        farmController = new FarmController(this);
+        mFarmController = new FarmController(this, getContext());
 
         reloadView();
 
@@ -86,8 +87,9 @@ public class ConsultFarmLootFragment extends Fragment implements ICommonView {
 
     private void reloadView()
     {
-        mFarmQuantity = Integer.toString(farmController.getFarmsQuantity());
-        mLootQuantity = Integer.toString(farmController.getLootsTotalQuantity());
+        mFarmCollection = new FarmCollection(mFarmController.getFarms());
+        mFarmQuantity = Integer.toString(mFarmCollection.size());
+        mLootQuantity = Integer.toString(mFarmController.getLootsTotalQuantity(mFarmCollection));
 
         mLootQuantityView.setText(mLootQuantity);
         mFarmQuantityView.setText(mFarmQuantity);
@@ -95,7 +97,7 @@ public class ConsultFarmLootFragment extends Fragment implements ICommonView {
         ArrayAdapter<String> adapterFarm = new ArrayAdapter<String>(
                 getContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                farmController.getFarmsNames()
+                mFarmCollection.getFarmsNames()
         );
 
         mSpinnerFarmSelection.setAdapter(adapterFarm);

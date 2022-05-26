@@ -3,9 +3,25 @@ package com.udemy.cursoandroid.gestaogados.Model.User;
 public class User implements IUser
 {
 
+    private String id;
     private String name;
     private String email;
     private String password;
+
+    public User(String id, String name, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User() {
+        this.id = "";
+        this.name = "";
+        this.email = "";
+        this.password = "";
+    }
+
 
     public String getName() {
         return name;
@@ -31,13 +47,12 @@ public class User implements IUser
         this.password = password;
     }
 
-    @Override
-    public void registerNewUser() {
-
+    public String getId() {
+        return id;
     }
 
-    @Override
-    public void queryRegisteredUser() {
-
+    public void setId(String id) {
+        this.id = id;
     }
+
 }

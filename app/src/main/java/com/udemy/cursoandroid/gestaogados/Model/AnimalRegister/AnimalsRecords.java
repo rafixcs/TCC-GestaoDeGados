@@ -39,7 +39,7 @@ public class AnimalsRecords {
     {
         for (int i=0; i < animalsList.size(); i++)
         {
-            if (animalsList.get(i).getKey().equals(animal.getKey()))
+            if (animalsList.get(i).getId().equals(animal.getId()))
             {
                 animalsList.set(i, animal);
 
@@ -57,7 +57,7 @@ public class AnimalsRecords {
         AnimalRegister animalResult = null;
         for (int i=0; i < animalsList.size(); i++)
         {
-            if (animalsList.get(i).getKey().equals(key))
+            if (animalsList.get(i).getId().equals(key))
             {
                    animalResult = animalsList.get(i);
 
@@ -71,7 +71,7 @@ public class AnimalsRecords {
     {
         for (int i=0; i < animalsList.size(); i++)
         {
-            if (animalsList.get(i).getKey().equals(id))
+            if (animalsList.get(i).getId().equals(id))
             {
                 return true;
             }

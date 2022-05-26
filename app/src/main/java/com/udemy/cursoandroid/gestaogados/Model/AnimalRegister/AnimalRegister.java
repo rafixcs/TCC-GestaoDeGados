@@ -1,15 +1,19 @@
 package com.udemy.cursoandroid.gestaogados.Model.AnimalRegister;
 
 public class AnimalRegister {
-    String key;
-    String name;
-    String birthdate;
-    int sex;
-    int type;
-    int race;
-    int lifePhase;
-    int farm;
-    int loot;
+    private String id;
+    private String name;
+    private String age;
+    private String birthdate;
+    private String status;
+    private String imgSource;
+    private int sequenceNumber;
+    private int sex;
+    private int type;
+    private int race;
+    private int lifePhase;
+    private int farm;
+    private int loot;
 
     public AnimalRegister(String name, String birthdate,
                           int sex, int type, int race, int lifePhase,int farm, int loot)
@@ -24,12 +28,48 @@ public class AnimalRegister {
         this.loot = loot;
     }
 
-    public String getKey() {
-        return key;
+    public AnimalRegister()
+    {
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public String getId() {
+        return id;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    public void setSequenceNumber(int sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
+
+    public String getImgSource() {
+        return imgSource;
+    }
+
+    public void setImgSource(String imgSource) {
+        this.imgSource = imgSource;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

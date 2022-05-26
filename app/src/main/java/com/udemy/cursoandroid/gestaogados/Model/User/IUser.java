@@ -9,6 +9,4 @@ public interface IUser
     public void setEmail(String email);
     public void setPassword(String Password);
 
-    public void registerNewUser();
-    public void queryRegisteredUser();
 }

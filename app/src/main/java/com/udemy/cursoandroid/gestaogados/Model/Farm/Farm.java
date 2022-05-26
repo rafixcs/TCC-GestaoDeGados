@@ -9,6 +9,13 @@ public class Farm {
     private String location;
     private List<Loot> farmLoots;
 
+    public Farm()
+    {
+        this.name = "";
+        this.location = "";
+        this.farmLoots = null;
+    }
+
     public Farm(String name, String location) {
         this.name = name;
         this.location = location;
@@ -23,8 +30,16 @@ public class Farm {
         return id;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getLocation() {

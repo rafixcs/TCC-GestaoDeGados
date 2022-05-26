@@ -49,7 +49,7 @@ public class UsersMockRecord {
         this.listUsers.add(user);
         if (this.registerController != null)
         {
-            this.registerController.resultOnCreateAccount();
+            this.registerController.resultOnCreateAccount(true);
         }
     }
 

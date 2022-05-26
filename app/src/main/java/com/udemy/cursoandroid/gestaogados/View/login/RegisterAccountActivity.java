@@ -58,7 +58,7 @@ public class RegisterAccountActivity extends AppCompatActivity implements IRegis
         if (result)
         {
             registerController = new RegisterAccountController(this);
-            registerController.createNewAccount(name, email, password);
+            registerController.createNewAccount(this, name, email, password);
         }
         else
         {
@@ -102,7 +102,6 @@ public class RegisterAccountActivity extends AppCompatActivity implements IRegis
             Intent intent = new Intent(getApplicationContext(), RegisterFarmActivity.class);
             intent.putExtra("firstAccess",true);
             startActivity(intent);
-            //Toast.makeText(getApplicationContext(), "Created new user", Toast.LENGTH_SHORT).show();
             finish();
         }
         else

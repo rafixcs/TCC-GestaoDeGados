@@ -2,23 +2,33 @@ package com.udemy.cursoandroid.gestaogados.Model.Farm;
 
 public class Loot
 {
-    String id;
+    int id;
     String name;
 
-    public Loot(String id, String name) {
+    public Loot(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public String getId() {
-        return id;
+    public Loot()
+    {
+        this.id = 0;
+        this.name = "";
     }
 
-    public String getName() {
-        return name;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }

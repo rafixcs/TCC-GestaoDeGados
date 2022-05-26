@@ -23,10 +23,11 @@ import com.udemy.cursoandroid.gestaogados.Controller.farm.FarmController;
 import com.udemy.cursoandroid.gestaogados.Controller.farm.IFarmController;
 import com.udemy.cursoandroid.gestaogados.Helper.NfcHelper;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
-import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmsMockRecord;
+import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmCollection;
 import com.udemy.cursoandroid.gestaogados.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,6 +55,8 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
 
     private boolean mSaveTagEnabled;
 
+    private FarmCollection mFarmCollection;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -61,7 +64,7 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
         binding = FragmentRegisterBovineBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        farmController = new FarmController(this);
+        farmController = new FarmController(this, getContext());
 
         initializeObjectsView(root);
 
@@ -138,10 +141,12 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
                 listLifePhase
         );
 
+        mFarmCollection = new FarmCollection(farmController.getFarms());
+
         ArrayAdapter<String> adapterFarm = new ArrayAdapter<String>(
                 getContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                farmController.getFarmsNames()
+                mFarmCollection.getFarmsNames()
         );
 
         mSpinnerRace.setAdapter(adapterRaces);
@@ -156,7 +161,7 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
                 ArrayAdapter<String> adapterLoot = new ArrayAdapter<String>(
                         getContext(),
                         androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                        farmController.getFarmLootsNames(position)
+                        Collections.singletonList(mFarmCollection.getFarmsNames().get(position))
                 );
                 mSpinnerLoot.setAdapter(adapterLoot);
             }
@@ -192,7 +197,7 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
                     int loot = (int) mSpinnerLoot.getSelectedItemId();
 
                     AnimalRegister animal = new AnimalRegister(name, birthdate,sex, type, race, lifePhase, farm, loot);
-                    animal.setKey(keyRegister);
+                    animal.setId(keyRegister);
 
                     IRegisterAnimalController controller = (IRegisterAnimalController) new RegisterAnimalController(this);
                     controller.addNewRegister(animal);

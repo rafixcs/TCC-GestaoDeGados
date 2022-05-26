@@ -68,7 +68,7 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
             isConsult = false;
         }
 
-        farmController = new FarmController(this);
+        farmController = new FarmController(this, this);
 
         mName = findViewById(R.id.nameFarmRegister);
         mLocation = findViewById(R.id.locationFarmRegister);
@@ -160,7 +160,6 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
     {
         if (result)
         {
-            //SetToastMessageAndShow( "Saved successfully", getApplicationContext());
             finish();
         }
         else
@@ -192,11 +191,11 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
     public void saveNewLoot()
     {
         String name = mLootName.getText().toString();
-        String id = Integer.toString(lootList.size());
+        int id = lootList.size();
         Loot loot = new Loot(id, name);
 
         lootList.add(loot);
-        //loadLootListView();
+        loadLootListView();
     }
 
     @Override
