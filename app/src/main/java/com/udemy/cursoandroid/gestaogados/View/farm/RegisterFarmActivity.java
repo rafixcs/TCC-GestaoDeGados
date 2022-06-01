@@ -4,10 +4,12 @@ import static com.udemy.cursoandroid.gestaogados.Helper.ToastMessageHelper.SetTo
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +25,7 @@ import com.udemy.cursoandroid.gestaogados.Controller.farm.IFarmController;
 import com.udemy.cursoandroid.gestaogados.Helper.RecyclerItemClickListener;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.Farm;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.Loot;
+import com.udemy.cursoandroid.gestaogados.Model.Farm.LootCollection;
 import com.udemy.cursoandroid.gestaogados.R;
 
 import java.util.ArrayList;
@@ -32,7 +35,7 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
 {
     private RecyclerView lootListView;
     private LootListAdapter lootListAdapter;
-    private List<Loot> lootList;
+    private LootCollection lootCollection;
 
     private EditText mName;
     private EditText mLocation;
@@ -102,16 +105,15 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
             public void onClick(View view) {
 
                 if (!isConsult) {
-                    Farm farm = null;
                     String name = mName.getText().toString();
                     String location = mLocation.getText().toString();
-                    farm = new Farm(name, location);
+                    Farm farm = new Farm(name, location);
                     farmController.saveNewFarm(farm);
-                    farmController.saveNewLootFarm(farm, lootList);
+                    farmController.saveNewLootFarm(farm, lootCollection.getCollection());
                 }
                 else
                 {
-                    farmController.saveNewLootFarm(consultFarm, lootList);
+                    farmController.saveNewLootFarm(consultFarm, lootCollection.getCollection());
                 }
 
 
@@ -127,12 +129,13 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
 
         if(!isConsult)
         {
-            lootList = new ArrayList<>();
+            lootCollection = new LootCollection();
         }
         else
         {
             consultFarm = farmController.getFarmByName(farmConsultName);
-            lootList = consultFarm.getFarmLoots();
+            consultFarm.setFarmLoots(farmController.getFarmsLoots(consultFarm.getId()));
+            lootCollection = consultFarm.getFarmLoots();
             mName.setText(consultFarm.getName());
             mLocation.setText(consultFarm.getLocation());
             mName.setFocusable(false);
@@ -146,9 +149,9 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
 
     private void loadLootListView()
     {
-        lootListAdapter = new LootListAdapter(lootList);
+        lootListAdapter = new LootListAdapter(lootCollection.getCollection());
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         lootListView.setLayoutManager(layoutManager);
         lootListView.setHasFixedSize(true);
         lootListView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
@@ -191,10 +194,10 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
     public void saveNewLoot()
     {
         String name = mLootName.getText().toString();
-        int id = lootList.size();
+        int id = lootCollection.size();
         Loot loot = new Loot(id, name);
 
-        lootList.add(loot);
+        lootCollection.add(loot);
         loadLootListView();
     }
 

@@ -28,16 +28,16 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
     }
 
     @Override
-    public void save(AnimalRegister animal, Farm farm, Loot loot)
+    public void save(AnimalRegister animal)
     {
-        if(database.isOpen() && !database.isReadOnly() && farm != null && loot != null && animal != null)
+        if(database.isOpen() && !database.isReadOnly() && animal != null)
         {
-            if(!checkIfAnimalAlreadyExists(animal, farm, loot))
+            if(!checkIfAnimalAlreadyExists(animal))
             {
                 try
                 {
-                    saveAnimal(animal, farm, loot);
-                    //controller.saveResult(true);
+                    saveAnimal(animal);
+                    controller.Result(animal);
                     return;
                 }
                 catch (Exception e)
@@ -65,15 +65,20 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
 
         String[] args = new String[]{id};
         Cursor cursor= database.rawQuery(query, args);
+        cursor.moveToFirst();
 
-        // TODO: set sex/life phase/race/type
         int idIndex = cursor.getColumnIndex("id_animal");
         int sequenceNumberIndex = cursor.getColumnIndex("sequence_number");
         int nameIndex = cursor.getColumnIndex("name");
         int statusIndex = cursor.getColumnIndex("status");
-        int ageIndex = cursor.getColumnIndex("status");
-        int birthDateIndex = cursor.getColumnIndex("birth_date");
+        int ageIndex = cursor.getColumnIndex("age");
+        int birthDateIndex = cursor.getColumnIndex("data_nascimento");
         int imgSrcIndex = cursor.getColumnIndex("img_src");
+
+        int fkRaceIndex = cursor.getColumnIndex("FK_id_race");
+        int fkAnimalTypeIndex = cursor.getColumnIndex("FK_id_type");
+        int fkLifePhaseIndex = cursor.getColumnIndex("FK_id_life_phase");
+        int fkSexTypeIndex = cursor.getColumnIndex("FK_id_sex_type");
 
         AnimalRegister animal = new AnimalRegister();
         animal.setId(cursor.getString(idIndex));
@@ -83,6 +88,13 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
         animal.setAge(cursor.getString(ageIndex));
         animal.setBirthdate(cursor.getString(birthDateIndex));
         animal.setImgSource(cursor.getString(imgSrcIndex));
+
+        animal.setType(cursor.getInt(fkAnimalTypeIndex));
+        animal.setSex(cursor.getInt(fkSexTypeIndex));
+        animal.setLifePhase(cursor.getInt(fkLifePhaseIndex));
+        animal.setRace(cursor.getInt(fkRaceIndex));
+
+        setLootAndFarmQuery(animal);
 
         controller.Result(animal);
         return animal;
@@ -104,7 +116,24 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
         }
     }
 
-    private void saveAnimal(AnimalRegister animal, Farm farm, Loot loot)
+    @Override
+    public boolean checkIfAnimalExists(String id)
+    {
+        String query = "SELECT * FROM " + ANIMAL_TABLE + " WHERE id_animal=?";
+
+        String[] args = new String[]{id};
+
+        Cursor cursor= database.rawQuery(query, args);
+
+        if (cursor.getCount() > 0)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private void saveAnimal(AnimalRegister animal)
     {
         ContentValues cv = new ContentValues();
 
@@ -112,26 +141,30 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
         cv.put("sequence_number", 0);
         cv.put("name", animal.getName());
         cv.put("status", animal.getName());
-        cv.put("age", animal.getName());
-        cv.put("data_nascimento", animal.getName());
+        cv.put("age", animal.getAge());
+        cv.put("data_nascimento", animal.getBirthdate()); //TODO: refactor column name
         cv.put("img_src", "generic");
+        cv.put("FK_id_race", animal.getRace());
+        cv.put("FK_id_type", animal.getType());
+        cv.put("FK_id_life_phase", animal.getLifePhase());
+        cv.put("FK_id_sex_type", animal.getSex());
 
 
         database.insert(ANIMAL_TABLE, null, cv);
 
-        Log.i("DatabaseInsert", "Created new loot: " + loot.getName());
+        Log.i("DatabaseInsert", "Created new animal: " + animal.getName());
 
-        createLinkLootAnimal(animal, loot);
+        createLinkLootAnimal(animal);
     }
 
-    private void createLinkLootAnimal(AnimalRegister animal, Loot loot)
+    private void createLinkLootAnimal(AnimalRegister animal)
     {
         try
         {
             ContentValues cv = new ContentValues();
 
             cv.put("id_animal", animal.getId());
-            cv.put("id_loot", loot.getId());
+            cv.put("id_loot", animal.getLootId());
 
             database.insert(LINK_ANIMAL_TABLE, null, cv);
             Log.i("DatabaseInsert", "Created loot-animal link");
@@ -143,13 +176,13 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
         }
     }
 
-    public boolean checkIfAnimalAlreadyExists(AnimalRegister animal, Farm farm, Loot loot)
+    private boolean checkIfAnimalAlreadyExists(AnimalRegister animal)
     {
         String query = "SELECT * FROM " + ANIMAL_TABLE + " AS animal INNER JOIN "
                 + LINK_ANIMAL_TABLE + " AS linkt ON animal.id_animal=linkt.id_animal " +
                 "WHERE linkt.id_loot=? AND animal.name=? AND animal.name IS NOT NULL";
 
-        String[] args = new String[]{Integer.toString(farm.getId()), loot.getName()};
+        String[] args = new String[]{Integer.toString(animal.getLootId()), animal.getName()};
 
         Cursor cursor= database.rawQuery(query, args);
 
@@ -159,5 +192,30 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
         }
 
         return false;
+    }
+
+    private void setLootAndFarmQuery(AnimalRegister animalRegister)
+    {
+        String query = "SELECT * FROM " + LINK_ANIMAL_TABLE + " WHERE id_animal=?";
+
+        String[] args = new String[]{animalRegister.getId()};
+
+        Cursor cursor= database.rawQuery(query, args);
+        cursor.moveToFirst();
+
+        int idLootIndex = cursor.getColumnIndex("id_loot");
+        int idLoot = cursor.getInt(idLootIndex);
+
+        query = "SELECT * FROM " + LINK_FARM_LOOT_TABLE + " AS loot WHERE id_loot=?";
+        args = new String[]{Integer.toString(idLoot)};
+
+        cursor= database.rawQuery(query, args);
+        cursor.moveToFirst();
+
+        int idFarmIndex = cursor.getColumnIndex("id_farm");
+        int farmId = cursor.getInt(idFarmIndex);
+
+        animalRegister.setFarmId(farmId);
+        animalRegister.setLootId(idLoot);
     }
 }

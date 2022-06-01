@@ -15,9 +15,13 @@ import android.widget.Spinner;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.udemy.cursoandroid.gestaogados.Controller.animals.consult.ConsultAnimalController;
 import com.udemy.cursoandroid.gestaogados.Controller.animals.consult.IConsultAnimalController;
+import com.udemy.cursoandroid.gestaogados.Controller.animals.info.AnimalInfoController;
+import com.udemy.cursoandroid.gestaogados.Controller.animals.info.IAnimalInfoController;
 import com.udemy.cursoandroid.gestaogados.Controller.farm.FarmController;
 import com.udemy.cursoandroid.gestaogados.Controller.farm.IFarmController;
 import com.udemy.cursoandroid.gestaogados.Helper.ToastMessageHelper;
+import com.udemy.cursoandroid.gestaogados.Model.AnimalInfo.InfoCommonCollection;
+import com.udemy.cursoandroid.gestaogados.Model.AnimalInfo.InfoTypeEnum;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmCollection;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.LootCollection;
@@ -51,9 +55,15 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
     private Button popupBtnRegisterVaccine;
 
     private IFarmController farmController;
+    private IAnimalInfoController animalInfoController;
 
     private FarmCollection mFarmCollection;
     private LootCollection mLootCollection;
+
+    private InfoCommonCollection raceCollection;
+    private InfoCommonCollection sexTypeCollection;
+    private InfoCommonCollection lifePhaseCollection;
+    private InfoCommonCollection animalTypeCollection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,6 +74,7 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         tagKey = getIntent().getExtras().getString("tagKey");
 
         farmController = new FarmController(this, this);
+        animalInfoController = new AnimalInfoController(this, getApplicationContext());
 
         mFarmCollection = new FarmCollection(farmController.getFarms());
         mLootCollection = farmController.getFarmsLoots(mFarmCollection.get(0).getId());
@@ -78,7 +89,7 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
             }
         });
 
-        consultAnimalController = new ConsultAnimalController(this);
+        consultAnimalController = new ConsultAnimalController(this, getApplicationContext());
         consultAnimalController.ConsultAnimal(tagKey);
     }
 
@@ -126,49 +137,34 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
 
     private void initializeSpinners()
     {
-        List<String> listRaces = new ArrayList<>();
-        listRaces.add("ANGUS");
-        listRaces.add("HEREFORD");
-        listRaces.add("LIMOUSIM");
-        listRaces.add("BELGA");
-        listRaces.add("BRAFORD");
-
-        List<String> listTypes = new ArrayList<>();
-        listTypes.add("GADO DE CORTE");
-        listTypes.add("GADO LEITEIRO");
-
-        List<String> listSexTypes = new ArrayList<>();
-        listSexTypes.add("MASCULINO");
-        listSexTypes.add("FEMININO");
-
-        List<String> listLifePhase = new ArrayList<>();
-        listLifePhase.add("CRIA");
-        listLifePhase.add("RECRIA (DESENVOLVIMENTO)");
-        listLifePhase.add("ENGORDA (TERMINAÇÃO)");
+        raceCollection = animalInfoController.getInfoList(InfoTypeEnum.RACE_TYPE);
+        sexTypeCollection = animalInfoController.getInfoList(InfoTypeEnum.SEX_TYPE);
+        lifePhaseCollection = animalInfoController.getInfoList(InfoTypeEnum.LIFE_PHASE);
+        animalTypeCollection = animalInfoController.getInfoList(InfoTypeEnum.ANIMAL_TYPE);
 
 
         ArrayAdapter<String> adapterRaces = new ArrayAdapter<String>(
                 getApplicationContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                listRaces
+                raceCollection.getInfoNames()
         );
 
         ArrayAdapter<String> adapterType = new ArrayAdapter<String>(
                 getApplicationContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                listTypes
+                animalTypeCollection.getInfoNames()
         );
 
         ArrayAdapter<String> adapterSexTypes = new ArrayAdapter<String>(
                 getApplicationContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                listSexTypes
+                sexTypeCollection.getInfoNames()
         );
 
         ArrayAdapter<String> adapterLifePhase = new ArrayAdapter<String>(
                 getApplicationContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                listLifePhase
+                lifePhaseCollection.getInfoNames()
         );
 
         ArrayAdapter<String> adapterFarm = new ArrayAdapter<String>(
@@ -187,13 +183,15 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         mSpinnerFarm.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                mLootCollection = farmController.getFarmsLoots(mFarmCollection.get(position).getId());
+
                 ArrayAdapter<String> adapterLoot = new ArrayAdapter<String>(
                         getApplicationContext(),
                         androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
                         mLootCollection.getLootsNames()
                 );
                 mSpinnerLoot.setAdapter(adapterLoot);
-                mSpinnerLoot.setSelection(animalRegister.getLoot());
+                mSpinnerLoot.setSelection(mLootCollection.idToCollectionIndex(animalRegister.getLootId()));
             }
 
             @Override
@@ -224,7 +222,7 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         mSpinnerType.setSelection(animalRegister.getType());
         mSpinnerSex.setSelection(animalRegister.getSex());
         mSpinnerLifePhase.setSelection(animalRegister.getLifePhase());
-        mSpinnerFarm.setSelection(animalRegister.getFarm());
+        mSpinnerFarm.setSelection(mFarmCollection.idToCollectionIndex(animalRegister.getFarmId()));
     }
 
     private void showRegisterTaskPopup()

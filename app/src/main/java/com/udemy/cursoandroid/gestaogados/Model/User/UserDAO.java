@@ -28,12 +28,12 @@ public class UserDAO implements IUserDAO
     }
 
     @Override
-    public void save(User user)
+    public boolean save(User user)
     {
         if (database == null || registerAccountController == null)
         {
             Log.e("Database", "Insertion database or controller is null");
-            return;
+            return false;
         }
 
         if (database.isOpen() && !database.isReadOnly() && user != null)
@@ -50,7 +50,7 @@ public class UserDAO implements IUserDAO
                     database.insert(USER_TABLE, null, cv);
                     Log.d("DatabaseInsert", "Created a new user: " + user.getEmail());
                     registerAccountController.resultOnCreateAccount(true);
-                    return;
+                    return true;
                 }
                 catch (Exception e)
                 {
@@ -64,6 +64,7 @@ public class UserDAO implements IUserDAO
         }
 
         registerAccountController.resultOnCreateAccount(false);
+        return false;
     }
 
     @Override

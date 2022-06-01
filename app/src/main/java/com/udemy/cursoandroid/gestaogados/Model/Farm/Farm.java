@@ -7,7 +7,7 @@ public class Farm {
     private int id;
     private String name;
     private String location;
-    private List<Loot> farmLoots;
+    private LootCollection farmLoots;
 
     public Farm()
     {
@@ -19,7 +19,7 @@ public class Farm {
     public Farm(String name, String location) {
         this.name = name;
         this.location = location;
-        this.farmLoots = new ArrayList<>();
+        this.farmLoots = new LootCollection();
     }
 
     public void setId(int id) {
@@ -46,29 +46,17 @@ public class Farm {
         return location;
     }
 
-    public boolean addLoot(Loot loot)
-    {
-        return farmLoots.add(loot);
-    }
-
-    public List<String> getFarmLootsNames() {
-
-        List<String> listNameLoots = new ArrayList<>();
-
-        for (int i = 0; i < farmLoots.size(); i++)
-        {
-            listNameLoots.add(farmLoots.get(i).getName());
-        }
-
-        return listNameLoots;
-    }
 
     public int getLootsQuantity()
     {
         return farmLoots.size();
     }
 
-    public List<Loot> getFarmLoots() {
+    public LootCollection getFarmLoots() {
         return farmLoots;
+    }
+
+    public void setFarmLoots(LootCollection farmLoots) {
+        this.farmLoots = farmLoots;
     }
 }

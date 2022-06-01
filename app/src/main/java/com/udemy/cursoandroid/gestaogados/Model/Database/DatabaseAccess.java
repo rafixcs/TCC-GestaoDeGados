@@ -15,6 +15,7 @@ public class DatabaseAccess
     private DatabaseAccess(Context context) {
         this.context = context;
         this.openHelper = new DBMain(context);
+        this.open();
     }
 
     public static DatabaseAccess getInstance(Context context) {
@@ -25,8 +26,22 @@ public class DatabaseAccess
         return instance;
     }
 
-    public void open() {
-        db=openHelper.getWritableDatabase();
+    public void open()
+    {
+        open(true);
+    }
+
+    public void open(boolean writerMode)
+    {
+        if (writerMode)
+        {
+            db = openHelper.getWritableDatabase();
+        }
+        else
+        {
+            db = openHelper.getReadableDatabase();
+        }
+
     }
 
     public void close() {
@@ -35,7 +50,8 @@ public class DatabaseAccess
         }
     }
 
-    public SQLiteDatabase getDb() {
+    public SQLiteDatabase getDb()
+    {
         return db;
     }
 }

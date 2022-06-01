@@ -2,6 +2,7 @@ package com.udemy.cursoandroid.gestaogados.Controller.login;
 
 import android.content.Context;
 
+import com.udemy.cursoandroid.gestaogados.Controller.MainController;
 import com.udemy.cursoandroid.gestaogados.Model.Database.DatabaseAccess;
 import com.udemy.cursoandroid.gestaogados.Model.User.IUserDAO;
 import com.udemy.cursoandroid.gestaogados.Model.User.User;
@@ -30,15 +31,15 @@ public class RegisterAccountController implements IRegisterAccountController
         user.setEmail(email);
         user.setPassword(password);
 
-        //UsersMockRecord mockRecord = UsersMockRecord.getInstance(this);
-        //mockRecord.addUser(user);
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
 
         IUserDAO userDAO = new UserDAO(databaseAccess.getDb(), this);
-        userDAO.save(user);
-
-        databaseAccess.close();
+        if(userDAO.save(user))
+        {
+            MainController mainController = MainController.getInstance();
+            mainController.setCurrentUser(user);
+        }
     }
 
     @Override

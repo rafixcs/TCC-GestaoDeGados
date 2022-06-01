@@ -16,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.udemy.cursoandroid.gestaogados.Helper.NfcHelper;
+import com.udemy.cursoandroid.gestaogados.Model.Database.DatabaseAccess;
 import com.udemy.cursoandroid.gestaogados.R;
 import com.udemy.cursoandroid.gestaogados.View.login.LoginActivity;
 import com.udemy.cursoandroid.gestaogados.View.main.consult.ConsultBovineFragment;
@@ -137,5 +138,8 @@ public class MainActivity extends AppCompatActivity {
             mAlreadyInitialized = false;
             nfc = null;
         }
+
+        //DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
+        //databaseAccess.close();
     }
 }

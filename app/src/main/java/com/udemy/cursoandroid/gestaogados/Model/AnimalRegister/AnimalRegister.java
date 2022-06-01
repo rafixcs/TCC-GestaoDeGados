@@ -12,8 +12,8 @@ public class AnimalRegister {
     private int type;
     private int race;
     private int lifePhase;
-    private int farm;
-    private int loot;
+    private int farmId;
+    private int lootId;
 
     public AnimalRegister(String name, String birthdate,
                           int sex, int type, int race, int lifePhase,int farm, int loot)
@@ -24,8 +24,8 @@ public class AnimalRegister {
         this.type = type;
         this.race = race;
         this.lifePhase = lifePhase;
-        this.farm = farm;
-        this.loot = loot;
+        this.farmId = farm;
+        this.lootId = loot;
     }
 
     public AnimalRegister()
@@ -122,19 +122,19 @@ public class AnimalRegister {
         this.lifePhase = lifePhase;
     }
 
-    public int getFarm() {
-        return farm;
+    public int getFarmId() {
+        return farmId;
     }
 
-    public void setFarm(int farm) {
-        this.farm = farm;
+    public void setFarmId(int farmId) {
+        this.farmId = farmId;
     }
 
-    public int getLoot() {
-        return loot;
+    public int getLootId() {
+        return lootId;
     }
 
-    public void setLoot(int loot) {
-        this.loot = loot;
+    public void setLootId(int lootId) {
+        this.lootId = lootId;
     }
 }

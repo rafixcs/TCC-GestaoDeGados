@@ -37,7 +37,7 @@ public class LoginAccountController implements ILoginAccountController
         IUserDAO userDAO = new UserDAO(databaseAccess.getDb(), this);
         userDAO.getAccount(email, password);
 
-        databaseAccess.close();
+        //databaseAccess.close();
 
 
     }

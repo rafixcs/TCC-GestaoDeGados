@@ -49,7 +49,7 @@ public class FarmsMockRecord {
     }
 
     public List<String> getFarmLootsForView(int index) {
-        return listFarms.get(index).getFarmLootsNames();
+        return null; //listFarms.get(index).getFarmLootsNames();
     }
 
     public int getLootsTotalQuantity()
@@ -67,9 +67,9 @@ public class FarmsMockRecord {
     public void saveNewFarmLoot(int id, Loot loot)
     {
         Farm farm = this.getFarmFromId(id);
-        boolean result = farm.addLoot(loot);
+        //boolean result = farm.addLoot(loot);
 
-        controller.saveResult(result);
+        //controller.saveResult(result);
     }
 
     public int generateNextId() {
@@ -127,7 +127,7 @@ public class FarmsMockRecord {
         Farm farm = this.getFarmFromId(id);
         if (farm != null)
         {
-            lootList = farm.getFarmLoots();
+            //lootList = farm.getFarmLoots();
         }
         return lootList;
     }

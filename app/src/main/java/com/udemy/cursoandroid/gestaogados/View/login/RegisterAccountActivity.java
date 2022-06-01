@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.udemy.cursoandroid.gestaogados.Controller.MainController;
 import com.udemy.cursoandroid.gestaogados.Controller.login.IRegisterAccountController;
 import com.udemy.cursoandroid.gestaogados.Controller.login.RegisterAccountController;
 import com.udemy.cursoandroid.gestaogados.R;

@@ -56,9 +56,13 @@ public class LoginActivity extends AppCompatActivity implements ILoginView
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginAccountController.validateLogin(
+                /*loginAccountController.validateLogin(
                         mEmail.getText().toString(),
                         mPassword.getText().toString()
+                );*/
+                loginAccountController.validateLogin(
+                        "rafael.camargo.rs@gmail.com",
+                        "123"
                 );
             }
         });
@@ -92,5 +96,11 @@ public class LoginActivity extends AppCompatActivity implements ILoginView
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onLoginAccount();
     }
 }

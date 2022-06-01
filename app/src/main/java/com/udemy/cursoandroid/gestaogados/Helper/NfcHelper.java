@@ -147,10 +147,8 @@ public class NfcHelper {
     public void foregroundDispatch(Activity activity, boolean status) {
         if (status) {
             nfcAdapter.enableForegroundDispatch(activity, pendingIntent, intentFilter, null);
-            Log.i("debug", "teste1");
         } else {
             nfcAdapter.disableForegroundDispatch(activity);
-            Log.i("debug", "teste2");
         }
     }
 

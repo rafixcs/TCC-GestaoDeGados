@@ -38,4 +38,17 @@ public class FarmCollection
         return farmCollection;
     }
 
+    public int idToCollectionIndex(int id)
+    {
+        for(int i=0; i<farmCollection.size(); i++)
+        {
+            if (farmCollection.get(i).getId() == id)
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
 }

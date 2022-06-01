@@ -1,6 +1,7 @@
 package com.udemy.cursoandroid.gestaogados.Controller.farm;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.udemy.cursoandroid.gestaogados.Controller.MainController;
 import com.udemy.cursoandroid.gestaogados.Model.Database.DatabaseAccess;
@@ -10,6 +11,7 @@ import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmDAO;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmLootMockRegister;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmsMockRecord;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.IFarmDAO;
+import com.udemy.cursoandroid.gestaogados.Model.Farm.ILootDAO;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.Loot;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.LootCollection;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.LootDAO;
@@ -17,6 +19,7 @@ import com.udemy.cursoandroid.gestaogados.View.ICommonView;
 import com.udemy.cursoandroid.gestaogados.View.farm.IRegisterFarmView;
 import com.udemy.cursoandroid.gestaogados.View.main.register.IRegisterBovineView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FarmController implements IFarmController{
@@ -34,21 +37,20 @@ public class FarmController implements IFarmController{
     @Override
     public void saveNewFarm(Farm farm)
     {
-        databaseAccess.open();
         farmDAO.save(farm);
-        databaseAccess.close();
     }
 
     @Override
     public void saveNewLootFarm(Farm farm, Loot loot) {
-        //mockRecord.saveNewFarmLoot(farm.getId(), loot);
+        LootDAO lootDao = new LootDAO(databaseAccess.getDb(), this);
+        lootDao.save(farm, loot);
     }
 
     @Override
     public void saveNewLootFarm(Farm farm, List<Loot> lootList) {
         for (int i=0; i<lootList.size(); i++)
         {
-            //mockRecord.saveNewFarmLoot(farm.getId(), lootList.get(i));
+            saveNewLootFarm(farm, lootList.get(i));
         }
     }
 
@@ -60,12 +62,10 @@ public class FarmController implements IFarmController{
 
     @Override
     public int getLootsTotalQuantity(FarmCollection farmCollection) {
-        databaseAccess.open();
 
         LootDAO lootDao = new LootDAO(databaseAccess.getDb(), this);
         int total = lootDao.getTotalLootsQuantity(farmCollection);
 
-        databaseAccess.close();
         return total;
     }
 
@@ -73,28 +73,31 @@ public class FarmController implements IFarmController{
     @Override
     public LootCollection getFarmsLoots(int id)
     {
-        return null;
+        ILootDAO lootDao = new LootDAO(databaseAccess.getDb(), this);
+        return lootDao.getLoots(id);
     }
 
     @Override
     public List<Farm> getFarms() {
-        databaseAccess.open();
-
         MainController mainController = MainController.getInstance();
-        List<Farm> farmList = farmDAO.getFarms(mainController.getCurrentUser());
+        List<Farm> farmList = new ArrayList<>();
+        try
+        {
+            farmList = farmDAO.getFarms(mainController.getCurrentUser());
+        }
+        catch (Exception e)
+        {
+            Log.e("Database", "Failed to query getFarms");
+        }
 
-        databaseAccess.close();
 
         return farmList;
     }
 
     @Override
     public Farm getFarmByName(String name) {
-        databaseAccess.open();
+        Farm farm = farmDAO.getFarmByName(name);
 
-        farmDAO.getFarmByName(name);
-
-        databaseAccess.close();
-        return null;
+        return farm;
     }
 }

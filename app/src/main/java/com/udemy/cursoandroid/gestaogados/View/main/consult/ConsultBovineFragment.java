@@ -37,7 +37,7 @@ public class ConsultBovineFragment extends Fragment implements IConsultAnimalReg
     public void getFromTag(Intent intent, NfcHelper nfc) {
         String uuid = nfc.ReadFromIntent(intent);
 
-        IConsultAnimalController controller = new ConsultAnimalController(this);
+        IConsultAnimalController controller = new ConsultAnimalController(this, getContext());
 
         if (controller.CheckIfExists(uuid))
         {

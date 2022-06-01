@@ -17,13 +17,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.udemy.cursoandroid.gestaogados.Controller.animals.info.AnimalInfoController;
+import com.udemy.cursoandroid.gestaogados.Controller.animals.info.IAnimalInfoController;
 import com.udemy.cursoandroid.gestaogados.Controller.animals.register.IRegisterAnimalController;
 import com.udemy.cursoandroid.gestaogados.Controller.animals.register.RegisterAnimalController;
 import com.udemy.cursoandroid.gestaogados.Controller.farm.FarmController;
 import com.udemy.cursoandroid.gestaogados.Controller.farm.IFarmController;
 import com.udemy.cursoandroid.gestaogados.Helper.NfcHelper;
+import com.udemy.cursoandroid.gestaogados.Model.AnimalInfo.InfoCommonCollection;
+import com.udemy.cursoandroid.gestaogados.Model.AnimalInfo.InfoTypeEnum;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmCollection;
+import com.udemy.cursoandroid.gestaogados.Model.Farm.LootCollection;
 import com.udemy.cursoandroid.gestaogados.R;
 
 import java.util.ArrayList;
@@ -52,10 +57,17 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
     private Button mButtonRegister;
 
     private IFarmController farmController;
+    private IAnimalInfoController animalInfoController;
 
     private boolean mSaveTagEnabled;
 
     private FarmCollection mFarmCollection;
+    private LootCollection mLootCollection;
+
+    private InfoCommonCollection raceCollection;
+    private InfoCommonCollection sexTypeCollection;
+    private InfoCommonCollection lifePhaseCollection;
+    private InfoCommonCollection animalTypeCollection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +77,7 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
         View root = binding.getRoot();
 
         farmController = new FarmController(this, getContext());
+        animalInfoController = new AnimalInfoController(this, getContext());
 
         initializeObjectsView(root);
 
@@ -97,48 +110,34 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
 
     private void initializeSpinners()
     {
-        List<String> listRaces = new ArrayList<>();
-        listRaces.add("ANGUS");
-        listRaces.add("HEREFORD");
-        listRaces.add("LIMOUSIM");
-        listRaces.add("BELGA");
-        listRaces.add("BRAFORD");
 
-        List<String> listTypes = new ArrayList<>();
-        listTypes.add("GADO DE CORTE");
-        listTypes.add("GADO LEITEIRO");
-
-        List<String> listSexTypes = new ArrayList<>();
-        listSexTypes.add("MASCULINO");
-        listSexTypes.add("FEMININO");
-
-        List<String> listLifePhase = new ArrayList<>();
-        listLifePhase.add("CRIA");
-        listLifePhase.add("RECRIA (DESENVOLVIMENTO)");
-        listLifePhase.add("ENGORDA (TERMINAÇÃO)");
+        raceCollection = animalInfoController.getInfoList(InfoTypeEnum.RACE_TYPE);
+        sexTypeCollection = animalInfoController.getInfoList(InfoTypeEnum.SEX_TYPE);
+        lifePhaseCollection = animalInfoController.getInfoList(InfoTypeEnum.LIFE_PHASE);
+        animalTypeCollection = animalInfoController.getInfoList(InfoTypeEnum.ANIMAL_TYPE);
 
         ArrayAdapter<String> adapterRaces = new ArrayAdapter<String>(
                 getContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                listRaces
+                raceCollection.getInfoNames()
         );
 
         ArrayAdapter<String> adapterType = new ArrayAdapter<String>(
                 getContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                listTypes
+                animalTypeCollection.getInfoNames()
         );
 
         ArrayAdapter<String> adapterSexTypes = new ArrayAdapter<String>(
                 getContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                listSexTypes
+                sexTypeCollection.getInfoNames()
         );
 
         ArrayAdapter<String> adapterLifePhase = new ArrayAdapter<String>(
                 getContext(),
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                listLifePhase
+                lifePhaseCollection.getInfoNames()
         );
 
         mFarmCollection = new FarmCollection(farmController.getFarms());
@@ -158,10 +157,11 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
         mSpinnerFarm.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                mLootCollection = farmController.getFarmsLoots(mFarmCollection.get(position).getId());
                 ArrayAdapter<String> adapterLoot = new ArrayAdapter<String>(
                         getContext(),
                         androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                        Collections.singletonList(mFarmCollection.getFarmsNames().get(position))
+                        mLootCollection.getLootsNames()
                 );
                 mSpinnerLoot.setAdapter(adapterLoot);
             }
@@ -186,20 +186,21 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
                 nfc.setMyTag(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG));
                 if (nfc.SaveTagContent(keyRegister))
                 {
-                    //TODO: save contents to the database
                     String name = mName.getText().toString();
                     String birthdate = mDate.getText().toString();
                     int sex = (int) mSpinnerSex.getSelectedItemId();
                     int type = (int) mSpinnerType.getSelectedItemId();
                     int race = (int) mSpinnerRace.getSelectedItemId();
                     int lifePhase = (int) mSpinnerLifePhase.getSelectedItemId();
-                    int farm = (int) mSpinnerFarm.getSelectedItemId();
-                    int loot = (int) mSpinnerLoot.getSelectedItemId();
+                    int farmIndexId = (int) mSpinnerFarm.getSelectedItemId();
+                    int lootIndexId = (int) mSpinnerLoot.getSelectedItemId();
+                    int farmId = mFarmCollection.get(farmIndexId).getId();
+                    int lootId = mLootCollection.get(lootIndexId).getId();
 
-                    AnimalRegister animal = new AnimalRegister(name, birthdate,sex, type, race, lifePhase, farm, loot);
+                    AnimalRegister animal = new AnimalRegister(name, birthdate,sex, type, race, lifePhase, farmId, lootId);
                     animal.setId(keyRegister);
 
-                    IRegisterAnimalController controller = (IRegisterAnimalController) new RegisterAnimalController(this);
+                    IRegisterAnimalController controller = new RegisterAnimalController(this, getContext());
                     controller.addNewRegister(animal);
                 }
                 else

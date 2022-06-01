@@ -35,6 +35,7 @@ public class LootDAO implements ILootDAO
             {
                 try
                 {
+                    loot.setId(this.getNextId());
                     saveLoot(farm, loot);
                     controller.saveResult(true);
                     return;
@@ -62,22 +63,27 @@ public class LootDAO implements ILootDAO
     {
         String query = "SELECT * FROM " + LOOT_TABLE + " AS loot INNER JOIN "
                 + LINK_LOOT_TABLE + " AS linkt ON loot.id_loot=linkt.id_loot " +
-                "WHERE linkt.id_farm=?";
+                " WHERE linkt.id_farm=?";
 
         String[] args = new String[]{Integer.toString(farmId)};
 
         Cursor cursor= database.rawQuery(query, args);
-
         cursor.moveToFirst();
+
         int idIndex = cursor.getColumnIndex("id_loot");
         int nameIndex = cursor.getColumnIndex("name");
 
         List<Loot> lootList = new ArrayList<>();
-        while (cursor.moveToNext())
+
+        if (cursor.getCount() > 0)
         {
-            Loot loot = new Loot();
-            loot.setId(cursor.getInt(idIndex));
-            loot.setName(cursor.getString(nameIndex));
+            do {
+                Loot loot = new Loot();
+                loot.setId(cursor.getInt(idIndex));
+                loot.setName(cursor.getString(nameIndex));
+                lootList.add(loot);
+                Log.d("DatabaseLoot", "loot: " + loot.getName());
+            } while (cursor.moveToNext());
         }
 
         return new LootCollection(lootList);
@@ -119,7 +125,7 @@ public class LootDAO implements ILootDAO
         ContentValues cv = new ContentValues();
 
         cv.put("id_loot", loot.getId());
-        cv.put("name", farm.getName());
+        cv.put("name", loot.getName());
 
         database.insert(LOOT_TABLE, null, cv);
 
@@ -158,6 +164,7 @@ public class LootDAO implements ILootDAO
         String[] args = new String[]{Integer.toString(farm.getId()), loot.getName()};
 
         Cursor cursor= database.rawQuery(query, args);
+        cursor.moveToFirst();
 
         if (cursor.getCount() > 0)
         {
@@ -165,5 +172,33 @@ public class LootDAO implements ILootDAO
         }
 
         return false;
+    }
+
+    private int getNextId()
+    {
+        String query = "SELECT * FROM " + LOOT_TABLE + " ORDER BY id_loot DESC LIMIT 1";
+        String[] args = new String[]{};
+        int value = 0;
+
+        try
+        {
+            Cursor cursor = database.rawQuery(query, new String[]{});
+            cursor.moveToFirst();
+
+            do
+            {
+                //Log.i("FarmQuery", Integer.toString(cursor.getInt(0)) + "|" + cursor.getString(1) + "|" + cursor.getString(2));
+                value = cursor.getInt(0);
+
+            } while (cursor.moveToNext());
+
+
+        }
+        catch (Exception e)
+        {
+            return 0;
+        }
+
+        return value + 1;
     }
 }

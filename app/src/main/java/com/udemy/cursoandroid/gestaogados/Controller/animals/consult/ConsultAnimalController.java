@@ -1,38 +1,49 @@
 package com.udemy.cursoandroid.gestaogados.Controller.animals.consult;
 
+import android.content.Context;
+import android.provider.ContactsContract;
+
 import com.udemy.cursoandroid.gestaogados.Controller.animals.IAnimalController;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
+import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegisterDAO;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalsRecords;
+import com.udemy.cursoandroid.gestaogados.Model.Database.DatabaseAccess;
 import com.udemy.cursoandroid.gestaogados.View.main.consult.IConsultAnimalRegisterView;
 
 public class ConsultAnimalController implements IConsultAnimalController
 {
 
     IConsultAnimalRegisterView consultAnimalRegisterView;
-    AnimalsRecords records;
+    Context context;
 
-    public ConsultAnimalController(IConsultAnimalRegisterView consultAnimalRegisterView)
+    public ConsultAnimalController(IConsultAnimalRegisterView consultAnimalRegisterView, Context context)
     {
         this.consultAnimalRegisterView = consultAnimalRegisterView;
-        records = AnimalsRecords.getsInstance(this);
+        this.context = context;
     }
 
     @Override
     public void ConsultAnimal(String id)
     {
-        records.getAnimalRegister(id);
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        AnimalRegisterDAO animalDAO = new AnimalRegisterDAO(databaseAccess.getDb(), this);
+
+        animalDAO.get(id);
     }
 
     @Override
     public void updateAnimal(AnimalRegister animal)
     {
-        records.updateAnimal(animal);
+
     }
 
     @Override
     public boolean CheckIfExists(String id)
     {
-        return records.animalRecordExists(id);
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        AnimalRegisterDAO animalDAO = new AnimalRegisterDAO(databaseAccess.getDb(), this);
+
+        return animalDAO.checkIfAnimalExists(id);
     }
 
     @Override

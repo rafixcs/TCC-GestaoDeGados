@@ -2,6 +2,8 @@ package com.udemy.cursoandroid.gestaogados.Model.Farm;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteAbortException;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -35,6 +37,7 @@ public class FarmDAO implements IFarmDAO
             {
                 try
                 {
+                    farm.setId(getNextId());
                     saveFarm(farm);
                     controller.saveResult(true);
                     return;
@@ -78,20 +81,20 @@ public class FarmDAO implements IFarmDAO
     public List<Farm> getFarms(User user) {
 
         String query = "SELECT * FROM " + LINK_FARM_TABLE +" WHERE id_producer=?";
-
         String[] args = new String[]{user.getId()};
-        Cursor cursor= database.rawQuery(query, args);
 
+        Cursor cursor= database.rawQuery(query, args);
         cursor.moveToFirst();
+
         int userIdIndex = cursor.getColumnIndex("id_producer");
         int farmIdIndex = cursor.getColumnIndex("id_farm");
 
         List<Farm> farmList = new ArrayList<>();
-        while (cursor.moveToNext())
+        do
         {
             int farmId = cursor.getInt(farmIdIndex);
             farmList.add(queryFarmFromId(farmId));
-        }
+        } while (cursor.moveToNext());
 
         return farmList;
     }
@@ -103,6 +106,8 @@ public class FarmDAO implements IFarmDAO
 
         String[] args = new String[]{name};
         Cursor cursor= database.rawQuery(query, args);
+        cursor.moveToFirst();
+
         int idIndex = cursor.getColumnIndex("id_farm");
         int nameIndex = cursor.getColumnIndex("name");
         int locationIndex = cursor.getColumnIndex("location");
@@ -115,6 +120,34 @@ public class FarmDAO implements IFarmDAO
         return farm;
     }
 
+    private int getNextId()
+    {
+        String query = "SELECT * FROM " + FARM_TABLE + " ORDER BY id_farm DESC LIMIT 1";
+        String[] args = new String[]{};
+        int value = 0;
+
+        try
+        {
+            Cursor cursor = database.rawQuery(query, new String[]{});
+            cursor.moveToFirst();
+
+            do
+            {
+                //Log.i("FarmQuery", Integer.toString(cursor.getInt(0)) + "|" + cursor.getString(1) + "|" + cursor.getString(2));
+                value = cursor.getInt(0);
+
+            } while (cursor.moveToNext());
+
+
+        }
+        catch (Exception e)
+        {
+            return 0;
+        }
+
+        return value + 1;
+    }
+
     public boolean checkIfFarmAlreadyExists(Farm farm)
     {
         String query = "SELECT * FROM " + FARM_TABLE +" WHERE name=?";
@@ -122,6 +155,7 @@ public class FarmDAO implements IFarmDAO
         String[] args = new String[]{farm.getName()};
 
         Cursor cursor= database.rawQuery(query, args);
+        cursor.moveToFirst();
 
         if (cursor.getCount() > 0)
         {
@@ -139,12 +173,22 @@ public class FarmDAO implements IFarmDAO
         cv.put("name", farm.getName());
         cv.put("location", farm.getLocation());
 
-        database.insert(FARM_TABLE, null, cv);
-
-        Log.i("DatabaseInsert", "Created new farm: " + farm.getName());
-
-
-        createFarmLink(farm);
+        try
+        {
+            database.insert(FARM_TABLE, null, cv);
+            Log.i("DatabaseInsert", "Created new farm: " + farm.getName());
+            createFarmLink(farm);
+        }
+        catch (SQLiteAbortException e)
+        {
+            Log.e("DatabaseInsert", "Failed to create new farm: " + farm.getName());
+            throw e;
+        }
+        catch (SQLiteConstraintException e)
+        {
+            Log.e("DatabaseInsert", "Failed to create new farm: " + farm.getName());
+            throw e;
+        }
     }
 
     private void createFarmLink(Farm farm)
@@ -175,6 +219,8 @@ public class FarmDAO implements IFarmDAO
         String[] args = new String[]{Integer.toString(id)};
 
         Cursor cursor = database.rawQuery(query, args);
+        cursor.moveToFirst();
+
         int nameIndex = cursor.getColumnIndex("name");
         int locationIndex = cursor.getColumnIndex("location");
 
