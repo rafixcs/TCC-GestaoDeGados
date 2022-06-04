@@ -56,14 +56,18 @@ public class LoginActivity extends AppCompatActivity implements ILoginView
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*loginAccountController.validateLogin(
+                loginAccountController.validateLogin(
                         mEmail.getText().toString(),
                         mPassword.getText().toString()
-                );*/
-                loginAccountController.validateLogin(
+                );
+                /*loginAccountController.validateLogin(
                         "rafael.camargo.rs@gmail.com",
                         "123"
-                );
+                );*/
+                /*loginAccountController.validateLogin(
+                        "rafael@teste",
+                        "321"
+                );*/
             }
         });
     }
@@ -75,7 +79,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView
     }
 
     @Override
-    public void onLoginAccount()
+    public void onLoginAccount(boolean automaticLogin)
     {
         MainController mainController = MainController.getInstance();
         User user = mainController.getCurrentUser();
@@ -83,7 +87,10 @@ public class LoginActivity extends AppCompatActivity implements ILoginView
         if (user != null) {
             onStartMainActivity();
         } else {
-            Toast.makeText(this, "Failed to login user", Toast.LENGTH_SHORT).show();
+            if (!automaticLogin)
+            {
+                Toast.makeText(this, "Failed to login user", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -101,6 +108,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView
     @Override
     protected void onResume() {
         super.onResume();
-        onLoginAccount();
+        onLoginAccount(true);
     }
 }

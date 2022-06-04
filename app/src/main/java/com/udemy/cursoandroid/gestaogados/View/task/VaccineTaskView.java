@@ -8,6 +8,8 @@ import android.widget.EditText;
 import com.udemy.cursoandroid.gestaogados.Controller.task.IVaccineTaskController;
 import com.udemy.cursoandroid.gestaogados.Controller.task.VaccineTaskController;
 import com.udemy.cursoandroid.gestaogados.Helper.ToastMessageHelper;
+import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
+import com.udemy.cursoandroid.gestaogados.Model.Task.Vaccine.VaccineTask;
 import com.udemy.cursoandroid.gestaogados.R;
 
 public class VaccineTaskView implements ITaskView, View.OnClickListener{
@@ -18,10 +20,12 @@ public class VaccineTaskView implements ITaskView, View.OnClickListener{
     private EditText mDate;
     private EditText mDescription;
     private Button mSaveButton;
+    private String animalRegisterId;
 
-    public VaccineTaskView(Activity parentActivity)
+    public VaccineTaskView(Activity parentActivity, String animalRegisterId)
     {
         this.parentActivity = parentActivity;
+        this.animalRegisterId = animalRegisterId;
         buildView();
     }
 
@@ -54,7 +58,10 @@ public class VaccineTaskView implements ITaskView, View.OnClickListener{
         String date = mDate.getText().toString();
         String description = mDescription.getText().toString();
 
-        IVaccineTaskController controller = new VaccineTaskController(VaccineTaskView.this);
-        controller.saveVaccineTask(name, date, description);
+        IVaccineTaskController controller = new VaccineTaskController(this, parentActivity.getApplicationContext());
+        VaccineTask vaccineTask = new VaccineTask(name, date, description);
+        AnimalRegister animalRegister = new AnimalRegister();
+        animalRegister.setId(animalRegisterId);
+        controller.saveVaccineTask(animalRegister, vaccineTask);
     }
 }

@@ -50,6 +50,6 @@ public class LoginAccountController implements ILoginAccountController
             MainController mainController = MainController.getInstance();
             mainController.setCurrentUser(user);
         }
-        loginView.onLoginAccount();
+        loginView.onLoginAccount(false);
     }
 }

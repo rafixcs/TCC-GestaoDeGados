@@ -79,27 +79,6 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
         mAddLoot = findViewById(R.id.addLootFarmRegister);
         lootListView = findViewById(R.id.lootsListFarmRegister);
 
-        lootListView.addOnItemTouchListener(new RecyclerItemClickListener(
-                getApplicationContext(),
-                lootListView,
-                new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-
-                    }
-
-                    @Override
-                    public void onLongItemClick(View view, int position) {
-
-                    }
-
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                    }
-                }
-        ));
-
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

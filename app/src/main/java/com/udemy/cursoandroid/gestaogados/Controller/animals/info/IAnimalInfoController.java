@@ -12,4 +12,5 @@ public interface IAnimalInfoController
     public InfoCommonCollection getInfoList(InfoTypeEnum infoTypeEnum);
     public void delete(IInfoCommon info);
     public void result(boolean result);
+    public IInfoCommon getInfoById(InfoTypeEnum infoTypeEnum, int id);
 }

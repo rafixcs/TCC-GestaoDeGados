@@ -6,6 +6,7 @@ public interface ILootDAO
 {
     public void save(Farm farm, Loot loot);
     public LootCollection getLoots(int farmId);
+    public Loot getById(int id);
     public void delete(Loot loot);
     public int getTotalLootsQuantity(FarmCollection farmCollection);
 }

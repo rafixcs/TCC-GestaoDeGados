@@ -8,15 +8,16 @@ import android.view.ViewStub;
 import android.widget.Button;
 
 import com.udemy.cursoandroid.gestaogados.Helper.ToastMessageHelper;
+import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
 import com.udemy.cursoandroid.gestaogados.R;
 
 public class RegisterTaskActivity extends AppCompatActivity {
 
-    ViewStub stubLayout;
-    View layoutView;
+    private ViewStub stubLayout;
+    private View layoutView;
 
-    VaccineTaskView vaccineTaskView;
-    GenericTaskView genericTaskView;
+    private VaccineTaskView vaccineTaskView;
+    private GenericTaskView genericTaskView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,8 @@ public class RegisterTaskActivity extends AppCompatActivity {
         {
             stubLayout.setLayoutResource(R.layout.register_vaccine_task_layout);
             layoutView = stubLayout.inflate();
-            vaccineTaskView = new VaccineTaskView(this);
+            String animalRegisterId = getIntent().getExtras().getString("animalRegister");
+            vaccineTaskView = new VaccineTaskView(this, animalRegisterId);
         }
     }
 }

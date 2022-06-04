@@ -28,6 +28,10 @@ public class FarmDAO implements IFarmDAO
         this.controller = controller;
     }
 
+    public FarmDAO(SQLiteDatabase database) {
+        this.database = database;
+    }
+
     @Override
     public void save(Farm farm)
     {
@@ -90,11 +94,14 @@ public class FarmDAO implements IFarmDAO
         int farmIdIndex = cursor.getColumnIndex("id_farm");
 
         List<Farm> farmList = new ArrayList<>();
-        do
+        if (cursor.getCount() > 0)
         {
-            int farmId = cursor.getInt(farmIdIndex);
-            farmList.add(queryFarmFromId(farmId));
-        } while (cursor.moveToNext());
+            do
+            {
+                int farmId = cursor.getInt(farmIdIndex);
+                farmList.add(queryFarmFromId(farmId));
+            } while (cursor.moveToNext());
+        }
 
         return farmList;
     }
@@ -105,6 +112,26 @@ public class FarmDAO implements IFarmDAO
         String query = "SELECT * FROM " + FARM_TABLE +" WHERE name=? AND name IS NOT NULL";
 
         String[] args = new String[]{name};
+        Cursor cursor= database.rawQuery(query, args);
+        cursor.moveToFirst();
+
+        int idIndex = cursor.getColumnIndex("id_farm");
+        int nameIndex = cursor.getColumnIndex("name");
+        int locationIndex = cursor.getColumnIndex("location");
+
+        Farm farm = new Farm();
+        farm.setId(cursor.getInt(idIndex));
+        farm.setName(cursor.getString(nameIndex));
+        farm.setLocation(cursor.getString(locationIndex));
+
+        return farm;
+    }
+
+    @Override
+    public Farm getFarmById(int id) {
+        String query = "SELECT * FROM " + FARM_TABLE +" WHERE name=?";
+
+        String[] args = new String[]{Integer.toString(id)};
         Cursor cursor= database.rawQuery(query, args);
         cursor.moveToFirst();
 

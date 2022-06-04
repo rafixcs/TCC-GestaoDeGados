@@ -1,6 +1,12 @@
 package com.udemy.cursoandroid.gestaogados.Model.AnimalRegister;
 
-public class AnimalRegister {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class AnimalRegister
+{
     private String id;
     private String name;
     private String age;
@@ -137,4 +143,24 @@ public class AnimalRegister {
     public void setLootId(int lootId) {
         this.lootId = lootId;
     }
+
+
+
+    /* @Override
+    public int describeContents()
+    {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i)
+    {
+        parcel.writeStringArray(new String[]{
+                id, name, age, birthdate, status, imgSource
+        });
+
+        parcel.writeIntArray(new int[]{
+                sequenceNumber, sex, type, race, lifePhase, farmId, lootId
+        });
+    }*/
 }

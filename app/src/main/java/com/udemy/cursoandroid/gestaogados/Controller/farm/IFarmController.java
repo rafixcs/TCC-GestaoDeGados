@@ -17,4 +17,6 @@ public interface IFarmController
     public LootCollection getFarmsLoots(int id);
     public List<Farm> getFarms();
     public Farm getFarmByName(String name);
+    public Farm getFarmById(int id);
+    public Loot getLootById(int id);
 }

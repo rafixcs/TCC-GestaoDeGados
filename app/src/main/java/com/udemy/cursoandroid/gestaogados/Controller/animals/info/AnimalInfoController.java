@@ -72,4 +72,13 @@ public class AnimalInfoController implements IAnimalInfoController
             //consultAnimalRegisterView.
         }
     }
+
+    @Override
+    public IInfoCommon getInfoById(InfoTypeEnum infoTypeEnum, int id)
+    {
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        IInfoDAO infoDAO = new InfoDAO(databaseAccess.getDb(), this);
+
+        return infoDAO.getById(infoTypeEnum, id);
+    }
 }

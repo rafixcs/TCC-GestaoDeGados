@@ -18,8 +18,10 @@ public class RegisterTaskFragment extends Fragment {
 
     public static RegisterTaskFragment newInstance(String param1, String param2) {
         RegisterTaskFragment fragment = new RegisterTaskFragment();
+
         Bundle args = new Bundle();
         fragment.setArguments(args);
+
         return fragment;
     }
 

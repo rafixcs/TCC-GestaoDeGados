@@ -4,6 +4,8 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -15,15 +17,19 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.udemy.cursoandroid.gestaogados.Controller.MainController;
+import com.udemy.cursoandroid.gestaogados.Controller.login.ILoginAccountController;
+import com.udemy.cursoandroid.gestaogados.Controller.login.LoginAccountController;
 import com.udemy.cursoandroid.gestaogados.Helper.NfcHelper;
 import com.udemy.cursoandroid.gestaogados.Model.Database.DatabaseAccess;
+import com.udemy.cursoandroid.gestaogados.Model.User.User;
 import com.udemy.cursoandroid.gestaogados.R;
 import com.udemy.cursoandroid.gestaogados.View.login.LoginActivity;
 import com.udemy.cursoandroid.gestaogados.View.main.consult.ConsultBovineFragment;
 import com.udemy.cursoandroid.gestaogados.View.main.register.RegisterBovineFragment;
 import com.udemy.cursoandroid.gestaogados.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -32,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private PendingIntent pendingIntent = null;
 
     private boolean mAlreadyInitialized = false;
+
+    private TextView logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,6 +68,17 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intentLogin);
+
+        logout = findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainController mainController = MainController.getInstance();
+                mainController.setCurrentUser(null);
+                Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intentLogin);
+            }
+        });
     }
 
     @Override
@@ -124,6 +143,17 @@ public class MainActivity extends AppCompatActivity {
             mAlreadyInitialized = true;
         }
 
+        MainController mainController = MainController.getInstance();
+        User user = mainController.getCurrentUser();
+
+        if (user != null)
+        {
+            TextView name = findViewById(R.id.nameNavDrawer);
+            TextView email = findViewById(R.id.emailNavDrawer);
+
+            name.setText(user.getName());
+            email.setText(user.getEmail());
+        }
     }
 
     @Override

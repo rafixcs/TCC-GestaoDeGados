@@ -61,4 +61,16 @@ public class LootCollection
 
         return -1;
     }
+
+    public List<Integer> getIdList()
+    {
+        List<Integer> ids = new ArrayList<>();
+
+        for (int i = 0; i< mLootCollection.size(); i++)
+        {
+            ids.add(mLootCollection.get(i).getId());
+        }
+
+        return ids;
+    }
 }

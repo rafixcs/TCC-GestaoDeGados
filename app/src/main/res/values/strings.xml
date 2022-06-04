@@ -10,7 +10,8 @@
     <string name="name_input">Name</string>
     <string name="email_input">Email</string>
     <string name="password_input">Password</string>
-    <string name="login_button">Login</string>
+    <string name="login_button">Log in</string>
+    <string name="logout_button">Log out</string>
     <string name="register_button">Register</string>
 
     <!--Register activity-->

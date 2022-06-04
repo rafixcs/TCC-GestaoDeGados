@@ -10,4 +10,5 @@ public interface IFarmDAO
     void delete(Farm farm);
     List<Farm> getFarms(User suer);
     Farm getFarmByName(String name);
+    Farm getFarmById(int id);
 }

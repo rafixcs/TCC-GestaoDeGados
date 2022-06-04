@@ -86,6 +86,28 @@ public class InfoDAO implements IInfoDAO
         }
     }
 
+    @Override
+    public IInfoCommon getById(InfoTypeEnum infoTypeEnum, int id)
+    {
+        IInfoCommon info = infoTypeEnum.getInfoObject();
+
+        String query = "SELECT * FROM " + infoTypeEnum.getTableName() +
+                " AS info WHERE " + info.getIdColumnName() + "=?";
+
+        String[] args = new String[]{Integer.toString(id)};
+
+        Cursor cursor= database.rawQuery(query, args);
+        cursor.moveToFirst();
+
+        int idIndex = cursor.getColumnIndex(info.getIdColumnName());
+        int nameTypeIndex = cursor.getColumnIndex(info.getNameTypeColumnName());
+
+        info.setId(cursor.getInt(idIndex));
+        info.setNameType(cursor.getString(nameTypeIndex));
+
+        return info;
+    }
+
     private List<IInfoCommon> getInfoList(IInfoCommon info, String table)
     {
         String query = "SELECT * FROM " + table;

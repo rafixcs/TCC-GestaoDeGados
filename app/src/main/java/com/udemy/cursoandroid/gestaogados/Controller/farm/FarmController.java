@@ -22,8 +22,8 @@ import com.udemy.cursoandroid.gestaogados.View.main.register.IRegisterBovineView
 import java.util.ArrayList;
 import java.util.List;
 
-public class FarmController implements IFarmController{
-
+public class FarmController implements IFarmController
+{
     ICommonView mView;
     DatabaseAccess databaseAccess;
     IFarmDAO farmDAO;
@@ -99,5 +99,18 @@ public class FarmController implements IFarmController{
         Farm farm = farmDAO.getFarmByName(name);
 
         return farm;
+    }
+
+    @Override
+    public Farm getFarmById(int id)
+    {
+        return farmDAO.getFarmById(id);
+    }
+
+    @Override
+    public Loot getLootById(int id)
+    {
+        LootDAO lootDao = new LootDAO(databaseAccess.getDb(), this);
+        return lootDao.getById(id);
     }
 }

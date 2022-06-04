@@ -26,6 +26,10 @@ public class LootDAO implements ILootDAO
         this.controller = controller;
     }
 
+    public LootDAO(SQLiteDatabase database) {
+        this.database = database;
+    }
+
     @Override
     public void save(Farm farm, Loot loot)
     {
@@ -87,6 +91,27 @@ public class LootDAO implements ILootDAO
         }
 
         return new LootCollection(lootList);
+    }
+
+    @Override
+    public Loot getById(int id)
+    {
+        String query = "SELECT * FROM " + LOOT_TABLE + " WHERE id_loot=?";
+
+        String[] args = new String[]{Integer.toString(id)};
+
+        Cursor cursor= database.rawQuery(query, args);
+        cursor.moveToFirst();
+
+        int idIndex = cursor.getColumnIndex("id_loot");
+        int nameIndex = cursor.getColumnIndex("name");
+
+        Loot loot = new Loot();
+        loot.setId(cursor.getInt(idIndex));
+        loot.setName(cursor.getString(nameIndex));
+        Log.d("DatabaseLoot", "loot: " + loot.getName());
+
+        return loot;
     }
 
     @Override

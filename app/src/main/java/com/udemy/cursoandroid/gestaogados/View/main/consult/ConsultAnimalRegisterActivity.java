@@ -121,6 +121,8 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
 
     private void updateRegister()
     {
+        // TODO: refactor animal update
+
         String name = mName.getText().toString();
         String birthdate = mDate.getText().toString();
         int sex = (int) mSpinnerSex.getSelectedItemId();
@@ -235,16 +237,19 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
 
         popupBtnRegisterVaccine.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 Intent intent = new Intent(getApplicationContext(), RegisterTaskActivity.class);
                 intent.putExtra("taskType", 1);
+                intent.putExtra("animalRegister", animalRegister.getId());
                 startActivity(intent);
             }
         });
 
         popupBtnRegisterTask.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 Intent intent = new Intent(getApplicationContext(), RegisterTaskActivity.class);
                 intent.putExtra("taskType", 0);
                 startActivity(intent);
