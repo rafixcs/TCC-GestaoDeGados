@@ -32,11 +32,11 @@ public class SexType implements IInfoCommon
 
     @Override
     public String getNameTypeColumnName() {
-        return "id_sex";
+        return "sex_type";
     }
 
     @Override
     public String getIdColumnName() {
-        return "sex_type";
+        return "id_sex";
     }
 }

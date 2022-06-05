@@ -63,4 +63,10 @@
     <string name="register_new_farm">Register new farm</string>
     <string name="manage_farm">Manage Farm</string>
     <string name="consult">Consult</string>
+    <string name="vaccine_consult">Vaccine</string>
+    <string name="empty_vaccine_list">No vaccines registered</string>
+    <string name="vaccine_done">Done</string>
+
+    <string name="vaccine_title_consult">Update Vaccine</string>
+    <string name="empty_animals_list">No animals registered</string>
 </resources>

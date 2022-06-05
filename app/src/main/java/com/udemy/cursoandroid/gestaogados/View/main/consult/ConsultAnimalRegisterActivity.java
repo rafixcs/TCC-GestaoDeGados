@@ -1,10 +1,13 @@
 package com.udemy.cursoandroid.gestaogados.View.main.consult;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,10 +29,8 @@ import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmCollection;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.LootCollection;
 import com.udemy.cursoandroid.gestaogados.R;
-import com.udemy.cursoandroid.gestaogados.View.task.RegisterTaskActivity;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.udemy.cursoandroid.gestaogados.View.task.ConsultRegisterTaskActivity;
+import com.udemy.cursoandroid.gestaogados.View.task.RegisterTaskTypeEnum;
 
 public class ConsultAnimalRegisterActivity extends AppCompatActivity implements IConsultAnimalRegisterView {
 
@@ -239,8 +240,9 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
             @Override
             public void onClick(View view)
             {
-                Intent intent = new Intent(getApplicationContext(), RegisterTaskActivity.class);
-                intent.putExtra("taskType", 1);
+                Intent intent = new Intent(getApplicationContext(), ConsultRegisterTaskActivity.class);
+                intent.putExtra("taskType", RegisterTaskTypeEnum.VACCINE_TASK.ordinal());
+                intent.putExtra("taskId", -1);
                 intent.putExtra("animalRegister", animalRegister.getId());
                 startActivity(intent);
             }
@@ -250,8 +252,9 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
             @Override
             public void onClick(View view)
             {
-                Intent intent = new Intent(getApplicationContext(), RegisterTaskActivity.class);
-                intent.putExtra("taskType", 0);
+                Intent intent = new Intent(getApplicationContext(), ConsultRegisterTaskActivity.class);
+                intent.putExtra("taskType", RegisterTaskTypeEnum.GENERIC_TASK.ordinal());
+                intent.putExtra("taskId", -1);
                 startActivity(intent);
             }
         });
@@ -264,5 +267,32 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
     @Override
     public void setSaveResult(boolean result) {
         // empty
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.consult_animal_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case R.id.vaccineConsultAction:
+                onVaccineConsult();
+                break;
+            default: break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void onVaccineConsult()
+    {
+        Intent intent = new Intent(getApplicationContext(), ConsultAnimalVaccineActivity.class);
+        intent.putExtra("animalRegisterId", animalRegister.getId());
+        startActivity(intent);
     }
 }

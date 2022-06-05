@@ -78,7 +78,7 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
         int nameIndex = cursor.getColumnIndex("name");
         int statusIndex = cursor.getColumnIndex("status");
         int ageIndex = cursor.getColumnIndex("age");
-        int birthDateIndex = cursor.getColumnIndex("data_nascimento");
+        int birthDateIndex = cursor.getColumnIndex("birth_date");
         int imgSrcIndex = cursor.getColumnIndex("img_src");
 
         int fkRaceIndex = cursor.getColumnIndex("FK_id_race");
@@ -159,7 +159,7 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
             int nameIndex = cursor.getColumnIndex("name");
             int statusIndex = cursor.getColumnIndex("status");
             int ageIndex = cursor.getColumnIndex("age");
-            int birthDateIndex = cursor.getColumnIndex("data_nascimento");
+            int birthDateIndex = cursor.getColumnIndex("birth_date");
             int imgSrcIndex = cursor.getColumnIndex("img_src");
 
             int fkRaceIndex = cursor.getColumnIndex("FK_id_race");
@@ -203,7 +203,7 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
         cv.put("name", animal.getName());
         cv.put("status", animal.getName());
         cv.put("age", animal.getAge());
-        cv.put("data_nascimento", animal.getBirthdate()); //TODO: refactor column name
+        cv.put("birth_date", animal.getBirthdate());
         cv.put("img_src", "generic");
         cv.put("FK_id_race", animal.getRace());
         cv.put("FK_id_type", animal.getType());
@@ -283,9 +283,12 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
     {
         String query = "SELECT animal.sequence_number FROM " + ANIMAL_TABLE + " AS animal INNER JOIN "
                 + LINK_ANIMAL_TABLE + " AS linkt ON animal.id_animal=linkt.id_animal " +
-                "WHERE linkt.id_loot=? ORDER BY animal.sequence_number DESC LIMIT 1";
+                "WHERE linkt.id_loot IN " +
+                "(SELECT lfarm.id_loot FROM " + LINK_FARM_LOOT_TABLE +
+                " AS lfarm WHERE lfarm.id_farm = ?) " +
+                "ORDER BY animal.sequence_number DESC LIMIT 1";
 
-        String[] args = new String[]{Integer.toString(animalRegister.getLootId())};
+        String[] args = new String[]{Integer.toString(animalRegister.getFarmId())};
 
         int value = 0;
 

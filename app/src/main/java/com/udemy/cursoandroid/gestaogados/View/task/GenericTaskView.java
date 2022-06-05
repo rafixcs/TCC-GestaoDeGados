@@ -33,7 +33,17 @@ public class GenericTaskView implements ITaskView, View.OnClickListener
     }
 
     @Override
-    public void setSaveRegisterResult(boolean result)
+    public void onClick(View view)
+    {
+        String name = mName.getText().toString();
+        String description = mDescription.getText().toString();
+
+        IGenericTaskController controller = new GenericTaskController(this);
+        controller.saveGenericTask(name, description);
+    }
+
+    @Override
+    public void setSaveResult(boolean result)
     {
         if (result)
         {
@@ -43,15 +53,5 @@ public class GenericTaskView implements ITaskView, View.OnClickListener
         {
             ToastMessageHelper.SetToastMessageAndShow("Failed", parentActivity.getApplicationContext());
         }
-    }
-
-    @Override
-    public void onClick(View view)
-    {
-        String name = mName.getText().toString();
-        String description = mDescription.getText().toString();
-
-        IGenericTaskController controller = new GenericTaskController(this);
-        controller.saveGenericTask(name, description);
     }
 }

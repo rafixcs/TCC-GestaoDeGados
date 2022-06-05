@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.task.RegisterTaskActivity">
+    tools:context=".View.task.ConsultRegisterTaskActivity">
 
     <ViewStub
         android:id="@+id/layout_register_task_stub"

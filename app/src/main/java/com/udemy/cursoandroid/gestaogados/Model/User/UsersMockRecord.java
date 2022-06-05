@@ -39,7 +39,6 @@ public class UsersMockRecord {
 
     public void addUser(User user) {
 
-        //TODO: refactor adding a new user
         for (int i=0; i<this.listUsers.size(); i++)
         {
             if (this.listUsers.get(i).equals(user))

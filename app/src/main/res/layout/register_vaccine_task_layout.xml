@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintTop_toBottomOf="@+id/registerConsultVaccineTitle" />
 
     <EditText
         android:id="@+id/dateVaccineTask"
@@ -53,7 +53,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/registerConsultVaccineTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
@@ -62,6 +62,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkBoxDoneVaccine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/vaccine_done"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/saveVaccineTask"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionVaccineTask" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

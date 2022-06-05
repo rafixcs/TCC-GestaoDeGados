@@ -38,9 +38,6 @@ import java.util.UUID;
 
 import com.udemy.cursoandroid.gestaogados.databinding.FragmentRegisterBovineBinding;
 
-
-//TODO: implement activity to register animal attributes and save to the database
-
 public class RegisterBovineFragment extends Fragment  implements  IRegisterBovineView
 {
 

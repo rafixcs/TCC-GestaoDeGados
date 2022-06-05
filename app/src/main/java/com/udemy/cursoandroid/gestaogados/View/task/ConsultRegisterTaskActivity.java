@@ -11,7 +11,7 @@ import com.udemy.cursoandroid.gestaogados.Helper.ToastMessageHelper;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
 import com.udemy.cursoandroid.gestaogados.R;
 
-public class RegisterTaskActivity extends AppCompatActivity {
+public class ConsultRegisterTaskActivity extends AppCompatActivity {
 
     private ViewStub stubLayout;
     private View layoutView;
@@ -25,21 +25,22 @@ public class RegisterTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register_task);
 
         int taskType = getIntent().getExtras().getInt("taskType");
+        Integer idTask = getIntent().getExtras().getInt("taskId");
 
         stubLayout = findViewById(R.id.layout_register_task_stub);
 
-        if (taskType == 0) // generic task
+        if (taskType == RegisterTaskTypeEnum.GENERIC_TASK.ordinal())
         {
             stubLayout.setLayoutResource(R.layout.register_generic_task_layout);
             layoutView = stubLayout.inflate();
             genericTaskView = new GenericTaskView(this);
         }
-        else if (taskType == 1) // vaccine task
+        else if (taskType == RegisterTaskTypeEnum.VACCINE_TASK.ordinal())
         {
             stubLayout.setLayoutResource(R.layout.register_vaccine_task_layout);
             layoutView = stubLayout.inflate();
             String animalRegisterId = getIntent().getExtras().getString("animalRegister");
-            vaccineTaskView = new VaccineTaskView(this, animalRegisterId);
+            vaccineTaskView = new VaccineTaskView(this, animalRegisterId, idTask);
         }
     }
 }

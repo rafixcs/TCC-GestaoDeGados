@@ -10,8 +10,6 @@ import com.udemy.cursoandroid.gestaogados.Model.User.UserDAO;
 import com.udemy.cursoandroid.gestaogados.Model.User.UsersMockRecord;
 import com.udemy.cursoandroid.gestaogados.View.login.ILoginView;
 
-//TODO: refactoring needed when database is implemented
-
 public class LoginAccountController implements ILoginAccountController
 {
 
@@ -28,18 +26,11 @@ public class LoginAccountController implements ILoginAccountController
     public void validateLogin(String email, String password)
     {
 
-        /**UsersMockRecord mockRecord = UsersMockRecord.getInstance(this);
-        mockRecord.loginUser(email, password);*/
-
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
 
         IUserDAO userDAO = new UserDAO(databaseAccess.getDb(), this);
         userDAO.getAccount(email, password);
-
-        //databaseAccess.close();
-
-
     }
 
     @Override

@@ -56,14 +56,14 @@ public class LoginActivity extends AppCompatActivity implements ILoginView
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginAccountController.validateLogin(
+                /*loginAccountController.validateLogin(
                         mEmail.getText().toString(),
                         mPassword.getText().toString()
-                );
-                /*loginAccountController.validateLogin(
+                );*/
+                loginAccountController.validateLogin(
                         "rafael.camargo.rs@gmail.com",
                         "123"
-                );*/
+                );
                 /*loginAccountController.validateLogin(
                         "rafael@teste",
                         "321"

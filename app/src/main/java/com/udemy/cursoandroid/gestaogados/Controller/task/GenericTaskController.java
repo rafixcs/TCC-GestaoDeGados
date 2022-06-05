@@ -22,6 +22,6 @@ public class GenericTaskController implements IGenericTaskController
 
     @Override
     public void setSavedTaskResult(boolean result) {
-        taskView.setSaveRegisterResult(result);
+        taskView.setSaveResult(result);
     }
 }

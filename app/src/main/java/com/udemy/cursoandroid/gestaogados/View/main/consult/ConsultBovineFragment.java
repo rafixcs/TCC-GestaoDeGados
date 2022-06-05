@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.udemy.cursoandroid.gestaogados.Controller.animals.consult.ConsultAnimalController;
 import com.udemy.cursoandroid.gestaogados.Controller.animals.consult.IConsultAnimalController;
@@ -30,9 +31,6 @@ import com.udemy.cursoandroid.gestaogados.databinding.FragmentConsultBovineBindi
 
 import java.util.List;
 
-
-//TODO: add a list view for consulting without the tag
-
 public class ConsultBovineFragment extends Fragment implements IConsultAnimalRegisterView {
 
     private FragmentConsultBovineBinding binding;
@@ -41,6 +39,8 @@ public class ConsultBovineFragment extends Fragment implements IConsultAnimalReg
     private RecyclerView recyclerView;
     private List<AnimalRegister> animalRegisterList;
 
+    TextView emptyListText;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -48,6 +48,7 @@ public class ConsultBovineFragment extends Fragment implements IConsultAnimalReg
         binding = FragmentConsultBovineBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        emptyListText = root.findViewById(R.id.emptyAnimalsListText);
         recyclerView = root.findViewById(R.id.recyclerViewConsultAnimalFragment);
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(
                 getContext(),
@@ -84,6 +85,15 @@ public class ConsultBovineFragment extends Fragment implements IConsultAnimalReg
 
     private void reloadAnimalsRegisterList()
     {
+        if (animalRegisterList.isEmpty())
+        {
+            emptyListText.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            emptyListText.setVisibility(View.GONE);
+        }
+
         // Configure adapter
         AnimalRegisterAdapter animalRegisterAdapter =
                 new AnimalRegisterAdapter(animalRegisterList, animalInfoController);

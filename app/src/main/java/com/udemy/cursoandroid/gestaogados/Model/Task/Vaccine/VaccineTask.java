@@ -6,11 +6,15 @@ public class VaccineTask {
     private String name;
     private String date;
     private String oDescription;
+    private boolean done;
 
     public VaccineTask(String name, String date, String oDescription) {
         this.name = name;
         this.date = date;
         this.oDescription = oDescription;
+    }
+
+    public VaccineTask() {
     }
 
     public int getId() {
@@ -37,11 +41,19 @@ public class VaccineTask {
         this.date = date;
     }
 
-    public String getoDescription() {
+    public String getDescription() {
         return oDescription;
     }
 
-    public void setoDescription(String oDescription) {
+    public void setDescription(String oDescription) {
         this.oDescription = oDescription;
+    }
+
+    public boolean getIsDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
     }
 }
