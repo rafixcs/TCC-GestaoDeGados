@@ -1,13 +1,12 @@
 package com.udemy.cursoandroid.gestaogados.Controller.task;
 
 import android.content.Context;
-import android.provider.ContactsContract;
 
 import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
 import com.udemy.cursoandroid.gestaogados.Model.Database.DatabaseAccess;
+import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmCollection;
 import com.udemy.cursoandroid.gestaogados.Model.Task.Vaccine.IVaccineDAO;
 import com.udemy.cursoandroid.gestaogados.Model.Task.Vaccine.VaccineDAO;
-import com.udemy.cursoandroid.gestaogados.Model.Task.Vaccine.VaccineMockRegister;
 import com.udemy.cursoandroid.gestaogados.Model.Task.Vaccine.VaccineTask;
 import com.udemy.cursoandroid.gestaogados.View.task.ITaskView;
 
@@ -44,6 +43,12 @@ public class VaccineTaskController implements IVaccineTaskController
     public List<VaccineTask> getAnimalVaccines(String animalId)
     {
         return vaccineDAO.getAnimalVaccines(animalId);
+    }
+
+    @Override
+    public List<VaccineTask> getLatestVaccines(FarmCollection farmCollection, int maxItemsQuantity)
+    {
+        return vaccineDAO.getLatestVaccines(farmCollection, maxItemsQuantity);
     }
 
     @Override

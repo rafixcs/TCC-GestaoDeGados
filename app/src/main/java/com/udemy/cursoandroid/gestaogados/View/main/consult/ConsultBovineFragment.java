@@ -39,7 +39,7 @@ public class ConsultBovineFragment extends Fragment implements IConsultAnimalReg
     private RecyclerView recyclerView;
     private List<AnimalRegister> animalRegisterList;
 
-    TextView emptyListText;
+    private TextView emptyListText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,8 +72,7 @@ public class ConsultBovineFragment extends Fragment implements IConsultAnimalReg
 
                     }
                 }
-        ) {
-        });
+        ));
 
 
         animalInfoController = new AnimalInfoController(this, getContext());

@@ -7,6 +7,10 @@ import android.util.Log;
 
 import com.udemy.cursoandroid.gestaogados.Controller.task.ITaskCommonController;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
+import com.udemy.cursoandroid.gestaogados.Model.Farm.Farm;
+import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmCollection;
+import com.udemy.cursoandroid.gestaogados.Model.Farm.Loot;
+import com.udemy.cursoandroid.gestaogados.Model.User.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +18,10 @@ import java.util.List;
 public class VaccineDAO implements IVaccineDAO
 {
     private final String VACCINE_TABLE = "app_vaccine";
+    private final String ANIMALS_TABLE = "app_animals";
     private final String LINK_VACCINE_ANIMAL_TABLE = "app_link_animal_vaccine";
+    private final String LINK_FARM_LOOT_TABLE = "app_link_farm_loot";
+    private final String LINK_LOOT_ANIMAL_TABLE = "app_link_loot_animals";
 
 
     private SQLiteDatabase database;
@@ -160,6 +167,59 @@ public class VaccineDAO implements IVaccineDAO
                 vaccineTaskList.add(vaccineTask);
 
             } while (cursor.moveToNext());
+        }
+
+        return vaccineTaskList;
+    }
+
+    @Override
+    public List<VaccineTask> getLatestVaccines(FarmCollection farmCollection, int maxQuantity)
+    {
+        List<VaccineTask> vaccineTaskList = new ArrayList<>();
+
+        // TODO: refactoring needed to long query
+        for (Farm farm: farmCollection.getFarmCollection())
+        {
+            for (Loot loot: farm.getFarmLoots().getCollection())
+            {
+                String subQuery = " (SELECT animals.id_animal FROM " + ANIMALS_TABLE +
+                        " AS animals INNER JOIN " + LINK_LOOT_ANIMAL_TABLE + " AS lLoot ON" +
+                        " lLoot.id_animal=animals.id_animal WHERE lLoot.id_loot=?)";
+
+                String query = "SELECT * FROM " + VACCINE_TABLE + " AS vaccine" +
+                        " INNER JOIN " + LINK_VACCINE_ANIMAL_TABLE + " AS linkt ON" +
+                        " linkt.id_vaccine=vaccine.id_vaccine WHERE linkt.id_animal IN" + subQuery +
+                        " AND vaccine.done=0 ORDER BY vaccine.date DESC LIMIT " + maxQuantity;
+
+                String[] args = new String[]{Integer.toString(loot.getId())};
+
+                Cursor cursor= database.rawQuery(query, args);
+                cursor.moveToFirst();
+
+                int idIndex = cursor.getColumnIndex("id_vaccine");
+                int nameIndex = cursor.getColumnIndex("name");
+                int dateIndex = cursor.getColumnIndex("date");
+                int descriptionIndex = cursor.getColumnIndex("description");
+                int doneIndex = cursor.getColumnIndex("done");
+
+
+                if (cursor.getCount() > 0)
+                {
+                    do
+                    {
+                        VaccineTask vaccineTask = new VaccineTask();
+                        vaccineTask.setId(cursor.getInt(idIndex));
+                        vaccineTask.setName(cursor.getString(nameIndex));
+                        vaccineTask.setDate(cursor.getString(dateIndex));
+                        vaccineTask.setDescription(cursor.getString(descriptionIndex));
+                        boolean isDone = cursor.getInt(doneIndex) == 1;
+                        vaccineTask.setDone(isDone);
+
+                        vaccineTaskList.add(vaccineTask);
+
+                    } while (cursor.moveToNext());
+                }
+            }
         }
 
         return vaccineTaskList;

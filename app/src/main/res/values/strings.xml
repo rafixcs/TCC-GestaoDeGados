@@ -69,4 +69,7 @@
 
     <string name="vaccine_title_consult">Update Vaccine</string>
     <string name="empty_animals_list">No animals registered</string>
+    <string name="animals">Animals</string>
+    <string name="next_vaccines">Next Vaccines</string>
+    <string name="active_animals">Avtive Animals</string>
 </resources>

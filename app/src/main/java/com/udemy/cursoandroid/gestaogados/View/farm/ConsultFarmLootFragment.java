@@ -37,7 +37,6 @@ public class ConsultFarmLootFragment extends Fragment implements ICommonView {
     private String mLootQuantity;
 
     private IFarmController mFarmController;
-
     private FarmCollection mFarmCollection;
 
     @Override

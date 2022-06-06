@@ -23,7 +23,7 @@
         android:id="@+id/emptyVaccineListText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/empty_animals_list"
+        android:text="@string/empty_vaccine_list"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

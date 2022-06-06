@@ -16,10 +16,17 @@ import java.util.List;
 public class VaccineRegisterAdapter extends RecyclerView.Adapter<VaccineRegisterAdapter.MyViewHolder>
 {
     private List<VaccineTask> vaccineTaskList;
+    private Integer maxQuantity;
 
     public VaccineRegisterAdapter(List<VaccineTask> vaccineTaskList)
     {
         this.vaccineTaskList = vaccineTaskList;
+        this.maxQuantity = null;
+    }
+
+    public VaccineRegisterAdapter(List<VaccineTask> vaccineTaskList, Integer maxQuantity) {
+        this.vaccineTaskList = vaccineTaskList;
+        this.maxQuantity = maxQuantity;
     }
 
     @NonNull
@@ -43,6 +50,11 @@ public class VaccineRegisterAdapter extends RecyclerView.Adapter<VaccineRegister
     @Override
     public int getItemCount()
     {
+        if (maxQuantity != null && maxQuantity < vaccineTaskList.size())
+        {
+            return maxQuantity;
+        }
+
         return vaccineTaskList.size();
     }
 

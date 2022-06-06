@@ -1,5 +1,7 @@
 package com.udemy.cursoandroid.gestaogados.Model.Farm;
 
+import com.udemy.cursoandroid.gestaogados.Controller.farm.IFarmController;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +51,15 @@ public class FarmCollection
         }
 
         return -1;
+    }
+
+    public void setLootCollectionToFarm(IFarmController farmController)
+    {
+        for(Farm farm: farmCollection)
+        {
+            farm.setFarmLoots(farmController.getFarmsLoots(farm.getId()));
+        }
+
     }
 
 }
