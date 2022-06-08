@@ -98,7 +98,6 @@ public class GenericTaskDAO implements IGenericTaskDAO
         }
     }
 
-    // TODO: ...
     @Override
     public GenericTask get(int id)
     {
