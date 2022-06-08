@@ -72,4 +72,8 @@
     <string name="animals">Animals</string>
     <string name="next_vaccines">Next Vaccines</string>
     <string name="active_animals">Avtive Animals</string>
+    <string name="vaccine_list">Vaccine List</string>
+    <string name="task_list">Task List</string>
+    <string name="empty_task_list">No tasks registered</string>
+    <string name="task_consult">Task Consult</string>
 </resources>

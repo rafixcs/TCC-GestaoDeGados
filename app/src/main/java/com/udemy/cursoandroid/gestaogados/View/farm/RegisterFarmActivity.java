@@ -2,6 +2,7 @@ package com.udemy.cursoandroid.gestaogados.View.farm;
 
 import static com.udemy.cursoandroid.gestaogados.Helper.ToastMessageHelper.SetToastMessageAndShow;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
@@ -13,6 +14,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -23,6 +26,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.udemy.cursoandroid.gestaogados.Controller.farm.FarmController;
 import com.udemy.cursoandroid.gestaogados.Controller.farm.IFarmController;
 import com.udemy.cursoandroid.gestaogados.Helper.RecyclerItemClickListener;
+import com.udemy.cursoandroid.gestaogados.Helper.ToastMessageHelper;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.Farm;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.Loot;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.LootCollection;
@@ -190,5 +194,34 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
         {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.consult_farm_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+
+        switch (item.getItemId())
+        {
+            case R.id.taskFarmConsult:
+                openConsultTasks();
+                break;
+            default: break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void openConsultTasks()
+    {
+        Intent intent = new Intent(getApplicationContext(), ConsultFarmTaskActivity.class);
+        intent.putExtra("farmId", consultFarm.getId());
+        startActivity(intent);
     }
 }

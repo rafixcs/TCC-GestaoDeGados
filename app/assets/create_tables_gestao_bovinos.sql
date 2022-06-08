@@ -6,11 +6,12 @@ CREATE TABLE app_animal_life_phase (
 CREATE TABLE app_farm (
  id_farm INT NOT NULL PRIMARY KEY,
  name VARCHAR(50) NOT NULL,
- extension VARCHAR(20)
+ location VARCHAR(20)
 );
 
 CREATE TABLE app_loot (
- id_loot INT NOT NULL PRIMARY KEY
+ id_loot INT NOT NULL PRIMARY KEY,
+ name VARCHAR(10) NOT NULL
 );
 
 CREATE TABLE app_link_farm_loot (
@@ -23,7 +24,7 @@ CREATE TABLE app_link_farm_loot (
 
 CREATE TABLE app_producer (
  id_producer CHAR(128) NOT NULL PRIMARY KEY,
- name VARCHAR(50) NOT NULL,
+ name VARCHAR(30) NOT NULL,
  email VARCHAR(50) NOT NULL,
  password CHAR(12) NOT NULL
 );
@@ -36,14 +37,15 @@ CREATE TABLE app_animal_race (
 CREATE TABLE app_tasks (
  id_task INT NOT NULL PRIMARY KEY,
  task_name VARCHAR(50) NOT NULL,
- description VARCHAR(120)
+ description VARCHAR(120),
+ done INT DEFAULT 0 NOT NULL
 );
 
-CREATE TABLE app_link_loot_task (
- id_loot INT NOT NULL,
+CREATE TABLE app_link_farm_task (
+ id_farm INT NOT NULL,
  id_task INT NOT NULL,
- PRIMARY KEY (id_loot, id_task),
- FOREIGN KEY(id_loot) REFERENCES app_loot(id_loot)
+ PRIMARY KEY (id_farm, id_task),
+ FOREIGN KEY(id_farm) REFERENCES app_farm(id_farm)
  FOREIGN KEY(id_task) REFERENCES app_tasks(id_task)
 );
 
@@ -56,21 +58,21 @@ CREATE TABLE app_vaccine (
  id_vaccine CHAR(128) NOT NULL PRIMARY KEY,
  date DATE NOT NULL,
  name VARCHAR(50) NOT NULL,
- description VARCHAR(120)
+ description VARCHAR(120),
+ done INT DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE app_animal_sex_type (
     id_sex INT NOT NULL PRIMARY KEY,
-    sex_type CHAR(10) NO NULL
+    sex_type CHAR(10) NOT NULL
 );
 
 CREATE TABLE app_animals (
  id_animal CHAR(128) NOT NULL PRIMARY KEY,
  sequence_number INT NOT NULL,
  name CHAR(50),
- status VARCHAR(20) NOT NULL,
  age INT,
- data_nascimento DATE,
+ birth_date DATE,
  img_src VARCHAR(100)
 );
 
@@ -123,3 +125,4 @@ INSERT INTO app_animal_type VALUES (1, 'GADO LEITEIRO');
 INSERT INTO app_animal_life_phase VALUES (0, 'CRIA');
 INSERT INTO app_animal_life_phase VALUES (1, 'RECRIA (DESENVOLVIMENTO)');
 INSERT INTO app_animal_life_phase VALUES (2, 'ENGORDA (TERMINAÇÃO)');
+

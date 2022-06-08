@@ -1,4 +1,4 @@
-package com.udemy.cursoandroid.gestaogados.View.main.consult;
+package com.udemy.cursoandroid.gestaogados.View.task;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,9 +42,12 @@ public class VaccineRegisterAdapter extends RecyclerView.Adapter<VaccineRegister
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
     {
+        String isDone = vaccineTaskList.get(position).getIsDone() ? "done" : "todo";
+
+
         holder.name.setText(vaccineTaskList.get(position).getName());
         holder.date.setText(vaccineTaskList.get(position).getDate());
-        holder.done.setText(Boolean.toString(vaccineTaskList.get(position).getIsDone()));
+        holder.done.setText(isDone);
     }
 
     @Override

@@ -125,10 +125,10 @@
         android:layout_height="wrap_content"
         android:text="@string/empty_vaccine_list"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerViewVaccineHome"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerViewVaccineHome"
+        app:layout_constraintStart_toStartOf="@+id/recyclerViewVaccineHome"
+        app:layout_constraintTop_toTopOf="@+id/recyclerViewVaccineHome" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

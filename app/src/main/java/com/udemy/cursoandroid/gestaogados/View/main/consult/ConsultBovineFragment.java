@@ -77,13 +77,13 @@ public class ConsultBovineFragment extends Fragment implements IConsultAnimalReg
 
         animalInfoController = new AnimalInfoController(this, getContext());
         consultAnimalController = new ConsultAnimalController(this, getContext());
-        animalRegisterList = consultAnimalController.getAnimalsRegisters();
 
         return root;
     }
 
     private void reloadAnimalsRegisterList()
     {
+        animalRegisterList = consultAnimalController.getAnimalsRegisters();
         if (animalRegisterList.isEmpty())
         {
             emptyListText.setVisibility(View.VISIBLE);

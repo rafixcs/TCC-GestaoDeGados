@@ -39,11 +39,13 @@ public class RegisterAnimalController implements IRegisterAnimalController {
     @Override
     public void addNewRegister(AnimalRegister animal)
     {
-        //AnimalsRecords records = AnimalsRecords.getsInstance(this);
-        //records.addAnimalRecord(animal);
-
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
         AnimalRegisterDAO animalDAO = new AnimalRegisterDAO(databaseAccess.getDb(), this);
         animalDAO.save(animal);
+    }
+
+    @Override
+    public void setSaveResult(boolean result) {
+
     }
 }

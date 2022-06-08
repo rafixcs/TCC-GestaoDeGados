@@ -20,7 +20,8 @@ public class ConsultRegisterTaskActivity extends AppCompatActivity {
     private GenericTaskView genericTaskView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_task);
 
@@ -31,9 +32,12 @@ public class ConsultRegisterTaskActivity extends AppCompatActivity {
 
         if (taskType == RegisterTaskTypeEnum.GENERIC_TASK.ordinal())
         {
+            boolean isForFarm = getIntent().getExtras().getBoolean("isForFarm");
+            String linkId = getIntent().getExtras().getString("linkId");
+
             stubLayout.setLayoutResource(R.layout.register_generic_task_layout);
             layoutView = stubLayout.inflate();
-            genericTaskView = new GenericTaskView(this);
+            genericTaskView = new GenericTaskView(this, linkId, isForFarm, idTask);
         }
         else if (taskType == RegisterTaskTypeEnum.VACCINE_TASK.ordinal())
         {

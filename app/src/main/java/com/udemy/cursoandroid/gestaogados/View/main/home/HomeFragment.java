@@ -23,12 +23,13 @@ import com.udemy.cursoandroid.gestaogados.Controller.task.IVaccineTaskController
 import com.udemy.cursoandroid.gestaogados.Controller.task.VaccineTaskController;
 import com.udemy.cursoandroid.gestaogados.Helper.RecyclerItemClickListener;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
+import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegisterStatusEnum;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmCollection;
 import com.udemy.cursoandroid.gestaogados.Model.Task.Vaccine.VaccineTask;
 import com.udemy.cursoandroid.gestaogados.R;
 import com.udemy.cursoandroid.gestaogados.View.ICommonView;
 import com.udemy.cursoandroid.gestaogados.View.main.consult.IConsultAnimalRegisterView;
-import com.udemy.cursoandroid.gestaogados.View.main.consult.VaccineRegisterAdapter;
+import com.udemy.cursoandroid.gestaogados.View.task.VaccineRegisterAdapter;
 import com.udemy.cursoandroid.gestaogados.View.task.ITaskView;
 import com.udemy.cursoandroid.gestaogados.databinding.FragmentHomeBinding;
 
@@ -44,6 +45,7 @@ public class HomeFragment extends Fragment implements ICommonView, ITaskView, IC
     private TextView mLootQuantityView;
     private TextView mAnimalsQuantityView;
     private TextView mEmptyListText;
+    private TextView mActiveAnimalsText;
 
     private IFarmController mFarmController;
     private FarmCollection mFarmCollection;
@@ -68,6 +70,7 @@ public class HomeFragment extends Fragment implements ICommonView, ITaskView, IC
         mFarmQuantityView = root.findViewById(R.id.farmQuantityHome);
         mLootQuantityView = root.findViewById(R.id.lootQuantityHome);
         mAnimalsQuantityView = root.findViewById(R.id.animalsQuantityHome);
+        mActiveAnimalsText = root.findViewById(R.id.activeAnimalsHome);
         mRecyclerView = root.findViewById(R.id.recyclerViewVaccineHome);
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(
                 getContext(),
@@ -132,7 +135,27 @@ public class HomeFragment extends Fragment implements ICommonView, ITaskView, IC
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayout.VERTICAL));
         mRecyclerView.setAdapter(vaccineRegisterAdapter);
+    }
 
+    private void reloadActiveAnimals()
+    {
+        int activeAnimals = getActiveAnimalQuantity();
+        mActiveAnimalsText.setText(Integer.toString(activeAnimals));
+    }
+
+    private int getActiveAnimalQuantity()
+    {
+        int count = 0;
+
+        for(AnimalRegister animal: mAnimalRegisterList)
+        {
+            if (animal.getStatus() == AnimalRegisterStatusEnum.ACTIVE)
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
 
     @Override
@@ -142,6 +165,7 @@ public class HomeFragment extends Fragment implements ICommonView, ITaskView, IC
         if (mainController.getCurrentUser() != null)
         {
             reloadRecyclerView();
+            reloadActiveAnimals();
         }
     }
 

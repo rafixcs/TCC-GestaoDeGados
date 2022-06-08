@@ -42,6 +42,7 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
                 try
                 {
                     animal.setSequenceNumber(getNextSequenceNumber(animal));
+                    animal.setStatus(AnimalRegisterStatusEnum.ACTIVE);
                     saveAnimal(animal);
                     controller.Result(animal);
                     return;
@@ -90,7 +91,7 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
         animal.setId(cursor.getString(idIndex));
         animal.setSequenceNumber(cursor.getInt(sequenceNumberIndex));
         animal.setName(cursor.getString(nameIndex));
-        animal.setStatus(cursor.getString(statusIndex));
+        animal.setStatus(AnimalRegisterStatusEnum.fromString(cursor.getString(statusIndex)));
         animal.setAge(cursor.getString(ageIndex));
         animal.setBirthdate(cursor.getString(birthDateIndex));
         animal.setImgSource(cursor.getString(imgSrcIndex));
@@ -119,6 +120,39 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
         catch (Exception e)
         {
             Log.e("DatabaseDelete", "Failed to delete animal");
+        }
+    }
+
+    @Override
+    public void update(AnimalRegister animal)
+    {
+        ContentValues cv = new ContentValues();
+
+        cv.put("name", animal.getName());
+        cv.put("status", animal.getStatus().toString());
+        cv.put("age", animal.getAge());
+        cv.put("birth_date", animal.getBirthdate());
+        cv.put("img_src", "generic");
+        cv.put("FK_id_race", animal.getRace());
+        cv.put("FK_id_type", animal.getType());
+        cv.put("FK_id_life_phase", animal.getLifePhase());
+        cv.put("FK_id_sex_type", animal.getSex());
+
+        String[] args = new String[]{animal.getId()};
+
+        try
+        {
+            database.update(ANIMAL_TABLE, cv, "id_animal=?", args);
+
+            Log.i("DatabaseUpdate", "Updated animal: " + animal.getName());
+
+            controller.setSaveResult(true);
+        }
+        catch (Exception e)
+        {
+            Log.i("DatabaseUpdate", "Failed to update animal: " + animal.getName());
+
+            controller.setSaveResult(false);
         }
     }
 
@@ -174,7 +208,7 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
                     animal.setId(cursor.getString(idIndex));
                     animal.setSequenceNumber(cursor.getInt(sequenceNumberIndex));
                     animal.setName(cursor.getString(nameIndex));
-                    animal.setStatus(cursor.getString(statusIndex));
+                    animal.setStatus(AnimalRegisterStatusEnum.fromString(cursor.getString(statusIndex)));
                     animal.setAge(cursor.getString(ageIndex));
                     animal.setBirthdate(cursor.getString(birthDateIndex));
                     animal.setImgSource(cursor.getString(imgSrcIndex));
@@ -201,7 +235,7 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
         cv.put("id_animal", animal.getId());
         cv.put("sequence_number", animal.getSequenceNumber());
         cv.put("name", animal.getName());
-        cv.put("status", animal.getName());
+        cv.put("status", animal.getStatus().toString());
         cv.put("age", animal.getAge());
         cv.put("birth_date", animal.getBirthdate());
         cv.put("img_src", "generic");

@@ -53,7 +53,7 @@ public class VaccineDAO implements IVaccineDAO
             }
             catch (Exception e)
             {
-                Log.e("DatabaseInsert", "Failed to create a new user: " + vaccineTask.getName());
+                Log.e("DatabaseInsert", "Failed to create a new vaccine: " + vaccineTask.getName());
             }
         }
         else
@@ -69,7 +69,7 @@ public class VaccineDAO implements IVaccineDAO
         try
         {
             String args[] = { Integer.toString(id) };
-            database.delete(VACCINE_TABLE, "id_loot=?", args);
+            database.delete(VACCINE_TABLE, "id_vaccine=?", args);
 
             Log.i("DatabaseDelete", "Vaccine deleted");
         }
@@ -84,7 +84,6 @@ public class VaccineDAO implements IVaccineDAO
     {
         try
         {
-
             String args[] = { Integer.toString(vaccineTask.getId()) };
             ContentValues cv = new ContentValues();
             cv.put("name", vaccineTask.getName());
@@ -93,12 +92,12 @@ public class VaccineDAO implements IVaccineDAO
             int isDone = vaccineTask.getIsDone() ? 1 : 0;
             cv.put("done", isDone);
             database.update(VACCINE_TABLE, cv, "id_vaccine=?", args);
-            Log.i("INFO", "Tarefa salva com sucesso");
+            Log.i("UpdateDatabase", "Vaccine updated successful");
             taskController.setSavedTaskResult(true);
         }
         catch (Exception e)
         {
-            Log.i("INFO", "Erro ao salvar a tarefa");
+            Log.i("UpdateDatabase", "Failed to update vaccine");
             taskController.setSavedTaskResult(false);
         }
 
@@ -126,8 +125,7 @@ public class VaccineDAO implements IVaccineDAO
         vaccineTask.setName(cursor.getString(nameIndex));
         vaccineTask.setDate(cursor.getString(dateIndex));
         vaccineTask.setDescription(cursor.getString(descriptionIndex));
-        boolean isDone = cursor.getInt(doneIndex) == 1;
-        vaccineTask.setDone(isDone);
+        vaccineTask.setDone(cursor.getInt(doneIndex) == 1);
 
         return vaccineTask;
     }
@@ -161,8 +159,7 @@ public class VaccineDAO implements IVaccineDAO
                 vaccineTask.setName(cursor.getString(nameIndex));
                 vaccineTask.setDate(cursor.getString(dateIndex));
                 vaccineTask.setDescription(cursor.getString(descriptionIndex));
-                boolean isDone = cursor.getInt(doneIndex) == 1;
-                vaccineTask.setDone(isDone);
+                vaccineTask.setDone(cursor.getInt(doneIndex) == 1);
 
                 vaccineTaskList.add(vaccineTask);
 
@@ -264,7 +261,6 @@ public class VaccineDAO implements IVaccineDAO
     private int getNextId()
     {
         String query = "SELECT * FROM " + VACCINE_TABLE + " ORDER BY id_vaccine DESC LIMIT 1";
-        String[] args = new String[]{};
         int value = 0;
 
         try

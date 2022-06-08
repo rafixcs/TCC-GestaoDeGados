@@ -11,7 +11,7 @@ public class AnimalRegister
     private String name;
     private String age;
     private String birthdate;
-    private String status;
+    private AnimalRegisterStatusEnum status;
     private String imgSource;
     private int sequenceNumber;
     private int sex;
@@ -50,11 +50,11 @@ public class AnimalRegister
         this.age = age;
     }
 
-    public String getStatus() {
+    public AnimalRegisterStatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(AnimalRegisterStatusEnum status) {
         this.status = status;
     }
 
@@ -146,21 +146,4 @@ public class AnimalRegister
 
 
 
-    /* @Override
-    public int describeContents()
-    {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i)
-    {
-        parcel.writeStringArray(new String[]{
-                id, name, age, birthdate, status, imgSource
-        });
-
-        parcel.writeIntArray(new int[]{
-                sequenceNumber, sex, type, race, lifePhase, farmId, lootId
-        });
-    }*/
 }

@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/drawable/ic_task_consult.xml" value="0.228" />
         <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/layout/activity_consult_animal_register.xml" value="0.33" />
         <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/layout/activity_consult_animal_vaccine.xml" value="0.36666666666666664" />
         <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/layout/activity_consult_bovine_register.xml" value="0.36666666666666664" />
+        <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/layout/activity_consult_farm_task.xml" value="0.36594202898550726" />
         <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
         <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/layout/activity_register_account.xml" value="0.36666666666666664" />
@@ -21,6 +23,7 @@
         <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/layout/fragment_register_task.xml" value="0.27760416666666665" />
         <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/layout/list_adapter_loot.xml" value="0.365625" />
         <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/layout/list_animal_register_adapter.xml" value="0.365625" />
+        <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/layout/list_generic_task_adapter.xml" value="0.365625" />
         <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/layout/list_vaccine_task_adapter.xml" value="0.365625" />
         <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/layout/nav_header_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/layout/popup_add_new_loot.xml" value="0.365625" />
@@ -29,6 +32,7 @@
         <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/layout/register_vaccine_task_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/menu/activity_main_drawer.xml" value="0.5" />
         <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/menu/consult_animal_menu.xml" value="0.365625" />
+        <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/menu/consult_farm_menu.xml" value="0.30085470085470084" />
         <entry key="..\:/Pucrs/TCC/GestaoGadoApp/app/src/main/res/menu/main.xml" value="0.36666666666666664" />
       </map>
     </option>

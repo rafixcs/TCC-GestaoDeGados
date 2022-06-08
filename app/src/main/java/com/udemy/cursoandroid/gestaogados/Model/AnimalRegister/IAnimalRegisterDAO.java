@@ -8,8 +8,9 @@ import java.util.List;
 public interface IAnimalRegisterDAO
 {
     public void save(AnimalRegister animal);
-    public AnimalRegister get(String id);
     public void delete(AnimalRegister animal);
+    public void update(AnimalRegister animalRegister);
+    public AnimalRegister get(String id);
     public boolean checkIfAnimalExists(String id);
     public List<AnimalRegister> getAllAnimalsRegisters(List<Integer> listId);
 }

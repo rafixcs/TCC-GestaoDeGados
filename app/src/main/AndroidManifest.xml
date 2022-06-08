@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GestaoGados">
         <activity
+            android:name=".View.farm.ConsultFarmTaskActivity"
+            android:exported="false" />
+        <activity
             android:name=".View.main.consult.ConsultAnimalVaccineActivity"
             android:exported="false" />
         <activity
@@ -39,7 +42,8 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
                 <action android:name="android.nfc.action.TECH_DISCOVERED" />
 

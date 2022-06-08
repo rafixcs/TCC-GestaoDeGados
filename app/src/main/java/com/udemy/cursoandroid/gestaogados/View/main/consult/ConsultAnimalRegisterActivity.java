@@ -26,11 +26,15 @@ import com.udemy.cursoandroid.gestaogados.Helper.ToastMessageHelper;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalInfo.InfoCommonCollection;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalInfo.InfoTypeEnum;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
+import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegisterStatusEnum;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmCollection;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.LootCollection;
 import com.udemy.cursoandroid.gestaogados.R;
 import com.udemy.cursoandroid.gestaogados.View.task.ConsultRegisterTaskActivity;
 import com.udemy.cursoandroid.gestaogados.View.task.RegisterTaskTypeEnum;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConsultAnimalRegisterActivity extends AppCompatActivity implements IConsultAnimalRegisterView {
 
@@ -42,18 +46,13 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
     private Spinner mSpinnerLifePhase;
     private Spinner mSpinnerFarm;
     private Spinner mSpinnerLoot;
+    private Spinner mSpinnerStatus;
     private Button mButtonUpdate;
 
     private String tagKey;
     private AnimalRegister animalRegister;
 
     private IConsultAnimalController consultAnimalController;
-
-    private FloatingActionButton fabOpenRegisterTaskPopup;
-    private AlertDialog.Builder registerTaskPopupBuilder;
-    private AlertDialog registerTaskPopup;
-    private Button popupBtnRegisterTask;
-    private Button popupBtnRegisterVaccine;
 
     private IFarmController farmController;
     private IAnimalInfoController animalInfoController;
@@ -65,6 +64,7 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
     private InfoCommonCollection sexTypeCollection;
     private InfoCommonCollection lifePhaseCollection;
     private InfoCommonCollection animalTypeCollection;
+    private List<String> statusList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -104,17 +104,9 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         mSpinnerLifePhase = findViewById(R.id.spinnerLifePhaseAnimalConsult);
         mSpinnerFarm = findViewById(R.id.spinnerFarmAnimalConsult);
         mSpinnerLoot = findViewById(R.id.spinnerLootAnimalConsult);
+        mSpinnerStatus = findViewById(R.id.spinnerStatusAnimalConsult);
         mButtonUpdate = findViewById(R.id.btnRegisterAnimalConsult);
-        fabOpenRegisterTaskPopup = findViewById(R.id.openPopupActionButton);
 
-        fabOpenRegisterTaskPopup.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                showRegisterTaskPopup();
-            }
-        });
 
 
         initializeSpinners();
@@ -122,19 +114,25 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
 
     private void updateRegister()
     {
-        // TODO: refactor animal update
-
         String name = mName.getText().toString();
         String birthdate = mDate.getText().toString();
         int sex = (int) mSpinnerSex.getSelectedItemId();
         int type = (int) mSpinnerType.getSelectedItemId();
         int race = (int) mSpinnerRace.getSelectedItemId();
         int lifePhase = (int) mSpinnerLifePhase.getSelectedItemId();
-        int farm = (int) mSpinnerFarm.getSelectedItemId();
-        int loot = (int) mSpinnerLoot.getSelectedItemId();
+        int farmIndexId = (int) mSpinnerFarm.getSelectedItemId();
+        int lootIndexId = (int) mSpinnerLoot.getSelectedItemId();
+        int farmId = mFarmCollection.get(farmIndexId).getId();
+        int lootId = mLootCollection.get(lootIndexId).getId();
+        AnimalRegisterStatusEnum statusEnum =
+                AnimalRegisterStatusEnum.fromString(
+                        statusList.get((int) mSpinnerStatus.getSelectedItemId()
+                        )
+                );
 
-        AnimalRegister animal = new AnimalRegister(name, birthdate,sex, type, race, lifePhase,farm, loot);
+        AnimalRegister animal = new AnimalRegister(name, birthdate,sex, type, race, lifePhase,farmId, lootId);
         animal.setId(tagKey);
+        animal.setStatus(statusEnum);
         consultAnimalController.updateAnimal(animal);
     }
 
@@ -144,6 +142,10 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         sexTypeCollection = animalInfoController.getInfoList(InfoTypeEnum.SEX_TYPE);
         lifePhaseCollection = animalInfoController.getInfoList(InfoTypeEnum.LIFE_PHASE);
         animalTypeCollection = animalInfoController.getInfoList(InfoTypeEnum.ANIMAL_TYPE);
+
+        statusList = new ArrayList<>();
+        statusList.add(AnimalRegisterStatusEnum.ACTIVE.toString());
+        statusList.add(AnimalRegisterStatusEnum.INACTIVE.toString());
 
 
         ArrayAdapter<String> adapterRaces = new ArrayAdapter<String>(
@@ -176,12 +178,19 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
                 mFarmCollection.getFarmsNames()
         );
 
+        ArrayAdapter<String> adapterStatus = new ArrayAdapter<String>(
+                getApplicationContext(),
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+                statusList
+        );
+
 
         mSpinnerRace.setAdapter(adapterRaces);
         mSpinnerSex.setAdapter(adapterSexTypes);
         mSpinnerType.setAdapter(adapterType);
         mSpinnerLifePhase.setAdapter(adapterLifePhase);
         mSpinnerFarm.setAdapter(adapterFarm);
+        mSpinnerStatus.setAdapter(adapterStatus);
 
         mSpinnerFarm.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -226,47 +235,32 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         mSpinnerSex.setSelection(animalRegister.getSex());
         mSpinnerLifePhase.setSelection(animalRegister.getLifePhase());
         mSpinnerFarm.setSelection(mFarmCollection.idToCollectionIndex(animalRegister.getFarmId()));
+        mSpinnerStatus.setSelection(getStatusIndex(animalRegister.getStatus()));
     }
 
-    private void showRegisterTaskPopup()
+    private int getStatusIndex(AnimalRegisterStatusEnum statusEnum)
     {
-        registerTaskPopupBuilder = new AlertDialog.Builder(this);
-        final View popupView = getLayoutInflater().inflate(R.layout.popup_add_new_task, null);
-
-        popupBtnRegisterVaccine = popupView.findViewById(R.id.popupRegisterVaccine);
-        popupBtnRegisterTask = popupView.findViewById(R.id.popupRegisterTask);
-
-        popupBtnRegisterVaccine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
+        for(int i=0; i<statusList.size(); i++)
+        {
+            if (statusList.get(i).equals(statusEnum.toString()))
             {
-                Intent intent = new Intent(getApplicationContext(), ConsultRegisterTaskActivity.class);
-                intent.putExtra("taskType", RegisterTaskTypeEnum.VACCINE_TASK.ordinal());
-                intent.putExtra("taskId", -1);
-                intent.putExtra("animalRegister", animalRegister.getId());
-                startActivity(intent);
+                return i;
             }
-        });
+        }
 
-        popupBtnRegisterTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(getApplicationContext(), ConsultRegisterTaskActivity.class);
-                intent.putExtra("taskType", RegisterTaskTypeEnum.GENERIC_TASK.ordinal());
-                intent.putExtra("taskId", -1);
-                startActivity(intent);
-            }
-        });
-
-        registerTaskPopupBuilder.setView(popupView);
-        registerTaskPopup = registerTaskPopupBuilder.create();
-        registerTaskPopup.show();
+        return 0;
     }
 
     @Override
     public void setSaveResult(boolean result) {
-        // empty
+        if (result)
+        {
+            ToastMessageHelper.SetToastMessageAndShow("Saved successful", this);
+        }
+        else
+        {
+            ToastMessageHelper.SetToastMessageAndShow("Update failed", this);
+        }
     }
 
     @Override

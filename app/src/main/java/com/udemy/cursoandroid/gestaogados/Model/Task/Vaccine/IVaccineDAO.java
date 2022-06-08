@@ -14,5 +14,4 @@ public interface IVaccineDAO
     public VaccineTask get(int id);
     public List<VaccineTask> getAnimalVaccines(String id);
     public List<VaccineTask> getLatestVaccines(FarmCollection farmCollection, int maxQuantity);
-
 }

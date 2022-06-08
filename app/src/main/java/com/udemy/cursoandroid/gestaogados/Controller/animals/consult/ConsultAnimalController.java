@@ -23,9 +23,8 @@ import java.util.List;
 
 public class ConsultAnimalController implements IConsultAnimalController
 {
-
-    IConsultAnimalRegisterView consultAnimalRegisterView;
-    Context context;
+    private IConsultAnimalRegisterView consultAnimalRegisterView;
+    private Context context;
 
     public ConsultAnimalController(IConsultAnimalRegisterView consultAnimalRegisterView, Context context)
     {
@@ -45,7 +44,9 @@ public class ConsultAnimalController implements IConsultAnimalController
     @Override
     public void updateAnimal(AnimalRegister animal)
     {
-
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        AnimalRegisterDAO animalDAO = new AnimalRegisterDAO(databaseAccess.getDb(), this);
+        animalDAO.update(animal);
     }
 
     @Override
@@ -101,5 +102,11 @@ public class ConsultAnimalController implements IConsultAnimalController
         {
             consultAnimalRegisterView.onFailedConsultRegister();
         }
+    }
+
+    @Override
+    public void setSaveResult(boolean result)
+    {
+        consultAnimalRegisterView.setSaveResult(result);
     }
 }
