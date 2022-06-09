@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.udemy.cursoandroid.gestaogados.Controller.animals.info.IAnimalInfoController;
+import com.udemy.cursoandroid.gestaogados.Controller.animals.register.IRegisterAnimalController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,17 @@ public class InfoDAO implements IInfoDAO
 {
     private SQLiteDatabase database;
     private IAnimalInfoController animalInfoController;
+    private IRegisterAnimalController registerAnimalController;
 
     public InfoDAO(SQLiteDatabase database, IAnimalInfoController animalInfoController) {
         this.database = database;
         this.animalInfoController = animalInfoController;
+    }
+
+    public InfoDAO(SQLiteDatabase database, IRegisterAnimalController registerAnimalController)
+    {
+        this.database = database;
+        this.registerAnimalController = registerAnimalController;
     }
 
     @Override

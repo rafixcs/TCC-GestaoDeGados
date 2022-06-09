@@ -42,7 +42,10 @@ public class VaccineRegisterAdapter extends RecyclerView.Adapter<VaccineRegister
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
     {
-        String isDone = vaccineTaskList.get(position).getIsDone() ? "done" : "todo";
+        String isDone =
+                vaccineTaskList.get(position).getIsDone() ?
+                        holder.itemView.getResources().getString(R.string.done) :
+                        holder.itemView.getResources().getString(R.string.todo);
 
 
         holder.name.setText(vaccineTaskList.get(position).getName());

@@ -1,8 +1,10 @@
 package com.udemy.cursoandroid.gestaogados.View.main.consult;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,10 +26,16 @@ public class AnimalRegisterAdapter extends RecyclerView.Adapter<AnimalRegisterAd
 {
     private List<AnimalRegister> animalsList;
     private IAnimalInfoController animalInfoController;
+    private Context context;
 
-    public AnimalRegisterAdapter(List<AnimalRegister> animalsList, IAnimalInfoController animalInfoController) {
+    public AnimalRegisterAdapter(
+            List<AnimalRegister> animalsList,
+            IAnimalInfoController animalInfoController,
+            Context context)
+    {
         this.animalsList = animalsList;
         this.animalInfoController = animalInfoController;
+        this.context = context;
     }
 
     @NonNull
@@ -49,6 +57,23 @@ public class AnimalRegisterAdapter extends RecyclerView.Adapter<AnimalRegisterAd
         holder.sequenceNumberView.setText(Integer.toString(animalRegister.getSequenceNumber()));
         holder.nameView.setText(animalRegister.getName());
         holder.raceView.setText(info.getNameType());
+
+        if(animalRegister.getImgSource() == null)
+        {
+            holder.imageView.setImageResource(R.drawable.common_animal_image_icon);
+            return;
+        }
+
+        int resourceId = holder.itemView.getResources()
+                .getIdentifier(
+                        animalRegister.getImgSource(),
+                        "drawable",
+                        context.getPackageName()
+                );
+
+        resourceId = resourceId == 0 ? R.drawable.common_animal_image_icon : resourceId;
+
+        holder.imageView.setImageResource(resourceId);
     }
 
     @Override
@@ -61,6 +86,7 @@ public class AnimalRegisterAdapter extends RecyclerView.Adapter<AnimalRegisterAd
         TextView sequenceNumberView;
         TextView nameView;
         TextView raceView;
+        ImageView imageView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -68,6 +94,7 @@ public class AnimalRegisterAdapter extends RecyclerView.Adapter<AnimalRegisterAd
             sequenceNumberView = itemView.findViewById(R.id.sequenceNumberAnimalRegisterAdapter);
             nameView = itemView.findViewById(R.id.nameAnimalRegisterAdapter);
             raceView = itemView.findViewById(R.id.raceAnimalRegisterAdapter);
+            imageView = itemView.findViewById(R.id.imgAnimalRegisterAdapter);
         }
     }
 }

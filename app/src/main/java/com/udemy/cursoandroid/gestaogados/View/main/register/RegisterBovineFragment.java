@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.udemy.cursoandroid.gestaogados.Controller.animals.info.AnimalInfoController;
@@ -24,6 +25,7 @@ import com.udemy.cursoandroid.gestaogados.Controller.animals.register.RegisterAn
 import com.udemy.cursoandroid.gestaogados.Controller.farm.FarmController;
 import com.udemy.cursoandroid.gestaogados.Controller.farm.IFarmController;
 import com.udemy.cursoandroid.gestaogados.Helper.NfcHelper;
+import com.udemy.cursoandroid.gestaogados.Model.AnimalInfo.IInfoCommon;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalInfo.InfoCommonCollection;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalInfo.InfoTypeEnum;
 import com.udemy.cursoandroid.gestaogados.Model.AnimalRegister.AnimalRegister;
@@ -31,9 +33,7 @@ import com.udemy.cursoandroid.gestaogados.Model.Farm.FarmCollection;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.LootCollection;
 import com.udemy.cursoandroid.gestaogados.R;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import com.udemy.cursoandroid.gestaogados.databinding.FragmentRegisterBovineBinding;
@@ -43,6 +43,7 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
 
     private FragmentRegisterBovineBinding binding;
 
+    private ImageView mImageView;
     private EditText mName;
     private EditText mDate;
     private Spinner mSpinnerRace;
@@ -92,6 +93,7 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
 
     private void initializeObjectsView(View root)
     {
+        mImageView =root.findViewById(R.id.imageBovineRegister);
         mName = root.findViewById(R.id.editNameAnmimalRegister);
         mDate = root.findViewById(R.id.editDateAnmimalRegister);
         mSpinnerRace = root.findViewById(R.id.spinnerRaceAnmimalRegister);
@@ -103,6 +105,7 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
         mButtonRegister = root.findViewById(R.id.btnRegisterAnimalRegister);
 
         initializeSpinners();
+        setImageListener();
     }
 
     private void initializeSpinners()
@@ -169,6 +172,36 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
             }
         });
 
+    }
+
+    private void setImageListener()
+    {
+        mSpinnerRace.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                IInfoCommon raceInfo = raceCollection.get(i);
+                String raceName = raceInfo.getNameType()
+                        .toLowerCase(Locale.ROOT).replaceAll("\\s","");
+
+
+                int resourceId = getResources()
+                        .getIdentifier(
+                                raceName,
+                                "drawable",
+                                getContext().getPackageName()
+                        );
+
+                resourceId = resourceId == 0 ? R.drawable.common_animal_image_icon : resourceId;
+
+                mImageView.setImageResource(resourceId);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     public void setNfcIntent(Intent intent, NfcHelper nfc)

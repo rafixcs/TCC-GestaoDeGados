@@ -5,35 +5,27 @@ import static com.udemy.cursoandroid.gestaogados.Helper.ToastMessageHelper.SetTo
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.udemy.cursoandroid.gestaogados.Controller.farm.FarmController;
 import com.udemy.cursoandroid.gestaogados.Controller.farm.IFarmController;
-import com.udemy.cursoandroid.gestaogados.Helper.RecyclerItemClickListener;
-import com.udemy.cursoandroid.gestaogados.Helper.ToastMessageHelper;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.Farm;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.Loot;
 import com.udemy.cursoandroid.gestaogados.Model.Farm.LootCollection;
 import com.udemy.cursoandroid.gestaogados.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class RegisterFarmActivity extends AppCompatActivity implements IRegisterFarmView
 {
@@ -41,6 +33,7 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
     private LootListAdapter lootListAdapter;
     private LootCollection lootCollection;
 
+    private TextView mTitle;
     private EditText mName;
     private EditText mLocation;
     private Button mSaveButton;
@@ -65,18 +58,13 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
         setContentView(R.layout.activity_register_farm);
 
         isFirstAccess = getIntent().getExtras().getBoolean("firstAccess");
-        farmConsultName = getIntent().getExtras().getString("consultFarm");
-        if (farmConsultName != null)
-        {
-            isConsult = true;
-        }
-        else
-        {
-            isConsult = false;
-        }
+        farmConsultName = getIntent().getExtras().getString("consultFarmId");
+        isConsult = getIntent().getExtras().getBoolean("isConsult");
+
 
         farmController = new FarmController(this, this);
 
+        mTitle = findViewById(R.id.titleFarmRegister);
         mName = findViewById(R.id.nameFarmRegister);
         mLocation = findViewById(R.id.locationFarmRegister);
         mSaveButton = findViewById(R.id.saveFarmRegister);
@@ -96,7 +84,8 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
                 }
                 else
                 {
-                    farmController.saveNewLootFarm(consultFarm, lootCollection.getCollection());
+                    // TODO: update farm and/or loots
+                    //farmController.saveNewLootFarm(consultFarm, lootCollection.getCollection());
                 }
 
 
@@ -116,6 +105,7 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
         }
         else
         {
+            mTitle.setText(getResources().getString(R.string.title_consult_farm));
             consultFarm = farmController.getFarmByName(farmConsultName);
             consultFarm.setFarmLoots(farmController.getFarmsLoots(consultFarm.getId()));
             lootCollection = consultFarm.getFarmLoots();
@@ -123,7 +113,8 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
             mLocation.setText(consultFarm.getLocation());
             mName.setFocusable(false);
             mLocation.setFocusable(false);
-            mAddLoot.setEnabled(false);
+            mAddLoot.setVisibility(View.GONE);
+            mSaveButton.setVisibility(View.GONE);
         }
 
 

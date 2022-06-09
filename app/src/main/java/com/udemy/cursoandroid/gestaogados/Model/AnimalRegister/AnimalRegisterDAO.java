@@ -132,7 +132,7 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
         cv.put("status", animal.getStatus().toString());
         cv.put("age", animal.getAge());
         cv.put("birth_date", animal.getBirthdate());
-        cv.put("img_src", "generic");
+        cv.put("img_src", animal.getImgSource());
         cv.put("FK_id_race", animal.getRace());
         cv.put("FK_id_type", animal.getType());
         cv.put("FK_id_life_phase", animal.getLifePhase());
@@ -182,7 +182,7 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
 
             String query = "SELECT * FROM " + ANIMAL_TABLE + " AS animal INNER JOIN "
                     + LINK_ANIMAL_TABLE + " AS linkt ON animal.id_animal=linkt.id_animal " +
-                    "WHERE linkt.id_loot=?";
+                    "WHERE linkt.id_loot=? ORDER BY animal.sequence_number ASC";
 
             String[] args = new String[]{id.toString()};
             Cursor cursor= database.rawQuery(query, args);
@@ -238,7 +238,7 @@ public class AnimalRegisterDAO implements IAnimalRegisterDAO
         cv.put("status", animal.getStatus().toString());
         cv.put("age", animal.getAge());
         cv.put("birth_date", animal.getBirthdate());
-        cv.put("img_src", "generic");
+        cv.put("img_src", animal.getImgSource());
         cv.put("FK_id_race", animal.getRace());
         cv.put("FK_id_type", animal.getType());
         cv.put("FK_id_life_phase", animal.getLifePhase());

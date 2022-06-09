@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -20,6 +21,8 @@ import com.udemy.cursoandroid.gestaogados.Controller.animals.consult.ConsultAnim
 import com.udemy.cursoandroid.gestaogados.Controller.animals.consult.IConsultAnimalController;
 import com.udemy.cursoandroid.gestaogados.Controller.animals.info.AnimalInfoController;
 import com.udemy.cursoandroid.gestaogados.Controller.animals.info.IAnimalInfoController;
+import com.udemy.cursoandroid.gestaogados.Controller.animals.register.IRegisterAnimalController;
+import com.udemy.cursoandroid.gestaogados.Controller.animals.register.RegisterAnimalController;
 import com.udemy.cursoandroid.gestaogados.Controller.farm.FarmController;
 import com.udemy.cursoandroid.gestaogados.Controller.farm.IFarmController;
 import com.udemy.cursoandroid.gestaogados.Helper.ToastMessageHelper;
@@ -38,6 +41,7 @@ import java.util.List;
 
 public class ConsultAnimalRegisterActivity extends AppCompatActivity implements IConsultAnimalRegisterView {
 
+    private ImageView mImageView;
     private EditText mName;
     private EditText mDate;
     private Spinner mSpinnerRace;
@@ -53,6 +57,7 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
     private AnimalRegister animalRegister;
 
     private IConsultAnimalController consultAnimalController;
+    private IRegisterAnimalController registerAnimalController;
 
     private IFarmController farmController;
     private IAnimalInfoController animalInfoController;
@@ -92,10 +97,13 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
 
         consultAnimalController = new ConsultAnimalController(this, getApplicationContext());
         consultAnimalController.ConsultAnimal(tagKey);
+
+        registerAnimalController = new RegisterAnimalController(this, getApplicationContext());
     }
 
     private void initializeObjectsView()
     {
+        mImageView = findViewById(R.id.imageBovineConsult);
         mName = findViewById(R.id.editNameAnimalConsult);
         mDate = findViewById(R.id.editDateAnimalConsult);
         mSpinnerRace = findViewById(R.id.spinnerRaceAnimalConsult);
@@ -106,7 +114,6 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         mSpinnerLoot = findViewById(R.id.spinnerLootAnimalConsult);
         mSpinnerStatus = findViewById(R.id.spinnerStatusAnimalConsult);
         mButtonUpdate = findViewById(R.id.btnRegisterAnimalConsult);
-
 
 
         initializeSpinners();
@@ -133,7 +140,7 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         AnimalRegister animal = new AnimalRegister(name, birthdate,sex, type, race, lifePhase,farmId, lootId);
         animal.setId(tagKey);
         animal.setStatus(statusEnum);
-        consultAnimalController.updateAnimal(animal);
+        registerAnimalController.updateAnimal(animal);
     }
 
     private void initializeSpinners()
@@ -213,11 +220,28 @@ public class ConsultAnimalRegisterActivity extends AppCompatActivity implements 
         });
     }
 
+    private void loadAnimalImage()
+    {
+        if (animalRegister.getImgSource() == null)
+            return;
+
+        int resourceId = getResources()
+                .getIdentifier(
+                        animalRegister.getImgSource(),
+                        "drawable",
+                        getApplicationContext().getPackageName()
+                );
+
+        resourceId = resourceId == 0 ? R.drawable.common_animal_image_icon : resourceId;
+        mImageView.setImageResource(resourceId);
+    }
+
     @Override
     public void setAnimalRegister(AnimalRegister animal)
     {
         animalRegister = animal;
         configureObjectsViewValues();
+        loadAnimalImage();
     }
 
     @Override

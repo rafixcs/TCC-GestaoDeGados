@@ -123,7 +123,7 @@
         android:id="@+id/emptyVaccineListHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/empty_vaccine_list"
+        android:text="@string/empty_vaccine_list_todo"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerViewVaccineHome"
         app:layout_constraintEnd_toEndOf="@+id/recyclerViewVaccineHome"

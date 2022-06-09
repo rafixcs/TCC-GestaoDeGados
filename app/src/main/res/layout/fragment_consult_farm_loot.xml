@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:text="@string/menu_consult_farm"
         app:layout_constraintBottom_toTopOf="@+id/farnsSpinnerConsultFarmLoot"
-        tools:layout_editor_absoluteX="32dp" />
+        app:layout_constraintStart_toStartOf="@+id/farnsSpinnerConsultFarmLoot" />
 
     <Spinner
         android:id="@+id/farnsSpinnerConsultFarmLoot"

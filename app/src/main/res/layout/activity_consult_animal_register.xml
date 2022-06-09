@@ -20,13 +20,14 @@
                 android:layout_width="200dp"
                 android:layout_height="163dp"
                 android:layout_marginTop="16dp"
+                android:scaleType="centerInside"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/boi_mock_image"
+                app:srcCompat="@drawable/common_animal_image_icon"
                 tools:ignore="ImageContrastCheck"
-                tools:src="@drawable/boi_mock_image" />
+                tools:src="@drawable/common_animal_image_icon" />
 
             <EditText
                 android:id="@+id/editNameAnimalConsult"
@@ -127,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
                 android:ems="10"
-                android:hint="@string/birthday_input"
+                android:hint="@string/birthdate_input"
                 android:inputType="date"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"

@@ -29,7 +29,7 @@
     <string name="type_input">Type</string>
     <string name="status_input">Status</string>
     <string name="age_input">Age</string>
-    <string name="birthday_input">Birthday</string>
+    <string name="birthdate_input">Birth Date</string>
     <string name="life_phase_input">Life Phase</string>
     <string name="image_input">Image</string>
     <string name="update">Update</string>
@@ -65,15 +65,21 @@
     <string name="consult">Consult</string>
     <string name="vaccine_consult">Vaccine</string>
     <string name="empty_vaccine_list">No vaccines registered</string>
+    <string name="empty_vaccine_list_todo">No vaccines registered to be done</string>
     <string name="vaccine_done">Done</string>
 
     <string name="vaccine_title_consult">Update Vaccine</string>
     <string name="empty_animals_list">No animals registered</string>
     <string name="animals">Animals</string>
     <string name="next_vaccines">Next Vaccines</string>
-    <string name="active_animals">Avtive Animals</string>
+    <string name="active_animals">Active Animals</string>
     <string name="vaccine_list">Vaccine List</string>
     <string name="task_list">Task List</string>
     <string name="empty_task_list">No tasks registered</string>
     <string name="task_consult">Task Consult</string>
+
+    <string name="done">done</string>
+    <string name="todo">to do</string>
+
+    <string name="title_consult_farm">Consult farm</string>
 </resources>

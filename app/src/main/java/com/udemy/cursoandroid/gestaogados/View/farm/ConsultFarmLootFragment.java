@@ -63,7 +63,8 @@ public class ConsultFarmLootFragment extends Fragment implements ICommonView {
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), RegisterFarmActivity.class);
                 intent.putExtra("firstAccess",false);
-                intent.putExtra("consultFarm", mSpinnerFarmSelection.getSelectedItem().toString());
+                intent.putExtra("consultFarmId", mSpinnerFarmSelection.getSelectedItem().toString());
+                intent.putExtra("isConsult", true);
                 startActivity(intent);
             }
         });

@@ -34,7 +34,10 @@ public class GenericTaskRegisterAdapter extends RecyclerView.Adapter<GenericTask
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
     {
-        String isDone = genericTaskList.get(position).isDone() ? "done" : "todo";
+        String isDone =
+                genericTaskList.get(position).isDone() ?
+                        holder.itemView.getResources().getString(R.string.done) :
+                        holder.itemView.getResources().getString(R.string.todo);
 
         holder.name.setText(genericTaskList.get(position).getName());
         holder.done.setText(isDone);

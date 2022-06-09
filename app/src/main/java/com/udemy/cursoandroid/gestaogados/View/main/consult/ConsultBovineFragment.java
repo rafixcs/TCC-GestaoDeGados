@@ -95,7 +95,7 @@ public class ConsultBovineFragment extends Fragment implements IConsultAnimalReg
 
         // Configure adapter
         AnimalRegisterAdapter animalRegisterAdapter =
-                new AnimalRegisterAdapter(animalRegisterList, animalInfoController);
+                new AnimalRegisterAdapter(animalRegisterList, animalInfoController, getContext());
 
         // Configure recycler view
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());

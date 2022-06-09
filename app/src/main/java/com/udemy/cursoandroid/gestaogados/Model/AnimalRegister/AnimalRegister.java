@@ -143,7 +143,4 @@ public class AnimalRegister
     public void setLootId(int lootId) {
         this.lootId = lootId;
     }
-
-
-
 }

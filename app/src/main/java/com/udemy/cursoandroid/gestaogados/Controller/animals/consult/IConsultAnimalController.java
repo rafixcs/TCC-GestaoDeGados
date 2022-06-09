@@ -9,6 +9,6 @@ import java.util.List;
 public interface IConsultAnimalController extends IAnimalController
 {
     public void ConsultAnimal(String id);
-    public void updateAnimal(AnimalRegister animal);
+
     public List<AnimalRegister> getAnimalsRegisters();
 }

@@ -42,14 +42,6 @@ public class ConsultAnimalController implements IConsultAnimalController
     }
 
     @Override
-    public void updateAnimal(AnimalRegister animal)
-    {
-        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
-        AnimalRegisterDAO animalDAO = new AnimalRegisterDAO(databaseAccess.getDb(), this);
-        animalDAO.update(animal);
-    }
-
-    @Override
     public List<AnimalRegister> getAnimalsRegisters() {
 
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);

@@ -10,72 +10,73 @@
         android:id="@+id/nameFarmRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="52dp"
         android:ems="10"
         android:hint="@string/name_input"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/locationFarmRegister"
-        app:layout_constraintStart_toStartOf="@+id/titleFarmRegister"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleFarmRegister" />
 
     <EditText
         android:id="@+id/locationFarmRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginBottom="118dp"
+        android:layout_marginTop="50dp"
         android:ems="10"
         android:hint="@string/location"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/textView15"
-        app:layout_constraintStart_toStartOf="@+id/nameFarmRegister"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameFarmRegister" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/location"
+        app:layout_constraintBottom_toTopOf="@+id/locationFarmRegister"
+        app:layout_constraintStart_toStartOf="@+id/locationFarmRegister" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lootsListFarmRegister"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="22dp"
-        android:layout_marginBottom="27dp"
+        android:layout_width="367dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/saveFarmRegister"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/locationFarmRegister" />
 
     <Button
         android:id="@+id/saveFarmRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="40dp"
         android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lootsListFarmRegister" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
         android:text="@string/loot"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/lootsListFarmRegister"
-        app:layout_constraintEnd_toEndOf="@+id/lootsListFarmRegister"
-        app:layout_constraintStart_toStartOf="@+id/lootsListFarmRegister"
-        app:layout_constraintTop_toBottomOf="@+id/locationFarmRegister" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/titleFarmRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="55dp"
+        android:layout_marginTop="40dp"
         android:text="@string/title_register_new_farm"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/nameFarmRegister"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -92,4 +93,13 @@
         app:layout_constraintEnd_toEndOf="@+id/lootsListFarmRegister"
         app:rippleColor="#FFFFFF"
         app:srcCompat="@drawable/va_register_bovine" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/name_input"
+        app:layout_constraintBottom_toTopOf="@+id/nameFarmRegister"
+        app:layout_constraintStart_toStartOf="@+id/nameFarmRegister" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
