@@ -190,7 +190,10 @@ public class RegisterFarmActivity extends AppCompatActivity implements IRegister
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        getMenuInflater().inflate(R.menu.consult_farm_menu, menu);
+        if (isConsult)
+        {
+            getMenuInflater().inflate(R.menu.consult_farm_menu, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 

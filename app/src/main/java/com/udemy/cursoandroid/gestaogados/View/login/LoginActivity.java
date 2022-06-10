@@ -60,14 +60,14 @@ public class LoginActivity extends AppCompatActivity implements ILoginView
                         mEmail.getText().toString(),
                         mPassword.getText().toString()
                 );*/
-                loginAccountController.validateLogin(
+                /*loginAccountController.validateLogin(
                         "rafael.camargo.rs@gmail.com",
                         "123"
-                );
-                /*loginAccountController.validateLogin(
-                        "rafael@teste",
-                        "321"
                 );*/
+                loginAccountController.validateLogin(
+                        "rafael@tcc.com",
+                        "123456"
+                );
             }
         });
     }

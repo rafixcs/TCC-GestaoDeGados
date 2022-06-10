@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.udemy.cursoandroid.gestaogados.Controller.task.GenericTaskController;
 import com.udemy.cursoandroid.gestaogados.Controller.task.IGenericTaskController;
@@ -17,6 +18,7 @@ public class GenericTaskView implements ITaskView, View.OnClickListener
 
     private Activity parentActivity;
 
+    private TextView mTitle;
     private EditText mName;
     private EditText mDescription;
     private CheckBox mCheckBoxDone;
@@ -47,6 +49,7 @@ public class GenericTaskView implements ITaskView, View.OnClickListener
 
     private void buildView()
     {
+        mTitle = parentActivity.findViewById(R.id.titleRegisterConsultTask);
         mCheckBoxDone = parentActivity.findViewById(R.id.checkBoxTaskDone);
         mName = parentActivity.findViewById(R.id.nameGenericTaskRegister);
         mDescription = parentActivity.findViewById(R.id.descriptionGenericTaskRegister);
@@ -55,6 +58,7 @@ public class GenericTaskView implements ITaskView, View.OnClickListener
 
         if (this.mIsConsult)
         {
+            mTitle.setText(R.string.title_consult_task);
             mCheckBoxDone.setVisibility(View.VISIBLE);
             mSaveButton.setText(R.string.update);
 

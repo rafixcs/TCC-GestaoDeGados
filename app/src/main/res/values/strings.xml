@@ -43,7 +43,7 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="popup_title">Register something</string>
+    <string name="popup_title">Register a new task</string>
     <string name="popup_vaccine">Vaccine</string>
     <string name="popup_task">Task</string>
 
@@ -82,4 +82,5 @@
     <string name="todo">to do</string>
 
     <string name="title_consult_farm">Consult farm</string>
+    <string name="title_consult_task">Consult task</string>
 </resources>

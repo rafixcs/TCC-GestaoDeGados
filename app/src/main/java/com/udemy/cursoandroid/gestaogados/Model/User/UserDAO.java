@@ -90,15 +90,22 @@ public class UserDAO implements IUserDAO
             int emailIndex = cursor.getColumnIndex("email");
             int passwordIndex = cursor.getColumnIndex("password");
 
-            User user = new User();
-            user.setId(cursor.getString(idIndex));
-            user.setName(cursor.getString(nameIndex));
-            user.setEmail(cursor.getString(emailIndex));
-            user.setPassword(cursor.getString(passwordIndex));
+            try
+            {
+                User user = new User();
+                user.setId(cursor.getString(idIndex));
+                user.setName(cursor.getString(nameIndex));
+                user.setEmail(cursor.getString(emailIndex));
+                user.setPassword(cursor.getString(passwordIndex));
+                loginController.loginResult(user);
 
-            loginController.loginResult(user);
-
-            return user;
+                return user;
+            }
+            catch (Exception e)
+            {
+                loginController.loginResult(null);
+                return null;
+            }
         }
 
         loginController.loginResult(null);
