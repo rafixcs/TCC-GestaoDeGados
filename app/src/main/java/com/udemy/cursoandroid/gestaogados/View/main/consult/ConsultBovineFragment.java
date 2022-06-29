@@ -1,6 +1,7 @@
 package com.udemy.cursoandroid.gestaogados.View.main.consult;
 
 import android.content.Intent;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -107,7 +108,8 @@ public class ConsultBovineFragment extends Fragment implements IConsultAnimalReg
 
     public void getFromTag(Intent intent, NfcHelper nfc)
     {
-        String uuid = nfc.ReadFromIntent(intent);
+        nfc.setMyTag(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG));
+        String uuid = nfc.readIdFromTag();
         consultAnimal(uuid);
     }
 

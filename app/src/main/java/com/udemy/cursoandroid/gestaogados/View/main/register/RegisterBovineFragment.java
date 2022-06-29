@@ -211,10 +211,10 @@ public class RegisterBovineFragment extends Fragment  implements  IRegisterBovin
             if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction()) ||
                     NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction()))
             {
-                String keyRegister = UUID.randomUUID().toString();
-
                 nfc.setMyTag(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG));
-                if (nfc.SaveTagContent(keyRegister))
+                String keyRegister = nfc.readIdFromTag();
+
+                if(!keyRegister.isEmpty())
                 {
                     String name = mName.getText().toString();
                     String birthdate = mDate.getText().toString();
