@@ -35,7 +35,7 @@ public class LootListAdapter extends RecyclerView.Adapter<LootListAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Loot lootItem = lootList.get(position);
-        holder.id.setText(Integer.toString(lootItem.getId()));
+        holder.id.setText(Integer.toString(position));
         holder.name.setText(lootItem.getName());
     }
 
