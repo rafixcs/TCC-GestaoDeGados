@@ -154,6 +154,11 @@ public class MainActivity extends AppCompatActivity{
             name.setText(user.getName());
             email.setText(user.getEmail());
         }
+        else
+        {
+            Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intentLogin);
+        }
     }
 
     @Override
@@ -162,14 +167,8 @@ public class MainActivity extends AppCompatActivity{
         super.onStop();
         if (nfc != null)
         {
-            // Disabling foreground dispatch does not work properly when the application grows
-            //nfc.getNfcAdapter().disableForegroundDispatch(this);
-            //nfc.foregroundDispatch(this, false);
             mAlreadyInitialized = false;
             nfc = null;
         }
-
-        //DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
-        //databaseAccess.close();
     }
 }
